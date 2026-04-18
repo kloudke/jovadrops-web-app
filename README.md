@@ -9,6 +9,7 @@ For detailed API and Database specifications, please refer to:
 - [Database Architecture](DATABASE.md)
 - [Frontend Architecture](FRONTEND_ARCHITECTURE.md)
 
+---
 
 ## 2. High-Level Architecture
 
@@ -17,7 +18,6 @@ The system follows a **3-tier architecture**:
 * **Presentation Layer** → Frontend (UI)
 * **Application Layer** → Backend API
 * **Data Layer** → Database
-
 
 
 ### 2.1 Architecture Diagram
@@ -40,7 +40,7 @@ graph TD
     class Backend,Nginx,Auth,Ext server;
     class DB db;
 ```
-
+---
 
 ## 3. Component Design
 
@@ -64,7 +64,7 @@ See [Frontend Architecture](FRONTEND_ARCHITECTURE.md) for details.
 **Responsibilities:** Persistent storage, relational integrity, transactions.
 See [Database Architecture](DATABASE.md) for details.
 
-
+---
 
 ## 4. Backend Architecture (Layered)
 
@@ -76,7 +76,7 @@ graph TD
     Repo --> DB[(Database)]
 ```
 
-
+---
 
 ## 5. Data Flow (Order Processing)
 
@@ -102,7 +102,7 @@ sequenceDiagram
     UI-->>Staff: Show Success Message
 ```
 
-
+---
 
 ## 6. Authentication & Security Design
 
@@ -112,7 +112,7 @@ sequenceDiagram
 - **Input Validation:** Prevent SQL injection and XSS
 - **Transport:** HTTPS enforcement in production
 
-
+---
 
 ## 7. Deployment Architecture
 
@@ -133,7 +133,7 @@ graph TD
     Back --> DB
 ```
 
-
+---
 
 ## 8. CI/CD Pipeline Design
 
