@@ -1,7 +1,5 @@
 # Water Refill Station Management System
 
-## Technical Design Document (Architecture + Diagrams)
-
 ---
 
 ## 1. Overview
