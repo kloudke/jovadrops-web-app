@@ -22,20 +22,27 @@ The system follows a **3-tier architecture**:
 
 ```
                 ┌────────────────────────────┐
+                │ Public Users (Customers)   │
+                └────────────┬──────────────-┘
+                             │
+                             ▼
+                ┌────────────────────────────┐
                 │        Frontend UI         │
-                │   (React / Web Client)    │
-                └────────────┬──────────────┘
+                │   (React / Web Client)     |
+                │- Products Page             |
+                │- Staff/Admin Dashboards    |
+                └────────────┬──────────────-┘
                              │ HTTPS
                              ▼
                 ┌────────────────────────────┐
                 │     Reverse Proxy (NGINX)  │
-                └────────────┬──────────────┘
+                └────────────┬──────────────-┘
                              │
                              ▼
                 ┌────────────────────────────┐
                 │       Backend API          │
                 │   (Node.js / Express)      │
-                └────────────┬──────────────┘
+                └────────────┬──────────────-┘
                              │
          ┌───────────────────┼───────────────────┐
          ▼                   ▼                   ▼
@@ -49,13 +56,19 @@ The system follows a **3-tier architecture**:
 
 ## 3. Component Design
 
-### 3.1 Frontend (Client Application)
+### 3.1 Route Design (Updated)
+/                 → Products Page (Public)
+/auth/login       → Staff/Admin Login
+/staff            → Staff Dashboard
+/admin            → Admin Dashboard
+
+### 3.2 Frontend (Client Application)
 
 **Technology:** React (with Vite or Next.js)
 
 **Responsibilities:**
 
-* Render UI for staff and admin
+* Render UI for landing page `/`, staff and admin dashboards
 * Handle user interactions
 * Communicate with backend via REST API
 * Manage local state (orders, session)
@@ -66,11 +79,11 @@ The system follows a **3-tier architecture**:
 * Staff Dashboard
 * Admin Dashboard
 * Reports View
-* Pricing Management UI
+* Products Page UI
 
 ---
 
-### 3.2 Backend (API Layer)
+### 3.3 Backend (API Layer)
 
 **Technology:** Node.js (Express or NestJS)
 
@@ -84,7 +97,7 @@ The system follows a **3-tier architecture**:
 
 ---
 
-### 3.3 Database Layer
+### 3.4 Database Layer
 
 **Technology:** PostgreSQL
 
