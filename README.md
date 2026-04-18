@@ -6,6 +6,11 @@
 
 This document defines the system architecture, component design, data flow, and deployment strategy for the Water Refill Station Management System. It translates the requirements into an actionable engineering blueprint.
 
+For detailed API and Database specifications, please refer to:
+- [API Documentation](API.md)
+- [Database Architecture](DATABASE.md)
+- [Frontend Architecture](FRONTEND_ARCHITECTURE.md)
+
 ---
 
 ## 2. High-Level Architecture
@@ -20,399 +25,136 @@ The system follows a **3-tier architecture**:
 
 ### 2.1 Architecture Diagram
 
-```
-                ┌────────────────────────────┐
-                │ Public Users (Customers)   │
-                └────────────┬──────────────-┘
-                             │
-                             ▼
-                ┌────────────────────────────┐
-                │        Frontend UI         │
-                │   (React / Web Client)     |
-                │- Products Page             |
-                │- Staff/Admin Dashboards    |
-                └────────────┬──────────────-┘
-                             │ HTTPS
-                             ▼
-                ┌────────────────────────────┐
-                │     Reverse Proxy (NGINX)  │
-                └────────────┬──────────────-┘
-                             │
-                             ▼
-                ┌────────────────────────────┐
-                │       Backend API          │
-                │   (Node.js / Express)      │
-                └────────────┬──────────────-┘
-                             │
-         ┌───────────────────┼───────────────────┐
-         ▼                   ▼                   ▼
- ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
- │ PostgreSQL   │   │ Auth Service │   │ Future Ext.  │
- │ Database     │   │ (JWT Logic)  │   │ (Payments)   │
- └──────────────┘   └──────────────┘   └──────────────┘
+```mermaid
+graph TD
+    PublicUsers[Public Users / Customers] -->|HTTPS| Frontend[Frontend UI \n React / Web Client]
+    Frontend -->|HTTPS| Nginx[Reverse Proxy \n NGINX]
+    Nginx --> Backend[Backend API \n Node.js / Express]
+    
+    Backend --> DB[(PostgreSQL Database)]
+    Backend --> Auth[Auth Service \n JWT Logic]
+    Backend -.-> Ext[Future Ext. \n Payments]
+    
+    classDef client fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef server fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef db fill:#fdb,stroke:#333,stroke-width:2px;
+    
+    class Frontend client;
+    class Backend,Nginx,Auth,Ext server;
+    class DB db;
 ```
 
 ---
 
 ## 3. Component Design
 
-### 3.1 Route Design (Updated)
-/                 → Products Page (Public)
-/auth/login       → Staff/Admin Login
-/staff            → Staff Dashboard
-/admin            → Admin Dashboard
+### 3.1 Route Design
+- `/`                 → Products Page (Public)
+- `/auth/login`       → Staff/Admin Login
+- `/staff`            → Staff Dashboard
+- `/admin`            → Admin Dashboard
 
 ### 3.2 Frontend (Client Application)
-
 **Technology:** React (with Vite or Next.js)
-
-**Responsibilities:**
-
-* Render UI for landing page `/`, staff and admin dashboards
-* Handle user interactions
-* Communicate with backend via REST API
-* Manage local state (orders, session)
-
-**Key Modules:**
-
-* Authentication 
-* Staff Dashboard
-* Admin Dashboard
-* Reports View
-* Products Page UI
-
----
+**Responsibilities:** Render UI, Handle interactions, Communicate with API, Manage local state.
+See [Frontend Architecture](FRONTEND_ARCHITECTURE.md) for details.
 
 ### 3.3 Backend (API Layer)
-
 **Technology:** Node.js (Express or NestJS)
-
-**Responsibilities:**
-
-* Business logic processing
-* Authentication & authorization
-* API endpoints
-* Data validation
-* Communication with database
-
----
+**Responsibilities:** Business logic, Auth, Validation.
 
 ### 3.4 Database Layer
-
 **Technology:** PostgreSQL
-
-**Responsibilities:**
-
-* Persistent data storage
-* Enforce relational integrity
-* Support transactional operations
+**Responsibilities:** Persistent storage, relational integrity, transactions.
+See [Database Architecture](DATABASE.md) for details.
 
 ---
 
 ## 4. Backend Architecture (Layered)
 
-```
-┌────────────────────────────┐
-│        Controllers         │  ← Handle HTTP requests
-├────────────────────────────┤
-│         Services           │  ← Business logic
-├────────────────────────────┤
-│       Repositories         │  ← Database queries (ORM/SQL)
-├────────────────────────────┤
-│         Database           │
-└────────────────────────────┘
+```mermaid
+graph TD
+    Req[HTTP Request] --> Controller[Controllers]
+    Controller --> Service[Services \n Business Logic]
+    Service --> Repo[Repositories \n Data Access]
+    Repo --> DB[(Database)]
 ```
 
 ---
 
 ## 5. Data Flow (Order Processing)
 
-### 5.1 Order Creation Flow
-
-```
-[Staff UI]
-    │
-    ▼
-POST /orders
-    │
-    ▼
-[Controller]
-    │
-    ▼
-[Service Layer]
-    ├── Validate input
-    ├── Fetch pricing
-    ├── Calculate total
-    │
-    ▼
-[Repository Layer]
-    │
-    ▼
-[Database]
-    │
-    ▼
-Response to UI
+```mermaid
+sequenceDiagram
+    actor Staff
+    participant UI as Staff UI
+    participant API as Controller
+    participant Svc as Service Layer
+    participant Repo as Repository Layer
+    participant DB as Database
+    
+    Staff->>UI: Submit Order Form
+    UI->>API: POST /orders
+    API->>Svc: Validate & Process
+    Svc->>Svc: Fetch pricing & Calculate total
+    Svc->>Repo: Save Order
+    Repo->>DB: INSERT into Orders & Order_Items
+    DB-->>Repo: Confirm save
+    Repo-->>Svc: Success
+    Svc-->>API: Process complete
+    API-->>UI: Response (201 Created)
+    UI-->>Staff: Show Success Message
 ```
 
 ---
 
-## 6. Database Design (Detailed)
+## 6. Authentication & Security Design
 
-### 6.1 Entity Relationship Diagram (ERD)
+- **Password Hashing:** bcrypt
+- **Auth:** JWT-based authentication
+- **RBAC:** Role-based access control (Admin vs Staff)
+- **Input Validation:** Prevent SQL injection and XSS
+- **Transport:** HTTPS enforcement in production
 
-```
-Users ─────────────┐
-                   │
-                   ▼
-                Orders ────────────────┐
-                   │                   │
-                   ▼                   ▼
-             Order_Items           Customers
+---
 
-Pricing (independent reference table)
+## 7. Deployment Architecture
+
+### 7.1 Docker-Based Deployment
+
+```mermaid
+graph TD
+    subgraph Docker Host
+        Nginx[NGINX Container]
+        Front[Frontend Container]
+        Back[Backend Container]
+        DB[(PostgreSQL Container)]
+    end
+    
+    Internet --> Nginx
+    Nginx --> Front
+    Nginx --> Back
+    Back --> DB
 ```
 
 ---
 
-### 6.2 Schema Details
+## 8. CI/CD Pipeline Design
 
-#### Users
-
-```
-id (PK)
-name
-email
-password_hash
-role (admin, staff)
-created_at
-```
-
-#### Customers
-
-```
-id (PK)
-name
-phone
-created_at
-```
-
-#### Orders
-
-```
-id (PK)
-customer_id (FK, nullable)
-user_id (FK - staff who created order)
-total_amount
-payment_method
-created_at
-```
-
-#### Order_Items
-
-```
-id (PK)
-order_id (FK)
-container_size
-price
-quantity
-```
-
-#### Pricing
-
-```
-id (PK)
-container_size (unique)
-price
-updated_at
+```mermaid
+graph LR
+    Push[Code Push] --> Build[Build]
+    Build --> Test[Run Tests]
+    Test --> Docker[Build Images]
+    Docker --> Registry[Push to Registry]
+    Registry --> Deploy[Deploy]
 ```
 
 ---
 
-## 7. API Design (Detailed)
-
-### 7.1 Authentication
-
-```
-POST /auth/login
-POST /auth/register (admin only)
-```
-
----
-
-### 7.2 Orders
-
-```
-POST   /orders        → Create new order
-GET    /orders        → List orders
-GET    /orders/:id    → Get single order
-```
-
----
-
-### 7.3 Pricing
-
-```
-GET    /pricing
-PUT    /pricing       → Update pricing (admin)
-```
-
----
-
-### 7.4 Reports
-
-```
-GET /reports/daily
-GET /reports/weekly
-GET /reports/monthly
-```
-
----
-
-## 8. Authentication & Security Design
-
-### 8.1 Authentication Flow
-
-```
-User Login → Backend validates credentials
-          → JWT issued
-          → Token stored in client
-          → Token sent in Authorization header
-```
-
----
-
-### 8.2 Security Measures
-
-* Password hashing (bcrypt)
-* JWT-based authentication
-* Role-based access control (RBAC)
-* Input validation (avoid SQL injection)
-* HTTPS enforcement in production
-
----
-
-## 9. Deployment Architecture
-
-### 9.1 Docker-Based Deployment
-
-```
-                ┌──────────────────────┐
-                │     Docker Host      │
-                ├──────────────────────┤
-                │  NGINX Container     │
-                │  Frontend Container  │
-                │  Backend Container   │
-                │  PostgreSQL Container│
-                └──────────────────────┘
-```
-
----
-
-### 9.2 Docker Compose Example Structure
-
-```
-services:
-  frontend
-  backend
-  db
-  nginx
-```
-
----
-
-### 9.3 Future Kubernetes Architecture
-
-```
-          ┌──────────────────────────────┐
-          │        Ingress (NGINX)       │
-          └────────────┬─────────────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        ▼                              ▼
-Frontend Pod                    Backend Pod
-                                        │
-                                        ▼
-                                 PostgreSQL (StatefulSet)
-```
-
----
-
-## 10. CI/CD Pipeline Design
-
-### Pipeline Stages:
-
-```
-1. Code Push (GitHub)
-        ↓
-2. Build
-        ↓
-3. Run Tests
-        ↓
-4. Build Docker Images
-        ↓
-5. Push to Registry
-        ↓
-6. Deploy (Docker/K8s)
-```
-
----
-
-## 11. Logging & Monitoring
-
-### Logging:
-
-* Backend logs (requests, errors)
-* Access logs via NGINX
-
-### Monitoring (future):
-
-* Prometheus + Grafana
-* Application metrics (requests/sec, errors)
-
----
-
-## 12. Scalability Considerations
-
-* Stateless backend (horizontal scaling)
-* Externalized database
-* Load balancing via NGINX / Ingress
-* Caching layer (Redis - future)
-
----
-
-## 13. Failure Handling
-
-* Graceful error responses
-* Retry mechanisms (future)
-* Database backups
-* Container restart policies
-
----
-
-## 14. Development Workflow
-
-```
-Feature Branch → Pull Request → Code Review → Merge → Deploy
-```
-
----
-
-## 15. Future Architecture Enhancements
-
+## 9. Future Enhancements
 * Microservices split (Orders, Payments, Reporting)
 * Event-driven architecture (Kafka/RabbitMQ)
-* Mobile app integration
-* Offline-first sync system
-
----
-
-## 16. Summary
-
-This design provides:
-
-* Clear separation of concerns
-* Scalable architecture
-* Strong DevOps integration potential
-* Solid foundation for future expansion
-
----
+* Caching layer (Redis)
+* Monitoring (Prometheus + Grafana)
+* Kubernetes Deployment
