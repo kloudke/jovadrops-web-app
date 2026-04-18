@@ -1,7 +1,5 @@
 # Water Refill Station Management System
 
----
-
 ## 1. Overview
 
 This document defines the system architecture, component design, data flow, and deployment strategy for the Water Refill Station Management System. It translates the requirements into an actionable engineering blueprint.
@@ -11,7 +9,6 @@ For detailed API and Database specifications, please refer to:
 - [Database Architecture](DATABASE.md)
 - [Frontend Architecture](FRONTEND_ARCHITECTURE.md)
 
----
 
 ## 2. High-Level Architecture
 
@@ -21,7 +18,7 @@ The system follows a **3-tier architecture**:
 * **Application Layer** → Backend API
 * **Data Layer** → Database
 
----
+
 
 ### 2.1 Architecture Diagram
 
@@ -44,7 +41,6 @@ graph TD
     class DB db;
 ```
 
----
 
 ## 3. Component Design
 
@@ -68,7 +64,7 @@ See [Frontend Architecture](FRONTEND_ARCHITECTURE.md) for details.
 **Responsibilities:** Persistent storage, relational integrity, transactions.
 See [Database Architecture](DATABASE.md) for details.
 
----
+
 
 ## 4. Backend Architecture (Layered)
 
@@ -80,7 +76,7 @@ graph TD
     Repo --> DB[(Database)]
 ```
 
----
+
 
 ## 5. Data Flow (Order Processing)
 
@@ -106,7 +102,7 @@ sequenceDiagram
     UI-->>Staff: Show Success Message
 ```
 
----
+
 
 ## 6. Authentication & Security Design
 
@@ -116,7 +112,7 @@ sequenceDiagram
 - **Input Validation:** Prevent SQL injection and XSS
 - **Transport:** HTTPS enforcement in production
 
----
+
 
 ## 7. Deployment Architecture
 
@@ -137,7 +133,7 @@ graph TD
     Back --> DB
 ```
 
----
+
 
 ## 8. CI/CD Pipeline Design
 
@@ -150,7 +146,7 @@ graph LR
     Registry --> Deploy[Deploy]
 ```
 
----
+
 
 ## 9. Future Enhancements
 * Microservices split (Orders, Payments, Reporting)
