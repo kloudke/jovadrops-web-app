@@ -64,7 +64,7 @@ The system follows a **3-tier architecture**:
 
 **Key Modules:**
 
-* Authentication صفحات
+* Authentication 
 * Staff Dashboard
 * Admin Dashboard
 * Reports View
@@ -140,7 +140,7 @@ POST /orders
 [Database]
     │
     ▼
-Response واپس to UI
+Response to UI
 ```
 
 ---
@@ -333,7 +333,7 @@ Frontend Pod                    Backend Pod
 ```
 1. Code Push (GitHub)
         ↓
-2. Build مرحلة
+2. Build
         ↓
 3. Run Tests
         ↓
