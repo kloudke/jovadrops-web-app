@@ -1,15 +1,82 @@
 import Link from 'next/link'
+import { MapPin, Phone, Mail, Globe, MessageCircle, Camera } from 'lucide-react'
+import { Logo } from '@/components/ui/logo'
 
 export function PublicFooter() {
   return (
-    <footer className="border-t bg-muted/40">
-      <div className="container mx-auto px-4 py-10 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="text-center md:text-left">
-          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} JovaDrops Water Refill Station. All rights reserved.</p>
+    <footer className="bg-brand-dark text-white pt-16 pb-8">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          
+          {/* Column 1: Logo & Slogan */}
+          <div className="flex flex-col">
+             <Link href="/" className="mb-4">
+               <Logo lightText={true} />
+             </Link>
+          </div>
+
+          {/* Column 2: Quick Links */}
+          <div>
+            <h4 className="font-bold text-lg mb-6">Quick Links</h4>
+            <ul className="space-y-4">
+              <li><Link href="/" className="text-sm text-slate-300 hover:text-white transition-colors">Home</Link></li>
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">Products</Link></li>
+              <li><Link href="/#how-it-works" className="text-sm text-slate-300 hover:text-white transition-colors">How It Works</Link></li>
+              <li><Link href="/about" className="text-sm text-slate-300 hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="text-sm text-slate-300 hover:text-white transition-colors">Contact Us</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 3: Products */}
+          <div>
+            <h4 className="font-bold text-lg mb-6">Products</h4>
+            <ul className="space-y-4">
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">10L Bottle</Link></li>
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">20L Bottle</Link></li>
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">Dispenser Bottle</Link></li>
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">5L Bottle</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Contact Us */}
+          <div>
+            <h4 className="font-bold text-lg mb-6">Contact Us</h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-brand-primary shrink-0 mt-0.5" />
+                <span className="text-sm text-slate-300">
+                  123 Waterway St.<br />Hydration City, HC 12345
+                </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-brand-primary shrink-0" />
+                <span className="text-sm text-slate-300">+1 234 567 8900</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-brand-primary shrink-0" />
+                <span className="text-sm text-slate-300">info@jovadrops.com</span>
+              </li>
+            </ul>
+          </div>
+
         </div>
-        <div className="flex gap-4">
-          <Link href="/privacy" className="text-sm text-muted-foreground hover:underline">Privacy Policy</Link>
-          <Link href="/terms" className="text-sm text-muted-foreground hover:underline">Terms of Service</Link>
+
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-slate-400">
+            © {new Date().getFullYear()} JovaDrops Water Station. All rights reserved.
+          </p>
+          <div className="flex items-center gap-4">
+             <Link href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-colors">
+               <Globe className="w-4 h-4 text-white" />
+             </Link>
+             <Link href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-colors">
+               <Camera className="w-4 h-4 text-white" />
+             </Link>
+             <Link href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-colors">
+               <MessageCircle className="w-4 h-4 text-white" />
+             </Link>
+          </div>
         </div>
       </div>
     </footer>

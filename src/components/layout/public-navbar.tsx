@@ -1,24 +1,36 @@
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import { ShoppingCart } from 'lucide-react'
+import { Logo } from '@/components/ui/logo'
 
 export function PublicNavbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold text-blue-600">JovaDrops</span>
+    <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-100">
+      <div className="container mx-auto px-4 lg:px-8 flex h-20 items-center justify-between">
+        {/* Logo */}
+        <Link href="/">
+          <Logo />
         </Link>
-        <nav className="hidden md:flex gap-6">
-          <Link href="/#products" className="text-sm font-medium hover:text-blue-600 transition-colors">Products</Link>
-          <Link href="/#how-it-works" className="text-sm font-medium hover:text-blue-600 transition-colors">How It Works</Link>
-          <Link href="/#about" className="text-sm font-medium hover:text-blue-600 transition-colors">About</Link>
-          <Link href="/contact" className="text-sm font-medium hover:text-blue-600 transition-colors">Contact</Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex gap-8">
+          <Link href="/" className="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">Home</Link>
+          <Link href="/products" className="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">Products</Link>
+          <Link href="/#how-it-works" className="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">How It Works</Link>
+          <Link href="/about" className="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">About Us</Link>
+          <Link href="/contact" className="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">Contact Us</Link>
         </nav>
+
+        {/* Actions (Order Now button as per Home mockup) */}
         <div className="flex items-center gap-4">
-          <Link href="/login" className="text-sm font-medium hover:text-blue-600 transition-colors hidden sm:block">Log in</Link>
-          <Link href="/#download" className={buttonVariants()}>
-            Download App
+          {/* For pages other than home, the design shows a Cart icon with a badge instead. We can render the Order Now button here for now. */}
+          <Link 
+            href="/products" 
+            className={buttonVariants({ variant: "default" }) + " hidden sm:flex bg-brand-dark hover:bg-brand-dark/90 text-white rounded-md px-6"}
+          >
+            Order Now
           </Link>
+          {/* Mobile Menu Button could go here */}
         </div>
       </div>
     </header>
