@@ -7,12 +7,12 @@ export function PublicFooter() {
     <footer className="bg-brand-dark text-white pt-10 pb-6">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          
+
           {/* Column 1: Logo & Slogan */}
           <div className="flex flex-col">
-             <Link href="/" className="mb-4">
-               <Logo lightText={true} />
-             </Link>
+            <Link href="/" className="mb-4">
+              <Logo lightText={true} />
+            </Link>
           </div>
 
           {/* Column 2: Quick Links */}
@@ -45,12 +45,12 @@ export function PublicFooter() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-brand-primary shrink-0 mt-1" />
                 <span className="text-sm text-slate-300 leading-tight">
-                  123 Waterway St.<br />Hydration City, HC 12345
+                  Kitengela, Kajiado<br />Nairobi-Namanga Road, Kenya
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-brand-primary shrink-0" />
-                <span className="text-sm text-slate-300">+1 234 567 8900</span>
+                <span className="text-sm text-slate-300">+254 748 928 369</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-brand-primary shrink-0" />
@@ -67,15 +67,15 @@ export function PublicFooter() {
             © {new Date().getFullYear()} JovaDrops Water Station. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-             <Link href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-colors">
-               <Globe className="w-4 h-4 text-white" />
-             </Link>
-             <Link href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-colors">
-               <Camera className="w-4 h-4 text-white" />
-             </Link>
-             <Link href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-colors">
-               <MessageCircle className="w-4 h-4 text-white" />
-             </Link>
+            <Link href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-colors">
+              <Globe className="w-4 h-4 text-white" />
+            </Link>
+            <Link href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-colors">
+              <Camera className="w-4 h-4 text-white" />
+            </Link>
+            <Link href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-primary transition-colors">
+              <MessageCircle className="w-4 h-4 text-white" />
+            </Link>
           </div>
         </div>
       </div>

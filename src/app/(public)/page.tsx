@@ -90,7 +90,7 @@ export default function HomePage() {
       {/* Why Choose Section */}
       <section className="w-full py-16 bg-white">
         <div className="container mx-auto px-4 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-12">Why Choose JovaDrops?</h2>
+          <h2 className="text-4xl font-bold mb-12">Why Choose JovaDrops?</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <WhyChooseItem
               icon={<CheckCircle className="w-8 h-8 text-brand-primary" />}
