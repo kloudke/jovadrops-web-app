@@ -5,7 +5,7 @@ import { Logo } from '@/components/ui/logo'
 
 export function PublicNavbar() {
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-100">
+    <header className="sticky top-0 z-50 w-full bg-brand-light border-none">
       <div className="container mx-auto px-4 lg:px-8 flex h-20 items-center justify-between">
         {/* Logo */}
         <Link href="/">

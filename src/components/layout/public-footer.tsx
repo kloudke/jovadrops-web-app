@@ -4,9 +4,9 @@ import { Logo } from '@/components/ui/logo'
 
 export function PublicFooter() {
   return (
-    <footer className="bg-brand-dark text-white pt-16 pb-8">
+    <footer className="bg-brand-dark text-white pt-10 pb-6">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           
           {/* Column 1: Logo & Slogan */}
           <div className="flex flex-col">
@@ -17,8 +17,8 @@ export function PublicFooter() {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h4 className="font-bold text-lg mb-6">Quick Links</h4>
-            <ul className="space-y-4">
+            <h4 className="font-bold text-base mb-4">Quick Links</h4>
+            <ul className="space-y-2">
               <li><Link href="/" className="text-sm text-slate-300 hover:text-white transition-colors">Home</Link></li>
               <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">Products</Link></li>
               <li><Link href="/#how-it-works" className="text-sm text-slate-300 hover:text-white transition-colors">How It Works</Link></li>
@@ -29,8 +29,8 @@ export function PublicFooter() {
 
           {/* Column 3: Products */}
           <div>
-            <h4 className="font-bold text-lg mb-6">Products</h4>
-            <ul className="space-y-4">
+            <h4 className="font-bold text-base mb-4">Products</h4>
+            <ul className="space-y-2">
               <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">10L Bottle</Link></li>
               <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">20L Bottle</Link></li>
               <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">Dispenser Bottle</Link></li>
@@ -40,20 +40,20 @@ export function PublicFooter() {
 
           {/* Column 4: Contact Us */}
           <div>
-            <h4 className="font-bold text-lg mb-6">Contact Us</h4>
-            <ul className="space-y-4">
+            <h4 className="font-bold text-base mb-4">Contact Us</h4>
+            <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-brand-primary shrink-0 mt-0.5" />
-                <span className="text-sm text-slate-300">
+                <MapPin className="w-4 h-4 text-brand-primary shrink-0 mt-1" />
+                <span className="text-sm text-slate-300 leading-tight">
                   123 Waterway St.<br />Hydration City, HC 12345
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-brand-primary shrink-0" />
+                <Phone className="w-4 h-4 text-brand-primary shrink-0" />
                 <span className="text-sm text-slate-300">+1 234 567 8900</span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-brand-primary shrink-0" />
+                <Mail className="w-4 h-4 text-brand-primary shrink-0" />
                 <span className="text-sm text-slate-300">info@jovadrops.com</span>
               </li>
             </ul>
@@ -62,7 +62,7 @@ export function PublicFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-slate-400">
             © {new Date().getFullYear()} JovaDrops Water Station. All rights reserved.
           </p>
