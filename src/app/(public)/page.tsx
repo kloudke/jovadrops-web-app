@@ -1,27 +1,25 @@
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { 
-  ShoppingCart, 
-  MapPin, 
-  ShieldCheck, 
-  Tag, 
-  Leaf, 
-  Clock, 
-  CheckCircle, 
-  PiggyBank, 
-  HeartPulse, 
+import {
+  ShoppingCart,
+  MapPin,
+  ShieldCheck,
+  Tag,
+  Leaf,
+  Clock,
+  CheckCircle,
+  PiggyBank,
+  HeartPulse,
   Map,
   Droplet
 } from "lucide-react"
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-full">
       {/* Hero Section */}
-      <section className="w-full relative overflow-hidden bg-white pt-16 pb-24 lg:pt-32 lg:pb-40">
-        {/* Background Decorative Shape (approximate design's right-side blob) */}
-        <div className="absolute right-0 top-0 h-full w-full md:w-[60%] lg:w-[50%] bg-brand-light rounded-l-full opacity-60 pointer-events-none -z-10 transform translate-x-1/4"></div>
-
+      <section className="w-full bg-brand-light pt-16 pb-24 lg:pt-32 lg:pb-40">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
@@ -46,15 +44,16 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Content (Image Placeholder) */}
-            <div className="relative flex justify-center items-center">
-              {/* Replace this div with the actual client image: <img src="/jovadrops-hero.png" alt="JovaDrops Water Bottles" className="w-full h-auto object-contain" /> */}
-              <div className="w-full max-w-md aspect-square bg-gradient-to-br from-brand-light to-white rounded-full flex flex-col items-center justify-center border-8 border-white shadow-2xl relative">
-                <div className="absolute inset-0 border-[16px] border-white/50 rounded-full animate-pulse pointer-events-none"></div>
-                <Droplet className="w-32 h-32 text-brand-primary mb-4" />
-                <span className="text-brand-dark font-bold text-xl text-center px-4">Hero Image Placeholder</span>
-                <span className="text-slate-500 text-sm text-center px-4 mt-2">(Drop client image in public folder)</span>
-              </div>
+            {/* Right Content (Image) */}
+            <div className="relative flex justify-center items-center overflow-hidden rounded-[2rem] shadow-2xl lg:shadow-none">
+              <Image
+                src="/hero-image.png"
+                alt="JovaDrops Water Bottles"
+                width={800}
+                height={800}
+                className="w-full h-auto max-w-[650px] lg:max-w-none object-contain z-10"
+                priority
+              />
             </div>
           </div>
         </div>
@@ -64,22 +63,22 @@ export default function HomePage() {
       <section className="w-full py-12 bg-white -mt-12 z-10">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 bg-white rounded-2xl shadow-xl p-8 border border-slate-50">
-            <FeatureItem 
+            <FeatureItem
               icon={<ShieldCheck className="w-6 h-6 text-brand-primary" />}
               title="Pure & Safe"
               description="Multi-stage purification for 100% safe water"
             />
-            <FeatureItem 
+            <FeatureItem
               icon={<Tag className="w-6 h-6 text-brand-primary" />}
               title="Affordable Prices"
               description="High quality water at low prices"
             />
-            <FeatureItem 
+            <FeatureItem
               icon={<Leaf className="w-6 h-6 text-brand-primary" />}
               title="Eco-Friendly"
               description="Reusable bottles for a green future"
             />
-            <FeatureItem 
+            <FeatureItem
               icon={<Clock className="w-6 h-6 text-brand-primary" />}
               title="Convenient Service"
               description="Easy pickup or delivery options"
@@ -91,24 +90,24 @@ export default function HomePage() {
       {/* Why Choose Section */}
       <section className="w-full py-16 bg-white">
         <div className="container mx-auto px-4 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-brand-dark mb-12">Why Choose JovaDrops?</h2>
+          <h2 className="text-3xl font-bold mb-12">Why Choose JovaDrops?</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <WhyChooseItem 
+            <WhyChooseItem
               icon={<CheckCircle className="w-8 h-8 text-brand-primary" />}
               title="Trusted Quality"
               description="Advanced purification for pure water"
             />
-            <WhyChooseItem 
+            <WhyChooseItem
               icon={<PiggyBank className="w-8 h-8 text-brand-primary" />}
               title="Save Money"
               description="Premium quality at affordable prices"
             />
-            <WhyChooseItem 
+            <WhyChooseItem
               icon={<HeartPulse className="w-8 h-8 text-brand-primary" />}
               title="Healthy Life"
               description="Stay hydrated, stay healthy"
             />
-            <WhyChooseItem 
+            <WhyChooseItem
               icon={<Map className="w-8 h-8 text-brand-primary" />}
               title="Local & Reliable"
               description="Your trusted water partner nearby"
@@ -126,30 +125,36 @@ export default function HomePage() {
                 Download Our App For Faster Ordering!
               </h2>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-md px-6 py-6 border border-white/20">
-                   Get it on Google Play
+                <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-md px-6 py-6 border border-white/20 flex items-center gap-3 h-auto">
+                  <Image src="/google-play.svg" alt="Google Play" width={24} height={24} className="w-6 h-6" />
+                  <div className="flex flex-col items-start leading-none">
+                    <span className="text-[10px] text-white/70 uppercase">Get it on</span>
+                    <span className="text-base font-bold">Google Play</span>
+                  </div>
                 </Button>
-                <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-md px-6 py-6 border border-white/20">
-                  Download on the App Store
+                <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-md px-6 py-6 border border-white/20 flex items-center gap-3 h-auto">
+                  <Image src="/apple.svg" alt="App Store" width={24} height={24} className="w-6 h-6" />
+                  <div className="flex flex-col items-start leading-none">
+                    <span className="text-[10px] text-white/70 uppercase">Download on the</span>
+                    <span className="text-base font-bold">App Store</span>
+                  </div>
                 </Button>
               </div>
             </div>
-            
+
             <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
               {/* Decorative circle behind phone */}
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-              
-              {/* Phone Mockup Placeholder */}
-              <div className="w-64 h-96 bg-gradient-to-b from-brand-primary to-brand-dark rounded-3xl border-8 border-slate-800 shadow-2xl flex flex-col items-center justify-center p-6 relative z-10 overflow-hidden">
-                 <div className="absolute top-0 w-32 h-6 bg-slate-800 rounded-b-2xl"></div>
-                 <Droplet className="w-12 h-12 text-white/50 mb-2" />
-                 <div className="text-white font-bold text-xl mb-1">JovaDrops App</div>
-                 <div className="text-white/70 text-xs text-center">Your water partner in your pocket.</div>
-                 <div className="mt-8 w-full space-y-3">
-                   <div className="h-10 w-full bg-white/10 rounded-md"></div>
-                   <div className="h-10 w-full bg-white/10 rounded-md"></div>
-                   <div className="h-10 w-full bg-white/10 rounded-md"></div>
-                 </div>
+
+              {/* Phone Mockup Image */}
+              <div className="relative z-10 w-[280px] lg:w-[320px]">
+                <Image
+                  src="/phone-design.png"
+                  alt="JovaDrops App Mockup"
+                  width={640}
+                  height={1280}
+                  className="w-full h-auto object-contain drop-shadow-2xl"
+                />
               </div>
             </div>
           </div>
@@ -179,10 +184,10 @@ function WhyChooseItem({ icon, title, description }: { icon: React.ReactNode, ti
       <CardContent className="pt-8 pb-6 flex flex-col items-center">
         <div className="mb-6">
           <div className="w-16 h-16 relative flex items-center justify-center">
-             <div className="absolute inset-0 border-2 border-brand-light rounded-xl transform rotate-45 transition-transform group-hover:rotate-90 duration-500"></div>
-             <div className="relative z-10">
-               {icon}
-             </div>
+            <div className="absolute inset-0 border-2 border-brand-light rounded-xl transform rotate-45 transition-transform group-hover:rotate-90 duration-500"></div>
+            <div className="relative z-10">
+              {icon}
+            </div>
           </div>
         </div>
         <h3 className="font-bold text-brand-dark text-lg mb-3">{title}</h3>
