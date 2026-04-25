@@ -89,12 +89,14 @@ export default function ProductsPage() {
   )
 }
 
+import Link from "next/link"
+
 function ProductCard({ product }: { product: any }) {
   return (
     <div className="flex flex-col items-center p-6 bg-white rounded-2xl border border-slate-100 hover:shadow-xl hover:border-brand-primary/20 transition-all duration-300 group">
       
-      {/* Product Image Placeholder */}
-      <div className="w-full aspect-[4/5] bg-brand-light/30 rounded-xl mb-6 relative flex items-center justify-center p-4">
+      {/* Product Image Placeholder (Clickable to details) */}
+      <Link href={`/products/${product.id}`} className="w-full aspect-[4/5] bg-brand-light/30 rounded-xl mb-6 relative flex items-center justify-center p-4 cursor-pointer block">
         {/* Placeholder: Replace with actual product images later */}
         <div className="w-24 h-40 bg-brand-primary/10 rounded-t-3xl rounded-b-lg border-4 border-brand-primary/20 relative flex flex-col items-center justify-start pt-4 group-hover:scale-105 transition-transform duration-500">
            <div className="w-16 h-8 bg-brand-primary/20 rounded-md absolute top-1/2 -translate-y-1/2 flex items-center justify-center">
@@ -102,22 +104,26 @@ function ProductCard({ product }: { product: any }) {
            </div>
            <div className="w-8 h-4 bg-brand-primary/30 rounded-t-sm absolute -top-4"></div>
         </div>
-      </div>
+      </Link>
 
       {/* Product Details */}
       <div className="text-center w-full">
-        <h3 className="font-bold text-brand-dark text-lg leading-tight mb-1">
-          {product.name}
-        </h3>
+        <Link href={`/products/${product.id}`} className="hover:text-brand-primary transition-colors block">
+          <h3 className="font-bold text-brand-dark text-lg leading-tight mb-1">
+            {product.name}
+          </h3>
+        </Link>
         <p className="text-sm text-brand-dark/60 mb-3">
           {product.volume}
         </p>
         <p className="text-2xl font-extrabold text-brand-dark mb-5">
           {product.price}
         </p>
-        <Button className="w-full bg-brand-dark hover:bg-brand-primary text-white transition-colors rounded-md py-6 cursor-pointer">
-          Order Now
-        </Button>
+        <Link href={`/products/${product.id}`}>
+          <Button className="w-full bg-brand-dark hover:bg-brand-primary text-white transition-colors rounded-md py-6 cursor-pointer">
+            Order Now
+          </Button>
+        </Link>
       </div>
 
     </div>

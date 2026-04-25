@@ -1,40 +1,22 @@
+"use client"
+
+import { useState } from 'react'
 import Link from 'next/link'
-import { buttonVariants } from '@/components/ui/button'
-import { UserCircle } from 'lucide-react'
+import { UserCircle, Menu, X } from 'lucide-react'
 import { Logo } from '@/components/ui/logo'
 
 export function PublicNavbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
   return (
     <header className="sticky top-0 z-50 w-full bg-brand-light border-none">
       <div className="container mx-auto px-4 lg:px-8 flex h-20 items-center justify-between">
         {/* Logo */}
-        <Link href="/">
+        <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
           <Logo />
         </Link>
 
         {/* Desktop Navigation */}
-        {/* <nav className="hidden md:flex gap-2 lg:gap-4 items-center">
-          <Link href="/" className="relative text-sm text-brand-dark hover:text-brand-primary hover:bg-brand-primary/10 hover:shadow-md px-5 py-2.5 rounded-md transition-all group">
-            Home
-            <span className="absolute -bottom-3 left-1/2 w-6 h-[3px] -translate-x-1/2 bg-transparent group-hover:bg-brand-primary rounded-md transition-colors"></span>
-          </Link>
-          <Link href="/products" className="relative text-sm text-brand-dark hover:text-brand-primary hover:bg-brand-primary/10 hover:shadow-md px-5 py-2.5 rounded-md transition-all group">
-            Products
-            <span className="absolute -bottom-3 left-1/2 w-6 h-[3px] -translate-x-1/2 bg-transparent group-hover:bg-brand-primary rounded-md transition-colors"></span>
-          </Link>
-          <Link href="/#how-it-works" className="relative text-sm text-brand-dark hover:text-brand-primary hover:bg-brand-primary/10 hover:shadow-md px-5 py-2.5 rounded-md transition-all group">
-            How It Works
-            <span className="absolute -bottom-3 left-1/2 w-6 h-[3px] -translate-x-1/2 bg-transparent group-hover:bg-brand-primary rounded-md transition-colors"></span>
-          </Link>
-          <Link href="/about" className="relative text-sm text-brand-dark hover:text-brand-primary hover:bg-brand-primary/10 hover:shadow-md px-5 py-2.5 rounded-md transition-all group">
-            About Us
-            <span className="absolute -bottom-3 left-1/2 w-6 h-[3px] -translate-x-1/2 bg-transparent group-hover:bg-brand-primary rounded-md transition-colors"></span>
-          </Link>
-          <Link href="/contact" className="relative text-sm text-brand-dark hover:text-brand-primary hover:bg-brand-primary/10 hover:shadow-md px-5 py-2.5 rounded-md transition-all group">
-            Contact Us
-            <span className="absolute -bottom-3 left-1/2 w-6 h-[3px] -translate-x-1/2 bg-transparent group-hover:bg-brand-primary rounded-md transition-colors"></span>
-          </Link>
-        </nav> */}
         <nav className="hidden md:flex gap-8">
           <Link href="/" className="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">Home</Link>
           <Link href="/products" className="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">Products</Link>
@@ -43,7 +25,7 @@ export function PublicNavbar() {
           <Link href="/contact" className="text-sm font-medium text-slate-600 hover:text-brand-primary transition-colors">Contact Us</Link>
         </nav>
 
-        {/* Actions */}
+        {/* Actions & Mobile Toggle */}
         <div className="flex items-center gap-4">
           <Link
             href="/login"
@@ -52,8 +34,37 @@ export function PublicNavbar() {
             <UserCircle className="w-8 h-8 stroke-[1.5]" />
             <span className="sr-only">Sign In / Sign Up</span>
           </Link>
-          {/* Mobile Menu Button could go here */}
-        </div>      </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 text-brand-dark hover:text-brand-primary transition-colors cursor-pointer"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Navigation Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-slate-100 shadow-xl py-4 px-4 flex flex-col gap-2 z-40">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-semibold text-brand-dark p-3 hover:bg-brand-light rounded-md">Home</Link>
+          <Link href="/products" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-semibold text-brand-dark p-3 hover:bg-brand-light rounded-md">Products</Link>
+          <Link href="/how-it-works" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-semibold text-brand-dark p-3 hover:bg-brand-light rounded-md">How It Works</Link>
+          <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-semibold text-brand-dark p-3 hover:bg-brand-light rounded-md">About Us</Link>
+          <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-semibold text-brand-dark p-3 hover:bg-brand-light rounded-md">Contact Us</Link>
+          <div className="pt-4 mt-2 border-t border-slate-100 flex justify-center">
+            <Link
+              href="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 w-full bg-brand-dark text-white font-medium p-3 rounded-xl hover:bg-brand-primary transition-colors cursor-pointer"
+            >
+              <UserCircle className="w-5 h-5" />
+              <span></span>
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   )
 }

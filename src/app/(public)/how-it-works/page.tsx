@@ -166,7 +166,7 @@ function ProcessStep({ number, icon, imageUrl, imageBg, title, description, hasN
         style={imageBg ? { backgroundColor: imageBg } : {}}
       >
         {imageUrl ? (
-          <Image src={imageUrl} alt={title} fill className="object-contain" />
+          <Image src={imageUrl} alt={title} fill className="object-contain" sizes="(max-width: 768px) 160px, 160px" />
         ) : (
           icon
         )}
