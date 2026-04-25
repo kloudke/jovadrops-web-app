@@ -24,7 +24,7 @@ export default function HowItWorksPage() {
             How We Purify Every Drop
           </h1>
           <p className="text-brand-dark/70 text-lg max-w-2xl mx-auto">
-            Advanced purification process to ensure 100% safe and great tasting water.
+            Our advanced multi-stage purification process ensures 100% safe, healthy, and great tasting water.
           </p>
         </div>
       </section>

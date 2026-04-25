@@ -33,11 +33,11 @@ export default function HomePage() {
                 Clean, safe and affordable water refill solutions for a healthier you and a better tomorrow.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-brand-dark hover:bg-brand-dark/90 text-white rounded-md px-8 py-6 text-base font-semibold">
+                <Button size="lg" className="bg-brand-dark hover:bg-brand-primary text-white rounded-md px-8 py-6 text-base font-semibold cursor-pointer">
                   <ShoppingCart className="mr-2 h-5 w-5" />
                   Order Now
                 </Button>
-                <Button size="lg" variant="outline" className="border-brand-primary text-brand-primary hover:bg-brand-light rounded-md px-8 py-6 text-base font-semibold">
+                <Button size="lg" variant="outline" className="border-brand-primary text-brand-primary hover:bg-brand-light rounded-md px-8 py-6 text-base font-semibold cursor-pointer">
                   <MapPin className="mr-2 h-5 w-5" />
                   Find Station
                 </Button>
@@ -130,14 +130,14 @@ export default function HomePage() {
                   Download our app for a faster, seamless ordering experience.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-xl px-6 py-6 border border-white/20 flex items-center gap-3 h-auto shadow-lg text-left">
+                  <Button size="lg" className="bg-black hover:bg-brand-primary text-white rounded-xl px-6 py-6 border border-white/20 flex items-center gap-3 h-auto shadow-lg text-left cursor-pointer">
                     <Image src="/google-play.svg" alt="Google Play" width={24} height={24} className="w-6 h-6" />
                     <div className="flex flex-col items-start leading-none">
                       <span className="text-[10px] text-white/70 uppercase">Get it on</span>
                       <span className="text-base font-bold">Google Play</span>
                     </div>
                   </Button>
-                  <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-xl px-6 py-6 border border-white/20 flex items-center gap-3 h-auto shadow-lg text-left">
+                  <Button size="lg" className="bg-black hover:bg-brand-primary text-white rounded-xl px-6 py-6 border border-white/20 flex items-center gap-3 h-auto shadow-lg text-left cursor-pointer">
                     <Image src="/apple.svg" alt="App Store" width={24} height={24} className="w-6 h-6" />
                     <div className="flex flex-col items-start leading-none">
                       <span className="text-[10px] text-white/70 uppercase">Download on the</span>
