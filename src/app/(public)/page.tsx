@@ -19,7 +19,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center w-full">
       {/* Hero Section */}
-      <section className="w-full bg-brand-light pt-16 pb-24 lg:pt-32 lg:pb-40">
+      <section className="w-full bg-brand-light pt-16 pb-24 lg:pt-12 lg:pb-30">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
@@ -116,45 +116,51 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* App Download Banner */}
-      <section className="w-full mt-12 bg-brand-dark overflow-hidden relative">
-        <div className="container mx-auto px-4 lg:px-8 py-16">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            <div className="lg:w-1/2 text-center lg:text-left z-10">
-              <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">
-                Download Our App For Faster Ordering!
-              </h2>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-md px-6 py-6 border border-white/20 flex items-center gap-3 h-auto">
-                  <Image src="/google-play.svg" alt="Google Play" width={24} height={24} className="w-6 h-6" />
-                  <div className="flex flex-col items-start leading-none">
-                    <span className="text-[10px] text-white/70 uppercase">Get it on</span>
-                    <span className="text-base font-bold">Google Play</span>
-                  </div>
-                </Button>
-                <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-md px-6 py-6 border border-white/20 flex items-center gap-3 h-auto">
-                  <Image src="/apple.svg" alt="App Store" width={24} height={24} className="w-6 h-6" />
-                  <div className="flex flex-col items-start leading-none">
-                    <span className="text-[10px] text-white/70 uppercase">Download on the</span>
-                    <span className="text-base font-bold">App Store</span>
-                  </div>
-                </Button>
+      {/* App Download Banner (Separated/Floating Design) */}
+      <section className="w-full py-12 bg-white">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="bg-brand-light rounded-[2.5rem] overflow-hidden relative border border-blue-100/50 shadow-xl">
+            <div className="px-8 py-12 lg:py-16 lg:px-16 flex flex-col lg:flex-row items-center justify-between gap-12">
+
+              <div className="lg:w-1/2 text-center lg:text-left z-10">
+                <h2 className="text-3xl lg:text-4xl font-extrabold text-brand-dark mb-4">
+                  Get water delivered to your doorstep!
+                </h2>
+                <p className="text-slate-600 text-lg mb-8 max-w-md">
+                  Download our app for a faster, seamless ordering experience.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                  <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-xl px-6 py-6 border border-white/10 flex items-center gap-3 h-auto shadow-lg">
+                    <Image src="/google-play.svg" alt="Google Play" width={24} height={24} className="w-6 h-6" />
+                    <div className="flex flex-col items-start leading-none">
+                      <span className="text-[10px] text-white/70 uppercase">Get it on</span>
+                      <span className="text-base font-bold">Google Play</span>
+                    </div>
+                  </Button>
+                  <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-xl px-6 py-6 border border-white/10 flex items-center gap-3 h-auto shadow-lg">
+                    <Image src="/apple.svg" alt="App Store" width={24} height={24} className="w-6 h-6" />
+                    <div className="flex flex-col items-start leading-none">
+                      <span className="text-[10px] text-white/70 uppercase">Download on the</span>
+                      <span className="text-base font-bold">App Store</span>
+                    </div>
+                  </Button>
+                </div>
               </div>
-            </div>
 
-            <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
-              {/* Decorative circle behind phone */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+              <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
+                {/* Decorative glow behind phone */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-brand-primary/10 rounded-full blur-3xl"></div>
 
-              {/* Phone Mockup Image */}
-              <div className="relative z-10 w-[280px] lg:w-[320px]">
-                <Image
-                  src="/phone-design.png"
-                  alt="JovaDrops App Mockup"
-                  width={640}
-                  height={1280}
-                  className="w-full h-auto object-contain drop-shadow-2xl"
-                />
+                {/* Phone Mockup Image */}
+                <div className="relative z-10 w-[240px] lg:w-[280px]">
+                  <Image
+                    src="/phone-design.png"
+                    alt="JovaDrops App Mockup"
+                    width={640}
+                    height={1280}
+                    className="w-full h-auto object-contain drop-shadow-2xl"
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -17,7 +17,7 @@ export function PublicFooter() {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h4 className="font-bold text-base mb-4">Quick Links</h4>
+            <h4 className="font-bold text-base mb-4 text-white">Quick Links</h4>
             <ul className="space-y-2">
               <li><Link href="/" className="text-sm text-slate-300 hover:text-white transition-colors">Home</Link></li>
               <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">Products</Link></li>
@@ -29,7 +29,7 @@ export function PublicFooter() {
 
           {/* Column 3: Products */}
           <div>
-            <h4 className="font-bold text-base mb-4">Products</h4>
+            <h4 className="font-bold text-base mb-4 text-white">Products</h4>
             <ul className="space-y-2">
               <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">10L Bottle</Link></li>
               <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">20L Bottle</Link></li>
@@ -40,7 +40,7 @@ export function PublicFooter() {
 
           {/* Column 4: Contact Us */}
           <div>
-            <h4 className="font-bold text-base mb-4">Contact Us</h4>
+            <h4 className="font-bold text-base mb-4 text-white">Contact Us</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-brand-primary shrink-0 mt-1" />
