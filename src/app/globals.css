@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-brand-dark: #07193b;
-  --color-brand-primary: #1255c2;
+  --color-brand-dark: #062861;
+  --color-brand-primary: #0641a1;
   --color-brand-light: #eef4fc;
   --color-brand-accent: #2670e8;
   --color-background: var(--background);
@@ -125,13 +125,21 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-brand-dark;
   }
+
   html {
     @apply font-sans;
   }
-  h1, h2, h3, h4, h5, h6 {
-    @apply text-brand-dark font-bold tracking-tight;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold tracking-tight text-brand-dark;
   }
 }

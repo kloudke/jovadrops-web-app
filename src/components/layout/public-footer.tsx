@@ -21,7 +21,7 @@ export function PublicFooter() {
             <ul className="space-y-2">
               <li><Link href="/" className="text-sm text-slate-300 hover:text-white transition-colors">Home</Link></li>
               <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">Products</Link></li>
-              <li><Link href="/#how-it-works" className="text-sm text-slate-300 hover:text-white transition-colors">How It Works</Link></li>
+              <li><Link href="/how-it-works" className="text-sm text-slate-300 hover:text-white transition-colors">How It Works</Link></li>
               <li><Link href="/about" className="text-sm text-slate-300 hover:text-white transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="text-sm text-slate-300 hover:text-white transition-colors">Contact Us</Link></li>
             </ul>

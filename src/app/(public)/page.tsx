@@ -29,7 +29,7 @@ export default function HomePage() {
                 Every Drop.<br />
                 <span className="text-brand-primary">Every Time.</span>
               </h1>
-              <p className="text-lg text-slate-600 mb-10 max-w-lg leading-relaxed">
+              <p className="text-lg text-brand-dark/80 mb-10 max-w-lg leading-relaxed">
                 Clean, safe and affordable water refill solutions for a healthier you and a better tomorrow.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -88,9 +88,9 @@ export default function HomePage() {
       </section>
 
       {/* Why Choose Section */}
-      <section className="w-full py-16 bg-white">
+      <section className="w-full py-6 bg-white">
         <div className="container mx-auto px-4 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-12">Why Choose JovaDrops?</h2>
+          <h2 className="text-3xl font-bold mb-14">Why Choose JovaDrops?</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <WhyChooseItem
               icon={<CheckCircle className="w-8 h-8 text-brand-primary" />}
@@ -116,28 +116,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* App Download Banner (Separated/Floating Design) */}
-      <section className="w-full py-12 bg-white">
+      {/* App Download Banner (Floating/Sticking Out Design) */}
+      <section className="w-full py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="bg-brand-light rounded-[2.5rem] overflow-hidden relative border border-blue-100/50 shadow-xl">
-            <div className="px-8 py-12 lg:py-16 lg:px-16 flex flex-col lg:flex-row items-center justify-between gap-12">
+          <div className="bg-brand-light rounded-[2.5rem] relative border border-blue-100/50 shadow-xl">
+            <div className="px-8 py-10 lg:py-12 lg:px-16 flex flex-col lg:flex-row items-center justify-between gap-12">
 
               <div className="lg:w-1/2 text-center lg:text-left z-10">
-                <h2 className="text-3xl lg:text-4xl font-extrabold text-brand-dark mb-4">
+                <h2 className="text-3xl lg:text-4xl font-extrabold text-brand-dark mb-4 leading-tight">
                   Get water delivered to your doorstep!
                 </h2>
-                <p className="text-slate-600 text-lg mb-8 max-w-md">
+                <p className="text-brand-dark/80 text-lg mb-8 max-w-md">
                   Download our app for a faster, seamless ordering experience.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-xl px-6 py-6 border border-white/10 flex items-center gap-3 h-auto shadow-lg">
+                  <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-xl px-6 py-6 border border-white/20 flex items-center gap-3 h-auto shadow-lg text-left">
                     <Image src="/google-play.svg" alt="Google Play" width={24} height={24} className="w-6 h-6" />
                     <div className="flex flex-col items-start leading-none">
                       <span className="text-[10px] text-white/70 uppercase">Get it on</span>
                       <span className="text-base font-bold">Google Play</span>
                     </div>
                   </Button>
-                  <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-xl px-6 py-6 border border-white/10 flex items-center gap-3 h-auto shadow-lg">
+                  <Button size="lg" className="bg-black hover:bg-black/80 text-white rounded-xl px-6 py-6 border border-white/20 flex items-center gap-3 h-auto shadow-lg text-left">
                     <Image src="/apple.svg" alt="App Store" width={24} height={24} className="w-6 h-6" />
                     <div className="flex flex-col items-start leading-none">
                       <span className="text-[10px] text-white/70 uppercase">Download on the</span>
@@ -147,12 +147,12 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
+              <div className="lg:w-1/2 flex justify-center lg:justify-end relative lg:-my-24">
                 {/* Decorative glow behind phone */}
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-brand-primary/10 rounded-full blur-3xl"></div>
 
-                {/* Phone Mockup Image */}
-                <div className="relative z-10 w-[240px] lg:w-[280px]">
+                {/* Phone Mockup Image sticking out */}
+                <div className="relative z-10 w-[220px] lg:w-[260px] transform hover:scale-105 transition-transform duration-500">
                   <Image
                     src="/phone-design.png"
                     alt="JovaDrops App Mockup"
@@ -177,7 +177,7 @@ function FeatureItem({ icon, title, description }: { icon: React.ReactNode, titl
         {icon}
       </div>
       <div>
-        <h3 className="font-bold text-brand-dark text-base mb-1">{title}</h3>
+        <h3 className="font-bold text-base mb-1">{title}</h3>
         <p className="text-sm text-slate-500 leading-snug">{description}</p>
       </div>
     </div>
@@ -196,8 +196,8 @@ function WhyChooseItem({ icon, title, description }: { icon: React.ReactNode, ti
             </div>
           </div>
         </div>
-        <h3 className="font-bold text-brand-dark text-lg mb-3">{title}</h3>
-        <p className="text-sm text-slate-500">{description}</p>
+        <h3 className="font-bold text-lg mb-3">{title}</h3>
+        <p className="text-sm text-brand-dark/70">{description}</p>
       </CardContent>
     </Card>
   )
