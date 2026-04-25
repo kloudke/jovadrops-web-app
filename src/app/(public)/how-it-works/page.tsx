@@ -68,14 +68,14 @@ export default function HowItWorksPage() {
             <ProcessStep
               number={5}
               icon={<Zap className="w-12 h-12 text-brand-primary" />}
-              title="UV Purification"
+              title="UV Sterilization"
               description="Kills bacteria and viruses for 100% microbial safety."
               hasNext={true}
             />
             <ProcessStep
               number={6}
               icon={<Sparkles className="w-12 h-12 text-brand-primary" />}
-              title="Final Polishing"
+              title="Mineralization"
               description="Enhances taste, balances pH and ensures purity."
               hasNext={false}
             />
@@ -132,12 +132,13 @@ export default function HowItWorksPage() {
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-light rounded-full blur-3xl -z-10"></div>
 
               {/* Product Image placeholder for the big bottle */}
-              <div className="relative w-full max-w-md aspect-square">
+              <div className="relative flex justify-center items-center overflow-hidden rounded-[2rem] shadow-2xl lg:shadow-none">
                 <Image
                   src="/hero-image.png"
                   alt="JovaDrops Promise"
-                  fill
-                  className="object-contain drop-shadow-2xl"
+                  width={800}
+                  height={800}
+                  className="w-full h-auto max-w-[650px] lg:max-w-none object-contain z-10"
                 />
               </div>
             </div>
@@ -154,14 +155,14 @@ function ProcessStep({ number, icon, title, description, hasNext }: { number: nu
   return (
     <div className="flex flex-col items-center text-center w-full lg:w-1/6 px-2 mb-12 lg:mb-0 relative group">
 
-      {/* Number Badge */}
-      <div className="w-8 h-8 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold text-sm mb-6 shadow-md z-10">
-        {number}
-      </div>
-
       {/* Icon Circle */}
       <div className="w-24 h-24 rounded-full bg-brand-light flex items-center justify-center mb-6 relative z-10 group-hover:scale-105 transition-transform duration-300 shadow-sm border border-white">
         {icon}
+      </div>
+
+      {/* Number Badge */}
+      <div className="w-8 h-8 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold text-sm mb-6 shadow-md z-10">
+        {number}
       </div>
 
       {/* Content */}
@@ -175,7 +176,7 @@ function ProcessStep({ number, icon, title, description, hasNext }: { number: nu
 
       {/* Desktop Arrow (pointing to next) */}
       {hasNext && (
-        <div className="hidden lg:flex absolute top-[90px] -right-[12px] transform -translate-y-1/2 z-20 text-brand-primary/50">
+        <div className="hidden lg:flex absolute top-[48px] -right-[12px] transform -translate-y-1/2 z-20 text-brand-primary/50">
           <ArrowRight className="w-6 h-6" />
         </div>
       )}
