@@ -37,44 +37,49 @@ export default function HowItWorksPage() {
             {/* Desktop connecting line */}
             <div className="hidden lg:block absolute top-[90px] left-0 w-full h-[2px] bg-brand-light/50 -z-10"></div>
 
-            <ProcessStep
+            {/* <ProcessStep
               number={1}
-              icon={<Droplets className="w-12 h-12 text-brand-primary" />}
+              imageUrl="/raw-water-source.png"
               title="Raw Water Source"
               description="Carefully sourced from trusted underground sources."
               hasNext={true}
-            />
+            /> */}
             <ProcessStep
-              number={2}
-              icon={<Filter className="w-12 h-12 text-brand-primary" />}
+              number={1}
+              imageUrl="/pre-filtration.png"
+              imageBg="#d6e0f7"
               title="Pre-Filtration"
               description="Removes dust, dirt, sand and large impurities."
               hasNext={true}
             />
             <ProcessStep
-              number={3}
-              icon={<Cylinder className="w-12 h-12 text-brand-primary" />}
+              number={2}
+              imageUrl="/carbon-filtration.png"
+              imageBg="#f4f4f9"
               title="Carbon Filtration"
               description="Reduces chlorine, odors and organic compounds."
               hasNext={true}
             />
             <ProcessStep
-              number={4}
-              icon={<FlaskConical className="w-12 h-12 text-brand-primary" />}
+              number={3}
+              imageUrl="/ro-filtration.png"
+              imageBg="#e8e8ea"
               title="RO Filtration"
               description="Removes dissolved salts, heavy metals and contaminants."
               hasNext={true}
             />
             <ProcessStep
-              number={5}
-              icon={<Zap className="w-12 h-12 text-brand-primary" />}
+              number={4}
+              imageUrl="/uv-sterilization.png"
+              imageBg="#a0c1e5"
               title="UV Sterilization"
               description="Kills bacteria and viruses for 100% microbial safety."
               hasNext={true}
             />
             <ProcessStep
-              number={6}
-              icon={<Sparkles className="w-12 h-12 text-brand-primary" />}
+              number={5}
+              imageUrl="/mineralization.png"
+              imageBg="#d6e8fb"
               title="Mineralization"
               description="Enhances taste, balances pH and ensures purity."
               hasNext={false}
@@ -119,7 +124,7 @@ export default function HowItWorksPage() {
 
             <div className="lg:w-1/2 text-center lg:text-left">
               <h2 className="text-4xl lg:text-5xl font-extrabold text-brand-dark tracking-tight leading-[1.2] mb-6">
-                Pure. Safe. Refreshing.<br />
+                Pure, Safe, Refreshing.<br />
                 <span className="text-brand-primary">That's the JovaDrops Promise.</span>
               </h2>
               <p className="text-lg text-brand-dark/80 max-w-lg mx-auto lg:mx-0 leading-relaxed">
@@ -134,7 +139,7 @@ export default function HowItWorksPage() {
               {/* Product Image placeholder for the big bottle */}
               <div className="relative flex justify-center items-center overflow-hidden rounded-[2rem] shadow-2xl lg:shadow-none">
                 <Image
-                  src="/hero-image.png"
+                  src="/hero-image-how-it-works.png"
                   alt="JovaDrops Promise"
                   width={800}
                   height={800}
@@ -151,13 +156,20 @@ export default function HowItWorksPage() {
   )
 }
 
-function ProcessStep({ number, icon, title, description, hasNext }: { number: number, icon: React.ReactNode, title: string, description: string, hasNext: boolean }) {
+function ProcessStep({ number, icon, imageUrl, imageBg, title, description, hasNext }: { number: number, icon?: React.ReactNode, imageUrl?: string, imageBg?: string, title: string, description: string, hasNext: boolean }) {
   return (
-    <div className="flex flex-col items-center text-center w-full lg:w-1/6 px-2 mb-12 lg:mb-0 relative group">
+    <div className="flex flex-col items-center text-center w-full lg:w-1/5 px-2 mb-12 lg:mb-0 relative group">
 
       {/* Icon Circle */}
-      <div className="w-24 h-24 rounded-full bg-brand-light flex items-center justify-center mb-6 relative z-10 group-hover:scale-105 transition-transform duration-300 shadow-sm border border-white">
-        {icon}
+      <div
+        className={`w-40 h-40 rounded-full flex items-center justify-center mb-6 relative z-10 group-hover:scale-105 transition-transform duration-300 shadow-sm border border-white overflow-hidden ${!imageBg && !imageUrl ? 'bg-brand-light' : ''}`}
+        style={imageBg ? { backgroundColor: imageBg } : {}}
+      >
+        {imageUrl ? (
+          <Image src={imageUrl} alt={title} fill className="object-contain" />
+        ) : (
+          icon
+        )}
       </div>
 
       {/* Number Badge */}
@@ -176,7 +188,7 @@ function ProcessStep({ number, icon, title, description, hasNext }: { number: nu
 
       {/* Desktop Arrow (pointing to next) */}
       {hasNext && (
-        <div className="hidden lg:flex absolute top-[48px] -right-[12px] transform -translate-y-1/2 z-20 text-brand-primary/50">
+        <div className="hidden lg:flex absolute top-[80px] -right-[12px] transform -translate-y-1/2 z-20 text-brand-primary/50">
           <ArrowRight className="w-6 h-6" />
         </div>
       )}
