@@ -125,7 +125,7 @@ export default function HowItWorksPage() {
             <div className="lg:w-1/2 text-center lg:text-left">
               <h2 className="text-4xl lg:text-5xl font-extrabold text-brand-dark tracking-tight leading-[1.2] mb-6">
                 Pure, Safe, Refreshing.<br />
-                <span className="text-brand-primary">That's the JovaDrops Promise.</span>
+                <span className="text-brand-primary">That&apos;s the JovaDrops Promise.</span>
               </h2>
               <p className="text-lg text-brand-dark/80 max-w-lg mx-auto lg:mx-0 leading-relaxed">
                 We follow a strict multi-stage purification process to deliver water that is safe, healthy and refreshing for you and your family.
