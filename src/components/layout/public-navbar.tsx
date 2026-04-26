@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { UserCircle, Menu, X } from 'lucide-react'
+import { Menu, X, ShoppingCart } from 'lucide-react'
 import { Logo } from '@/components/ui/logo'
+import { Button } from '@/components/ui/button'
 
 export function PublicNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -26,14 +27,16 @@ export function PublicNavbar() {
         </nav>
 
         {/* Actions & Mobile Toggle */}
-        <div className="flex items-center gap-4">
-          <Link
-            href="/login"
-            className="hidden sm:flex text-brand-dark hover:text-brand-primary transition-colors"
-          >
-            <UserCircle className="w-8 h-8 stroke-[1.5]" />
-            <span className="sr-only">Sign In / Sign Up</span>
-          </Link>
+        <div className="flex items-center gap-6">
+          <div className="hidden sm:flex items-center gap-6">
+            <Link href="/cart" className="relative text-brand-dark hover:text-brand-primary transition-colors cursor-pointer">
+              <ShoppingCart className="w-7 h-7 stroke-[1.5]" />
+              <span className="absolute -top-1.5 -right-2 bg-brand-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+            </Link>
+            <Button className="bg-brand-dark hover:bg-brand-primary text-white rounded-lg px-6 py-5 text-sm font-semibold cursor-pointer">
+              Order Now
+            </Button>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -55,12 +58,12 @@ export function PublicNavbar() {
           <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-semibold text-brand-dark p-3 hover:bg-brand-light rounded-md">Contact Us</Link>
           <div className="pt-4 mt-2 border-t border-slate-100 flex justify-center">
             <Link
-              href="/login"
+              href="/cart"
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center justify-center gap-2 w-full bg-brand-dark text-white font-medium p-3 rounded-xl hover:bg-brand-primary transition-colors cursor-pointer"
             >
-              <UserCircle className="w-5 h-5" />
-              <span></span>
+              <ShoppingCart className="w-5 h-5" />
+              <span>Order Now</span>
             </Link>
           </div>
         </div>
