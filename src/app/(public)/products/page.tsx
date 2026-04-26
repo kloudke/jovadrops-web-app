@@ -91,7 +91,7 @@ export default function ProductsPage() {
 
 import Link from "next/link"
 
-function ProductCard({ product }: { product: any }) {
+function ProductCard({ product }: { product: { id: number | string; name: string; volume: string; price: string; category: string } }) {
   return (
     <div className="flex flex-col items-center p-6 bg-white rounded-2xl border border-slate-100 hover:shadow-xl hover:border-brand-primary/20 transition-all duration-300 group">
       
