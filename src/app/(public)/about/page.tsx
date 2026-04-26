@@ -21,7 +21,7 @@ export default function AboutPage() {
           {/* Storefront Image Placeholder */}
           <div className="w-full h-[320px] lg:h-[360px] relative rounded-3xl overflow-hidden bg-slate-100 shadow-md lg:col-span-5">
             <Image
-              src="/hero-image-how-it-works.png" // Placeholder
+              src="/hero-image-about.png" // Placeholder
               alt="JovaDrops Storefront"
               fill
               className="object-cover object-center"
@@ -53,7 +53,7 @@ export default function AboutPage() {
             <div className="relative w-full flex-grow min-h-[100px] lg:min-h-[120px] mb-2">
               <div className="absolute inset-0 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
               <Image
-                src="/hero-image.png" // Placeholder
+                src="/heart.png" // Placeholder
                 alt="Water Heart Splash"
                 fill
                 className="object-contain relative z-10"
@@ -159,9 +159,9 @@ export default function AboutPage() {
 
             {/* Middle Image */}
             <div className="relative w-full aspect-square max-w-xs mx-auto flex justify-center items-center">
-              <div className="absolute inset-0 bg-blue-100 rounded-full blur-[60px] opacity-60"></div>
+              <div className="absolute inset-0 bg-blue-100 rounded-sm blur-[60px] opacity-60"></div>
               <Image
-                src="/hero-image.png" // Placeholder
+                src="/heart.png" // Placeholder
                 alt="Community Impact"
                 fill
                 className="object-contain relative z-10 p-4"
