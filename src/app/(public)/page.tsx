@@ -19,7 +19,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center w-full">
       {/* Hero Section */}
-      <section className="w-full bg-brand-light pt-16 pb-24 lg:pt-12 lg:pb-30">
+      <section className="w-full bg-brand-light pt-8 pb-16 lg:pt-8 lg:pb-24">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
@@ -32,15 +32,28 @@ export default function HomePage() {
               <p className="text-lg text-brand-dark/80 mb-10 max-w-lg leading-relaxed">
                 Clean, safe and affordable water refill solutions for a healthier you and a better tomorrow.
               </p>
-              <div className="flex flex-wrap items-center gap-4">
-                <Button size="lg" className="bg-brand-dark hover:bg-brand-primary text-white rounded-md px-8 py-6 text-base font-semibold cursor-pointer">
-                  <ShoppingCart className="mr-2 h-5 w-5" />
-                  Order Now
-                </Button>
-                <Button size="lg" variant="outline" className="border-brand-primary text-brand-primary hover:bg-brand-light rounded-md px-8 py-6 text-base font-semibold cursor-pointer">
-                  <MapPin className="mr-2 h-5 w-5" />
-                  Find Station
-                </Button>
+              <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
+                {/* Safe & Purified Card */}
+                <div className="flex items-center gap-4 bg-white rounded-2xl p-4 shadow-sm border border-slate-100 w-full sm:w-auto pr-8">
+                  <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-100/50">
+                    <ShieldCheck className="w-6 h-6 text-brand-primary" />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <h4 className="text-sm font-bold text-brand-dark">100% Safe & Purified</h4>
+                    <p className="text-xs text-slate-500 leading-tight mt-0.5">Multi-stage purification<br />for your health</p>
+                  </div>
+                </div>
+
+                {/* Refreshing & Healthy Card */}
+                <div className="flex items-center gap-4 bg-white rounded-2xl p-4 shadow-sm border border-slate-100 w-full sm:w-auto pr-8">
+                  <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-100/50">
+                    <Droplet className="w-6 h-6 text-brand-primary" />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <h4 className="text-sm font-bold text-brand-dark">Refreshing & Healthy</h4>
+                    <p className="text-xs text-slate-500 leading-tight mt-0.5">Better water for a<br />better tomorrow</p>
+                  </div>
+                </div>
               </div>
             </div>
 
