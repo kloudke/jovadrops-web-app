@@ -33,9 +33,12 @@ export function PublicNavbar() {
               <ShoppingCart className="w-7 h-7 stroke-[1.5]" />
               <span className="absolute -top-1.5 -right-2 bg-brand-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
             </Link>
-            <Button className="bg-brand-dark hover:bg-brand-primary text-white rounded-lg px-6 py-5 text-sm font-semibold cursor-pointer">
+            <Link 
+              href="/products" 
+              className="bg-brand-dark hover:bg-brand-primary text-white rounded-lg px-6 py-3 text-sm font-semibold cursor-pointer flex items-center justify-center transition-colors"
+            >
               Order Now
-            </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -58,7 +61,7 @@ export function PublicNavbar() {
           <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-base font-semibold text-brand-dark p-3 hover:bg-brand-light rounded-md">Contact Us</Link>
           <div className="pt-4 mt-2 border-t border-slate-100 flex justify-center">
             <Link
-              href="/cart"
+              href="/products"
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center justify-center gap-2 w-full bg-brand-dark text-white font-medium p-3 rounded-xl hover:bg-brand-primary transition-colors cursor-pointer"
             >
