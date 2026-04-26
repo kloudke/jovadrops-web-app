@@ -3,6 +3,8 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   ChevronRight,
@@ -21,7 +23,7 @@ import {
 const product = {
   id: "20l-bottle",
   name: "20L Water Bottle",
-  price: "$3.50",
+  price: "KSH 400",
   reviews: 128,
   description: "Our 20L bottle is perfect for families and offices. Made from high-quality, BPA-free material.",
   features: [
@@ -34,6 +36,17 @@ const product = {
 
 export default function ProductDetailsPage() {
   const [quantity, setQuantity] = useState(1)
+  const { data: session } = useSession()
+  const router = useRouter()
+
+  const handleAction = () => {
+    if (!session) {
+      router.push("/login")
+    } else {
+      // In a real app, this would dispatch an action to a global cart state or API
+      alert("Successfully added to your cart!")
+    }
+  }
 
   return (
     <div className="flex flex-col items-center w-full bg-white pb-24">
