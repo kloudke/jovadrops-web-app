@@ -1,4 +1,4 @@
-# JovaDrops Project Documentation: Current Implementation
+# JovaDrops Web Application
 
 This document provides a detailed overview of the Water Refill Station Unified Platform (JovaDrops) as of April 2026.
 
