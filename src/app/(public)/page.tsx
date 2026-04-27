@@ -26,9 +26,9 @@ export default function HomePage() {
             {/* Left Content */}
             <div className="max-w-2xl">
               <h1 className="text-5xl lg:text-7xl font-extrabold text-brand-dark tracking-tight leading-[1.1] mb-6">
-                Pure Water.<br />
-                Every Drop.<br />
-                <span className="text-brand-primary">Every Time.</span>
+                Pure water<br />
+                Healthy life<br />
+                <span className="text-brand-primary">All the time</span>
               </h1>
               <p className="text-lg text-brand-dark/80 mb-10 max-w-lg leading-relaxed">
                 Clean, safe and affordable water refill solutions for a healthier you and a better tomorrow.
