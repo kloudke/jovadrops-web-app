@@ -13,16 +13,16 @@ export default function LoginPage() {
       <div className="flex w-full max-w-[760px] bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[85vh]">
 
         {/* Left side: Image */}
-        <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-[#E6F0FF] to-[#D1E4FF] relative items-center justify-center p-6">
+        <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-[#E6F0FF] to-[#D1E4FF] relative items-center justify-center overflow-hidden">
           {/* Decorative background glow */}
           <div className="absolute inset-0 bg-blue-400/5 blur-3xl rounded-full"></div>
           <div className="relative z-10 w-full h-full flex items-center justify-center">
             <Image
-              src="/form.png"
+              src="/login.png"
               alt="JovaDrops Water"
               fill
               sizes="40vw"
-              className="object-contain p-4 drop-shadow-2xl hover:scale-105 transition-transform duration-700"
+              className="object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
         </div>

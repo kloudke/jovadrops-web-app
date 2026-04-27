@@ -13,20 +13,19 @@ export default function RegisterPage() {
       <div className="flex w-full max-w-[760px] bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh]">
 
         {/* Left side: Image */}
-        <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-[#E6F0FF] to-[#D1E4FF] relative items-center justify-center p-6">
+        <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-[#E6F0FF] to-[#D1E4FF] relative items-center justify-center overflow-hidden">
           {/* Decorative background glow */}
           <div className="absolute inset-0 bg-blue-400/5 blur-3xl rounded-full"></div>
           <div className="relative z-10 w-full h-full flex items-center justify-center">
             <Image
-              src="/form.png"
+              src="/login.png"
               alt="JovaDrops Water"
               fill
               sizes="40vw"
-              className="object-contain p-4 drop-shadow-2xl hover:scale-105 transition-transform duration-700"
+              className="object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
         </div>
-
         {/* Right side: Form */}
         <div className="w-full lg:w-1/2 flex flex-col p-6 overflow-y-auto">
           <div className="w-full max-w-[300px] mx-auto flex flex-col h-full justify-center">
@@ -37,7 +36,7 @@ export default function RegisterPage() {
 
             <div className="text-center mb-4">
               <h1 className="text-[20px] font-bold text-brand-dark mb-1 tracking-tight">Create Account</h1>
-              <p className="text-slate-500 text-[11px]">If you don't have an account, create one to proceed.</p>
+              <p className="text-slate-500 text-[11px]">Create an account to continue.</p>
             </div>
 
             <form className="space-y-2.5" action="#">
