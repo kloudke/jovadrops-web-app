@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Logo } from '@/components/ui/logo'
 import { useActionState } from 'react'
-import { registerUser } from '@/app/actions/auth'
+import { registerUser, oauthSignIn } from '@/app/actions/auth'
 
 export default function RegisterPage() {
   const [state, formAction, isPending] = useActionState(registerUser, undefined)
@@ -96,11 +96,11 @@ export default function RegisterPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline" className="h-[38px] rounded-xl border-slate-200 hover:bg-slate-50 hover:border-slate-300 font-semibold text-slate-600 flex items-center justify-center gap-2 transition-all text-[12px]">
+              <Button onClick={() => oauthSignIn("google")} variant="outline" className="h-[38px] rounded-xl border-slate-200 hover:bg-slate-50 hover:border-slate-300 font-semibold text-slate-600 flex items-center justify-center gap-2 transition-all text-[12px]">
                 <Image src="/google.svg" alt="Google" width={14} height={14} />
                 Google
               </Button>
-              <Button variant="outline" className="h-[38px] rounded-xl border-slate-200 hover:bg-slate-50 hover:border-slate-300 font-semibold text-slate-600 flex items-center justify-center gap-2 transition-all text-[12px]">
+              <Button onClick={() => oauthSignIn("apple")} variant="outline" className="h-[38px] rounded-xl border-slate-200 hover:bg-slate-50 hover:border-slate-300 font-semibold text-slate-600 flex items-center justify-center gap-2 transition-all text-[12px]">
                 <Image src="/apple-dark.svg" alt="Apple" width={14} height={14} />
                 Apple
               </Button>

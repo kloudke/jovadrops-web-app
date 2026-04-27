@@ -80,3 +80,7 @@ export async function loginUser(prevState: any, formData: FormData) {
     throw error
   }
 }
+
+export async function oauthSignIn(provider: string) {
+  await signIn(provider, { redirectTo: "/products" })
+}

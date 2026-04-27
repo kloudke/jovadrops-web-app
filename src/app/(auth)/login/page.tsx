@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Logo } from '@/components/ui/logo'
 import { useActionState } from 'react'
-import { loginUser } from '@/app/actions/auth'
+import { loginUser, oauthSignIn } from '@/app/actions/auth'
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(loginUser, undefined)
