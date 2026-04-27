@@ -168,11 +168,11 @@ export default function ProductDetailsPage() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="flex-1 bg-brand-primary hover:bg-brand-primary/90 text-white rounded-xl py-7 shadow-lg shadow-brand-primary/20 text-lg cursor-pointer">
+              <Button size="lg" onClick={handleAction} className="flex-1 bg-brand-primary hover:bg-brand-primary/90 text-white rounded-xl py-7 shadow-lg shadow-brand-primary/20 text-lg cursor-pointer">
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Add To Cart
               </Button>
-              <Button size="lg" variant="outline" className="flex-1 border-slate-200 text-brand-dark hover:bg-brand-light hover:text-brand-primary rounded-xl py-7 text-lg cursor-pointer">
+              <Button size="lg" variant="outline" onClick={handleAction} className="flex-1 border-slate-200 text-brand-dark hover:bg-brand-light hover:text-brand-primary rounded-xl py-7 text-lg cursor-pointer">
                 Order Now
               </Button>
             </div>
