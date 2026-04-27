@@ -39,41 +39,41 @@ This diagram details the internal structure of the Next.js App Router and shared
 
 ```mermaid
 graph TB
-    subgraph "Next.js App Router (src/app)"
-        subgraph "(public) Group"
+    subgraph APP [Next.js App Router]
+        subgraph PUBLIC_GRP ["(public) Group"]
             P1[Home Page]
             P2[Products Page]
             P3[About/Contact]
         end
         
-        subgraph "(admin) Group"
+        subgraph ADMIN_GRP ["(admin) Group"]
             A1[Dashboard Metrics]
             A2[Order Management]
             A3[Inventory/Delivery]
         end
         
-        subgraph "api Group"
+        subgraph API_GRP ["api Group"]
             API_R[Auth/Orders/Products Routes]
         end
     end
 
-    subgraph "Shared Core (src/)"
+    subgraph CORE [Shared Core]
         COMP[UI Components - shadcn/ui]
         LIB[Lib - Utils/Prisma Client]
         AUTH[NextAuth.js Config]
         TYPE[Types/Interfaces]
     end
 
-    subgraph "Database Access"
+    subgraph DB_ACCESS [Database Access]
         PRISMA[Prisma Schema/Client]
     end
 
-    (public) --> COMP
-    (public) --> LIB
-    (admin) --> COMP
-    (admin) --> AUTH
-    api --> AUTH
-    api --> LIB
+    PUBLIC_GRP --> COMP
+    PUBLIC_GRP --> LIB
+    ADMIN_GRP --> COMP
+    ADMIN_GRP --> AUTH
+    API_GRP --> AUTH
+    API_GRP --> LIB
 
     COMP --> TYPE
     LIB --> PRISMA
