@@ -1,3 +1,5 @@
+"use client"
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
@@ -5,8 +7,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Logo } from '@/components/ui/logo'
+import { useActionState } from 'react'
+import { registerUser } from '@/app/actions/auth'
 
 export default function RegisterPage() {
+  const [state, formAction, isPending] = useActionState(registerUser, undefined)
+
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-[#F4F9FF] p-4 sm:p-6">
       {/* Main Card */}
@@ -17,12 +23,12 @@ export default function RegisterPage() {
           {/* Decorative background glow */}
           <div className="absolute inset-0 bg-blue-400/5 blur-3xl rounded-full"></div>
           <div className="relative z-10 w-full h-full flex items-center justify-center">
-            <Image
-              src="/login.png"
-              alt="JovaDrops Water"
-              fill
+            <Image 
+              src="/login.png" 
+              alt="JovaDrops Water" 
+              fill 
               sizes="40vw"
-              className="object-cover hover:scale-105 transition-transform duration-700"
+              className="object-cover hover:scale-105 transition-transform duration-700" 
             />
           </div>
         </div>
@@ -39,41 +45,47 @@ export default function RegisterPage() {
               <p className="text-slate-500 text-[11px]">Create an account to continue.</p>
             </div>
 
-            <form className="space-y-2.5" action="#">
+            <form className="space-y-2.5" action={formAction}>
+              {state?.error && (
+                <div className="p-3 text-[12px] bg-red-50 text-red-600 rounded-xl border border-red-100 text-center">
+                  {state.error}
+                </div>
+              )}
+
               <div className="space-y-1">
                 <Label htmlFor="name" className="text-slate-700 font-semibold text-[10px] ml-1">Full Name</Label>
-                <Input id="name" type="text" placeholder="Enter your full name" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
+                <Input id="name" name="name" type="text" placeholder="Enter your full name" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
               </div>
 
               <div className="space-y-1">
                 <Label htmlFor="email" className="text-slate-700 font-semibold text-[10px] ml-1">Email</Label>
-                <Input id="email" type="email" placeholder="Enter your email" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
+                <Input id="email" name="email" type="email" placeholder="Enter your email" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
               </div>
 
               <div className="space-y-1">
                 <Label htmlFor="phone" className="text-slate-700 font-semibold text-[10px] ml-1">Phone Number</Label>
-                <Input id="phone" type="tel" placeholder="Enter your phone number" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
+                <Input id="phone" name="phone" type="tel" placeholder="Enter your phone number" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
               </div>
 
               <div className="space-y-1">
                 <Label htmlFor="password" className="text-slate-700 font-semibold text-[10px] ml-1">Password</Label>
-                <Input id="password" type="password" placeholder="Create a password" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
+                <Input id="password" name="password" type="password" placeholder="Create a password" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
               </div>
 
               <div className="space-y-1">
                 <Label htmlFor="confirm-password" className="text-slate-700 font-semibold text-[10px] ml-1">Confirm Password</Label>
-                <Input id="confirm-password" type="password" placeholder="Confirm your password" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
+                <Input id="confirm-password" name="confirm-password" type="password" placeholder="Confirm your password" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[12px]" required />
               </div>
 
               <div className="flex items-start space-x-2 pt-1 pb-1">
-                <Checkbox id="terms" className="rounded mt-0.5 border-slate-300 text-brand-primary data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary scale-90" required />
+                <Checkbox id="terms" name="terms" className="rounded mt-0.5 border-slate-300 text-brand-primary data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary scale-90" required />
                 <Label htmlFor="terms" className="text-[11px] font-medium leading-tight text-slate-600 cursor-pointer select-none">
                   I agree to the <Link href="#" className="text-brand-primary hover:text-brand-primary/80 hover:underline font-semibold transition-all">Terms & Conditions</Link>
                 </Label>
               </div>
 
-              <Button type="submit" className="w-full h-[38px] rounded-xl text-[12px] font-semibold bg-brand-primary hover:bg-brand-primary/90 text-white shadow-md shadow-brand-primary/25 transition-all active:scale-[0.98]">
-                Sign Up
+              <Button type="submit" disabled={isPending} className="w-full h-[38px] rounded-xl text-[12px] font-semibold bg-brand-primary hover:bg-brand-primary/90 text-white shadow-md shadow-brand-primary/25 transition-all active:scale-[0.98] disabled:opacity-70">
+                {isPending ? "Signing Up..." : "Sign Up"}
               </Button>
             </form>
 

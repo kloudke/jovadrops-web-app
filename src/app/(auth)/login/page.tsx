@@ -1,3 +1,5 @@
+"use client"
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
@@ -5,8 +7,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Logo } from '@/components/ui/logo'
+import { useActionState } from 'react'
+import { loginUser } from '@/app/actions/auth'
 
 export default function LoginPage() {
+  const [state, formAction, isPending] = useActionState(loginUser, undefined)
+
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-[#F4F9FF] p-4 sm:p-6">
       {/* Main Card */}
@@ -40,16 +46,22 @@ export default function LoginPage() {
               <p className="text-slate-500 text-[11px]">Sign in to your account to continue.</p>
             </div>
 
-            <form className="space-y-3" action="#">
+            <form className="space-y-3" action={formAction}>
+              {state?.error && (
+                <div className="p-3 text-[12px] bg-red-50 text-red-600 rounded-xl border border-red-100 text-center">
+                  {state.error}
+                </div>
+              )}
+              
               <div className="space-y-1">
                 <Label htmlFor="email" className="text-slate-700 font-semibold text-[11px] ml-1">Email</Label>
-                <Input id="email" type="email" placeholder="Enter your email" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[13px]" required />
+                <Input id="email" name="email" type="email" placeholder="Enter your email" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 text-[13px]" required />
               </div>
 
               <div className="space-y-1">
                 <Label htmlFor="password" className="text-slate-700 font-semibold text-[11px] ml-1">Password</Label>
                 <div className="relative">
-                  <Input id="password" type="password" placeholder="Enter your password" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 pr-9 text-[13px]" required />
+                  <Input id="password" name="password" type="password" placeholder="Enter your password" className="rounded-xl h-[38px] border-slate-200 bg-slate-50/50 focus-visible:bg-white focus-visible:ring-brand-primary/20 transition-all px-3 pr-9 text-[13px]" required />
                   <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-primary transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></svg>
                   </button>
@@ -58,7 +70,7 @@ export default function LoginPage() {
 
               <div className="flex items-center justify-between pt-1 pb-3">
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="remember" className="rounded border-slate-300 text-brand-primary data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary scale-90" />
+                  <Checkbox id="remember" name="remember" className="rounded border-slate-300 text-brand-primary data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary scale-90" />
                   <Label htmlFor="remember" className="text-[11px] font-medium leading-none text-slate-600 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer select-none">
                     Remember me
                   </Label>
@@ -68,8 +80,8 @@ export default function LoginPage() {
                 </Link>
               </div>
 
-              <Button type="submit" className="w-full h-[38px] rounded-xl text-[12px] font-semibold bg-brand-primary hover:bg-brand-primary/90 text-white shadow-md shadow-brand-primary/25 transition-all active:scale-[0.98]">
-                Sign In
+              <Button type="submit" disabled={isPending} className="w-full h-[38px] rounded-xl text-[12px] font-semibold bg-brand-primary hover:bg-brand-primary/90 text-white shadow-md shadow-brand-primary/25 transition-all active:scale-[0.98] disabled:opacity-70">
+                {isPending ? "Signing In..." : "Sign In"}
               </Button>
             </form>
 
