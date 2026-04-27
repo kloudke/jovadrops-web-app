@@ -1,6 +1,6 @@
-# Water Refill Station Unified Platform: Architecture Diagrams
+# System Architecture Diagrams
 
-This document provides a visual representation of the unified platform architecture as described in the `unified-platform-architecture.md` technical design document.
+This document provides a visual representation of the system architecture as described in the `unified-platform-architecture.md` technical design document.
 
 ## 1. System Landscape Diagram
 This diagram shows the high-level actors and their interactions with the unified platform.
