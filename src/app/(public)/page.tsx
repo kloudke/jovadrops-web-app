@@ -1,3 +1,4 @@
+import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -130,7 +131,7 @@ export default function HomePage() {
       </section>
 
       {/* App Download Banner (Floating/Sticking Out Design) */}
-      <section className="w-full py-20 bg-white">
+      <section className="w-full py-10 bg-white">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="bg-brand-light rounded-[2.5rem] relative border border-blue-100/50 shadow-xl">
             <div className="px-8 py-10 lg:py-12 lg:px-16 flex flex-col lg:flex-row items-center justify-between gap-12">
@@ -142,21 +143,25 @@ export default function HomePage() {
                 <p className="text-brand-dark/80 text-lg mb-8 max-w-md">
                   Download our app for a faster, seamless ordering experience.
                 </p>
-                <div className="grid grid-cols-2 gap-3 justify-center lg:justify-start w-full sm:w-auto max-w-[340px] mx-auto lg:mx-0">
-                  <Button size="lg" className="bg-brand-dark hover:bg-brand-primary text-white rounded-xl px-3 py-3 sm:px-6 sm:py-6 border border-white/20 flex items-center gap-2 sm:gap-3 h-auto shadow-lg text-left cursor-pointer w-full justify-center">
-                    <Image src="/google-play.svg" alt="Google Play" width={24} height={24} className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
-                    <div className="flex flex-col items-start leading-none shrink-0">
-                      <span className="text-[8px] sm:text-[10px] text-white/70 uppercase">Get it on</span>
-                      <span className="text-sm sm:text-base font-bold">Google Play</span>
+                <div className="flex flex-row gap-3 justify-center lg:justify-start w-full mx-auto lg:mx-0">
+                  <Link href="#" className="inline-block hover:opacity-90 transition-opacity">
+                    <div className="bg-black border border-white/20 shadow-lg rounded-lg px-4 py-2 flex items-center gap-3 w-[160px] h-[52px]">
+                      <Image src="/google-play.svg" alt="Google Play" width={24} height={24} className="shrink-0" />
+                      <div className="flex flex-col text-left">
+                        <span className="text-[9px] text-white/80 leading-none mb-0.5 uppercase tracking-wide">GET IT ON</span>
+                        <span className="text-[13px] font-semibold text-white leading-none tracking-wide font-sans">Google Play</span>
+                      </div>
                     </div>
-                  </Button>
-                  <Button size="lg" className="bg-brand-dark hover:bg-brand-primary text-white rounded-xl px-3 py-3 sm:px-6 sm:py-6 border border-white/20 flex items-center gap-2 sm:gap-3 h-auto shadow-lg text-left cursor-pointer w-full justify-center">
-                    <Image src="/apple.svg" alt="App Store" width={24} height={24} className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
-                    <div className="flex flex-col items-start leading-none shrink-0">
-                      <span className="text-[8px] sm:text-[10px] text-white/70 uppercase">Download on the</span>
-                      <span className="text-sm sm:text-base font-bold">App Store</span>
+                  </Link>
+                  <Link href="#" className="inline-block hover:opacity-90 transition-opacity">
+                    <div className="bg-black border border-white/20 shadow-lg rounded-lg px-4 py-2 flex items-center gap-3 w-[160px] h-[52px]">
+                      <Image src="/apple-light.svg" alt="App Store" width={24} height={24} className="shrink-0" />
+                      <div className="flex flex-col text-left">
+                        <span className="text-[9px] text-white/80 leading-none mb-0.5">Download on the</span>
+                        <span className="text-[13px] font-semibold text-white leading-none tracking-wide font-sans">App Store</span>
+                      </div>
                     </div>
-                  </Button>
+                  </Link>
                 </div>
               </div>
 
