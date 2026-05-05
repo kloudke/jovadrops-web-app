@@ -66,4 +66,3 @@ The public-facing site is designed for high conversion and pixel-perfect brand a
 - **Pixel-Perfect Implementation:** CSS grid and flexbox layouts are manually tuned to match provided UI design mockups (`.png`).
 
 ---
-*Last Updated: Sunday, April 26, 2026*
