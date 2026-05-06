@@ -10,8 +10,8 @@ const products = [
   { id: 2, name: "20L Water Bottle", volume: "20 Litres", price: "KSH 400", category: "20L Litres" },
   { id: 3, name: "Frosted Can", volume: "18.9 Litres", price: "KSH 400", category: "Stanley Cups" },
   { id: 4, name: "5L Water Bottle", volume: "5 Litres", price: "KSH 100", category: "5L Litres" },
-  { id: 5, name: "1L Pack (24)", volume: "1 Litre x 24", price: "KSH 440", category: "1L Pack" },
-  { id: 6, name: "500ml Pack (24)", volume: "500ml x 24", price: "KSH 500", category: "500ml Pack" },
+  { id: 5, name: "1L Pack (24)", volume: "1 Litre x 24", price: "KSH 440", category: "Pack" },
+  { id: 6, name: "500ml Pack (24)", volume: "500ml x 24", price: "KSH 500", category: "Pack" },
   { id: 7, name: "Mood the Cup", volume: "18.9 Litres", price: "KSH 400", category: "Stanley Cups" },
 ]
 
@@ -21,8 +21,7 @@ const categories = [
   "20L Litres",
   "Stanley Cups",
   "5L Litres",
-  "1L Pack",
-  "500ml Pack"
+  "Pack"
 ]
 
 export default function ProductsPage() {
