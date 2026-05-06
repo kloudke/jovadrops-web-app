@@ -49,11 +49,11 @@ export function PublicFooter() {
           <div className="lg:ml-auto">
             <h4 className="font-semibold text-[15px] mb-5 text-white">Products</h4>
             <ul className="space-y-3">
-              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">10L Bottles</Link></li>
-              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">20L Bottles</Link></li>
-              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">Dispenser Bottle</Link></li>
-              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">5L Bottles</Link></li>
-              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">Alkaline Water 10L</Link></li>
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">20 Litres</Link></li>
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">10 Litres</Link></li>
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">5 Litres</Link></li>
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">1 Litre</Link></li>
+              <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">Stanley Cups</Link></li>
             </ul>
           </div>
 
