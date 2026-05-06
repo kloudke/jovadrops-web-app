@@ -64,5 +64,3 @@ The public-facing site is designed for high conversion and pixel-perfect brand a
 - **Component Architecture:** Atomic design using a dedicated `components/ui` folder for reusable primitives (Button, Card, Logo).
 - **Linting & Validation:** Strict ESLint configuration; project maintains zero linting errors and passing TypeScript checks for all builds.
 - **Pixel-Perfect Implementation:** CSS grid and flexbox layouts are manually tuned to match provided UI design mockups (`.png`).
-
----
