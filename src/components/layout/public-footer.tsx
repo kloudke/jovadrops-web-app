@@ -46,7 +46,7 @@ export function PublicFooter() {
           </div>
 
           {/* Column 3: Products */}
-          <div className="lg:ml-auto">
+          <div className="lg:mx-auto">
             <h4 className="font-semibold text-[15px] mb-5 text-white">Products</h4>
             <ul className="space-y-3">
               <li><Link href="/products" className="text-sm text-slate-300 hover:text-white transition-colors">20 Litres</Link></li>
@@ -83,7 +83,7 @@ export function PublicFooter() {
           </div>
 
           {/* Column 5: Download Our App */}
-          <div className="lg:ml-auto lg:col-span-1">
+          <div className="lg:mx-auto lg:col-span-1">
             <h4 className="font-semibold text-[15px] mb-5 text-white">Download Our App</h4>
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
               <Link href="#" className="inline-block hover:opacity-90 transition-opacity">

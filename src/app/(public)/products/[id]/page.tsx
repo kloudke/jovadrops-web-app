@@ -20,24 +20,63 @@ import {
 } from "lucide-react"
 
 // Temporary mock data for the product details
-const product = {
-  id: "20l-bottle",
-  name: "20L Water Bottle",
-  price: "KSH 400",
-  reviews: 128,
-  description: "Our 20L bottle is perfect for families and offices. Made from high-quality, BPA-free material.",
-  features: [
-    "Capacity: 20 Litres",
-    "BPA-free & Food Grade",
-    "Durable & Reusable",
-    "Multi-stage purified water"
-  ]
+const productDetails = {
+  bottle: {
+    id: "20l-bottle",
+    name: "20L Empty Bottle",
+    price: "KSH 800",
+    reviews: 45,
+    description: "A durable, reusable 20L empty bottle. Perfect for storing water. Made from high-quality, BPA-free food-grade plastic.",
+    features: [
+      "Capacity: 20 Litres",
+      "BPA-free & Food Grade",
+      "Durable & Reusable",
+      "Fits standard dispensers"
+    ]
+  },
+  water: {
+    id: "20l-water",
+    name: "20L Water Refill",
+    price: "KSH 400",
+    reviews: 84,
+    description: "Refill your existing 20L bottle with our clean, safe, and refreshing purified water. Pure hydration at an affordable price.",
+    features: [
+      "Capacity: 20 Litres",
+      "Multi-stage purified water",
+      "Clean & refreshing taste",
+      "Eco-friendly refill"
+    ]
+  },
+  package: {
+    id: "20l-package",
+    name: "20L Water + Bottle",
+    price: "KSH 1,200",
+    reviews: 128,
+    description: "The complete 20L hydration package. Get a high-quality, reusable bottle filled with our multi-stage purified water.",
+    features: [
+      "20 Litres of pure water",
+      "New durable, BPA-free bottle",
+      "Multi-stage purified",
+      "Ready to drink"
+    ]
+  }
 }
+
+type TabType = 'bottle' | 'water' | 'package'
 
 export default function ProductDetailsPage() {
   const [quantity, setQuantity] = useState(1)
+  const [activeTab, setActiveTab] = useState<TabType>('bottle')
   const { data: session } = useSession()
   const router = useRouter()
+
+  const product = productDetails[activeTab]
+
+  const tabs: { id: TabType; label: string }[] = [
+    { id: 'bottle', label: 'Bottle' },
+    { id: 'water', label: 'Water' },
+    { id: 'package', label: 'Package' },
+  ]
 
   const handleAction = () => {
     if (!session) {
@@ -71,15 +110,20 @@ export default function ProductDetailsPage() {
           <div className="lg:w-1/2 flex flex-col sm:flex-row gap-4 lg:gap-6">
             {/* Thumbnails (Vertical on desktop) */}
             <div className="flex sm:flex-col gap-4 order-2 sm:order-1 overflow-x-auto sm:overflow-visible pb-2 sm:pb-0">
-              {[1, 2, 3].map((i) => (
+              {tabs.map((tab) => (
                 <button
-                  key={i}
-                  className={`w-20 h-24 shrink-0 rounded-xl border-2 flex items-center justify-center p-2 transition-all cursor-pointer ${i === 1 ? "border-brand-primary bg-brand-light/30" : "border-slate-200 bg-white hover:border-brand-primary/50"
-                    }`}
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`w-20 h-24 shrink-0 rounded-xl border-2 flex flex-col items-center justify-center p-2 transition-all cursor-pointer ${
+                    activeTab === tab.id
+                      ? "border-brand-primary bg-brand-light/30"
+                      : "border-slate-200 bg-white hover:border-brand-primary/50"
+                  }`}
                 >
+                  <div className="text-[10px] font-bold text-slate-500 uppercase mb-1">{tab.label}</div>
                   {/* Thumbnail Placeholder */}
-                  <div className="w-10 h-16 bg-brand-primary/10 rounded-t-xl rounded-b border-2 border-brand-primary/20 relative flex flex-col items-center justify-start pt-2">
-                    <div className="w-4 h-2 bg-brand-primary/30 rounded-t-[2px] absolute -top-2"></div>
+                  <div className="w-8 h-12 bg-brand-primary/10 rounded-t-xl rounded-b border-2 border-brand-primary/20 relative flex flex-col items-center justify-start pt-1">
+                    <div className="w-3 h-1.5 bg-brand-primary/30 rounded-t-[2px] absolute -top-1.5"></div>
                   </div>
                 </button>
               ))}
