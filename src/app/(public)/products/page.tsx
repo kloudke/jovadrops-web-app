@@ -6,22 +6,23 @@ import { Button } from "@/components/ui/button"
 
 // Temporary mock data until we connect to the Prisma database
 const products = [
-  { id: 1, name: "10L Water Bottle", volume: "10 Litres", price: "KSH 220", category: "10L Bottles" },
-  { id: 2, name: "20L Water Bottle", volume: "20 Litres", price: "KSH 400", category: "20L Bottles" },
-  { id: 3, name: "Dispenser Bottle", volume: "18.9 Litres", price: "KSH 400", category: "Dispenser Bottles" },
-  { id: 4, name: "5L Water Bottle", volume: "5 Litres", price: "KSH 100", category: "5L Bottles" },
-  { id: 5, name: "10L (Pack of 2)", volume: "10 Litres x 2", price: "KSH 440", category: "10L Bottles" },
-  { id: 6, name: "20L (Pack of 2)", volume: "20 Litres x 2", price: "KSH 800", category: "20L Bottles" },
-  { id: 7, name: "Dispenser Bottle", volume: "18.9 Litres", price: "KSH 400", category: "Dispenser Bottles" },
-  { id: 8, name: "Alkaline Water 10L", volume: "10 Litres", price: "KSH 250", category: "10L Bottles" },
+  { id: 1, name: "10L Water Bottle", volume: "10 Litres", price: "KSH 220", category: "10L Litres" },
+  { id: 2, name: "20L Water Bottle", volume: "20 Litres", price: "KSH 400", category: "20L Litres" },
+  { id: 3, name: "Frosted Can", volume: "18.9 Litres", price: "KSH 400", category: "Stanley Cups" },
+  { id: 4, name: "5L Water Bottle", volume: "5 Litres", price: "KSH 100", category: "5L Litres" },
+  { id: 5, name: "1L Pack (24)", volume: "1 Litre x 24", price: "KSH 440", category: "1L Pack" },
+  { id: 6, name: "500ml Pack (24)", volume: "500ml x 24", price: "KSH 500", category: "500ml Pack" },
+  { id: 7, name: "Mood the Cup", volume: "18.9 Litres", price: "KSH 400", category: "Stanley Cups" },
 ]
 
 const categories = [
   "All Products",
-  "10L Bottles",
-  "20L Bottles",
-  "Dispenser Bottles",
-  "5L Bottles"
+  "10L Litres",
+  "20L Litres",
+  "Stanley Cups",
+  "5L Litres",
+  "1L Pack",
+  "500ml Pack"
 ]
 
 export default function ProductsPage() {
