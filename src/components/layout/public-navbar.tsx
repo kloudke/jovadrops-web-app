@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, ShoppingCart, UserCircle } from 'lucide-react'
+import { Menu, X, ShoppingCart, UserCircle, User, ChevronDown } from 'lucide-react'
 import { Logo } from '@/components/ui/logo'
 import { Button } from '@/components/ui/button'
 
@@ -35,17 +35,20 @@ export function PublicNavbar({ session }: { session: any }) {
                   <ShoppingCart className="w-7 h-7 stroke-[1.5]" />
                   <span className="absolute -top-1.5 -right-2 bg-brand-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
                 </Link>
-                <Link href="/admin" className="text-brand-dark hover:text-brand-primary transition-colors cursor-pointer">
-                  <UserCircle className="w-8 h-8 stroke-[1.5]" />
+                <Link href="/admin" className="flex items-center gap-2 bg-[#eef4fb] text-[#0f2d5c] hover:bg-[#e0ecf7] transition-colors rounded-lg px-4 py-2 cursor-pointer border border-[#e5eef7]">
+                  <User className="w-4 h-4 stroke-[2]" />
+                  <span className="text-sm font-semibold">{session?.user?.name || 'John Doe'}</span>
+                  <ChevronDown className="w-4 h-4 stroke-[2]" />
                 </Link>
               </>
-            ) : null}
-            <Link 
-              href="/products" 
-              className="bg-brand-dark hover:bg-brand-primary text-white rounded-lg px-6 py-3 text-sm font-semibold cursor-pointer flex items-center justify-center transition-colors"
-            >
-              Order Now
-            </Link>
+            ) : (
+              <Link 
+                href="/products" 
+                className="bg-brand-dark hover:bg-brand-primary text-white rounded-lg px-6 py-3 text-sm font-semibold cursor-pointer flex items-center justify-center transition-colors"
+              >
+                Order Now
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -86,15 +89,16 @@ export function PublicNavbar({ session }: { session: any }) {
                   <span>Profile</span>
                 </Link>
               </div>
-            ) : null}
-            <Link
-              href="/products"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full bg-brand-dark text-white font-medium p-3 rounded-xl hover:bg-brand-primary transition-colors cursor-pointer"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              <span>Order Now</span>
-            </Link>
+            ) : (
+              <Link
+                href="/products"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 w-full bg-brand-dark text-white font-medium p-3 rounded-xl hover:bg-brand-primary transition-colors cursor-pointer"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                <span>Order Now</span>
+              </Link>
+            )}
           </div>
         </div>
       )}

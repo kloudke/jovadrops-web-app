@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ChevronRight, Trash2, Minus, Plus, Info, Lock, ArrowLeft, ShieldCheck, Truck, Award, Shield } from 'lucide-react';
@@ -116,7 +117,7 @@ export default function CartPage() {
             </Card>
 
             <div className="pt-2">
-              <Link href="/products" className={buttonVariants({ variant: "outline", className: "text-[#0f2d5c] border-blue-200 bg-[#f4f7fb] hover:bg-[#e5eef7] hover:text-[#0f2d5c] font-medium rounded-lg px-6 h-12 inline-flex" })}>
+              <Link href="/products" className={cn(buttonVariants({ variant: "outline" }), "text-[#0f2d5c] border-[#e5eef7] bg-[#f4f7fb] hover:bg-[#e5eef7] hover:text-[#0f2d5c] font-medium rounded-lg px-6 h-12 inline-flex shadow-sm")}>
                 <ArrowLeft className="mr-2 h-4 w-4" /> Continue Shopping
               </Link>
             </div>
