@@ -35,7 +35,7 @@ export function PublicNavbar({ session }: { session: any }) {
                   <ShoppingCart className="w-7 h-7 stroke-[1.5]" />
                   <span className="absolute -top-1.5 -right-2 bg-brand-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
                 </Link>
-                <Link href="/admin" className="flex items-center gap-2 bg-[#eef4fb] text-[#0f2d5c] hover:bg-[#e0ecf7] transition-colors rounded-lg px-4 py-2 cursor-pointer border border-[#e5eef7]">
+                <Link href="/admin" className="flex items-center gap-2 bg-white text-[#0f2d5c] hover:bg-slate-50 transition-colors rounded-lg px-4 py-2 cursor-pointer border border-[#e5eef7] shadow-sm">
                   <User className="w-4 h-4 stroke-[2]" />
                   <span className="text-sm font-semibold">{session?.user?.name || 'John Doe'}</span>
                   <ChevronDown className="w-4 h-4 stroke-[2]" />
