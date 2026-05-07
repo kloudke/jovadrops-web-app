@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -20,64 +19,22 @@ type CartItem = {
   isPack?: boolean;
 };
 
-// Initial mock data matching the design
-const initialCartItems: CartItem[] = [
-  {
-    id: '1',
-    name: '20L Water Bottle',
-    description: 'Pure, safe & refreshing',
-    price: 3.50,
-    originalPrice: 4.00,
-    quantity: 2,
-    image: '/20-liter-bottle.png',
-  },
-  {
-    id: '2',
-    name: 'Dispenser Bottle',
-    description: '18.9 Liters',
-    price: 4.00,
-    quantity: 1,
-    image: '/20-liter-bottle.png',
-  },
-  {
-    id: '3',
-    name: '10L Water Bottle',
-    description: '10 Liters x 2',
-    price: 4.50,
-    quantity: 1,
-    image: '/20-liter-bottle.png',
-    isPack: true,
-  },
-];
+import { useCartStore } from '@/lib/store/cart';
 
 export default function CartPage() {
-  const [items, setItems] = useState<CartItem[]>(initialCartItems);
+  const { items, updateQuantity, removeItem, subtotal: getSubtotal } = useCartStore();
 
   // Derived state calculations
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = getSubtotal();
   const deliveryFee = subtotal > 0 ? 2.00 : 0;
   const total = subtotal + deliveryFee;
-  
+
   const savedAmount = items.reduce((sum, item) => {
     if (item.originalPrice) {
       return sum + (item.originalPrice - item.price) * item.quantity;
     }
     return sum;
   }, 0);
-
-  // Handlers
-  const updateQuantity = (id: string, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (id: string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
 
   return (
     <div className="bg-gray-50/30 min-h-screen">
@@ -107,11 +64,11 @@ export default function CartPage() {
                     <div className="col-span-2 text-center">Quantity</div>
                     <div className="col-span-2 text-right">Subtotal</div>
                   </div>
-                  
+
                   {/* Item List */}
                   {items.map((item, index) => (
-                    <div 
-                      key={item.id} 
+                    <div
+                      key={item.id}
                       className={cn(
                         "grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-4 items-center",
                         index !== items.length - 1 ? "border-b pb-6 mb-6" : ""
@@ -128,19 +85,19 @@ export default function CartPage() {
                               <Image src={item.image} alt={item.name} width={30} height={60} className="object-contain" />
                             </>
                           ) : (
-                            <Image 
-                              src={item.image} 
-                              alt={item.name} 
-                              width={item.id === '1' ? 60 : 40} 
-                              height={80} 
-                              className={cn("object-contain", item.id === '2' ? "opacity-80" : "")} 
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              width={item.id === '1' ? 60 : 40}
+                              height={80}
+                              className={cn("object-contain", item.id === '2' ? "opacity-80" : "")}
                             />
                           )}
                         </div>
                         <div>
                           <h3 className="font-bold text-[#0f2d5c] text-lg leading-tight">
                             {item.name}
-                            {item.isPack && <><br/><span className="text-sm font-semibold">(Pack of 2)</span></>}
+                            {item.isPack && <><br /><span className="text-sm font-semibold">(Pack of 2)</span></>}
                           </h3>
                           <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
                         </div>
@@ -150,7 +107,7 @@ export default function CartPage() {
                       </div>
                       <div className="col-span-1 md:col-span-2 flex items-center md:justify-center">
                         <div className="flex items-center border border-gray-200 rounded-md bg-white">
-                          <button 
+                          <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             disabled={item.quantity <= 1}
                             className="p-2 text-gray-500 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -161,7 +118,7 @@ export default function CartPage() {
                           <span className="w-10 text-center font-semibold text-gray-900 text-sm">
                             {item.quantity}
                           </span>
-                          <button 
+                          <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             className="p-2 text-gray-500 hover:bg-gray-50 transition-colors"
                             aria-label="Increase quantity"
@@ -172,10 +129,10 @@ export default function CartPage() {
                       </div>
                       <div className="col-span-1 md:col-span-2 flex items-center justify-between md:justify-end space-x-4">
                         <span className="md:hidden font-semibold text-gray-500 text-sm">Subtotal:</span>
-                        <span className="font-bold text-gray-900">${(item.price * item.quantity).toFixed(2)}</span>
-                        <button 
+                        <span className="font-bold text-gray-900">KSH {(item.price * item.quantity).toFixed(2)}</span>
+                        <button
                           onClick={() => removeItem(item.id)}
-                          className="text-gray-400 hover:text-red-500 transition-colors" 
+                          className="text-gray-400 hover:text-red-500 transition-colors"
                           aria-label="Remove item"
                         >
                           <Trash2 className="h-5 w-5" />
@@ -238,22 +195,22 @@ export default function CartPage() {
           <div className="lg:col-span-1">
             <Card className="p-6 md:p-8 sticky top-24 border-none shadow-sm rounded-xl bg-white">
               <h2 className="text-xl font-extrabold text-[#0f2d5c] mb-6">Order Summary</h2>
-              
+
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span className="font-semibold text-gray-900">${subtotal.toFixed(2)}</span>
+                  <span className="font-semibold text-gray-900">KSH {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600 items-center">
                   <span className="flex items-center">Delivery Fee <Info className="h-4 w-4 ml-1.5 text-gray-400 cursor-help" /></span>
-                  <span className="font-semibold text-gray-900">${deliveryFee.toFixed(2)}</span>
+                  <span className="font-semibold text-gray-900">KSH {deliveryFee.toFixed(2)}</span>
                 </div>
               </div>
 
               <div className="border-t pt-5 mb-6">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-xl font-extrabold text-[#0f2d5c]">Total</span>
-                  <span className="text-2xl font-extrabold text-[#0f2d5c]">${total.toFixed(2)}</span>
+                  <span className="text-2xl font-extrabold text-[#0f2d5c]">KSH {total.toFixed(2)}</span>
                 </div>
                 {savedAmount > 0 && (
                   <div className="flex justify-between text-green-600 text-sm font-semibold">
@@ -263,7 +220,7 @@ export default function CartPage() {
                 )}
               </div>
 
-              <Button 
+              <Button
                 disabled={items.length === 0}
                 className="w-full bg-[#1e40af] hover:bg-[#1e3a8a] text-white font-semibold h-14 text-base mb-8 rounded-lg shadow-sm disabled:opacity-50"
               >

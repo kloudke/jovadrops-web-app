@@ -5,9 +5,11 @@ import Link from 'next/link'
 import { Menu, X, ShoppingCart, UserCircle, User, ChevronDown } from 'lucide-react'
 import { Logo } from '@/components/ui/logo'
 import { Button } from '@/components/ui/button'
+import { useCartStore } from '@/lib/store/cart'
 
 export function PublicNavbar({ session }: { session: any }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const cartCount = useCartStore((state) => state.cartCount())
 
   return (
     <header className="sticky top-0 z-50 w-full bg-brand-light border-none">
@@ -33,7 +35,11 @@ export function PublicNavbar({ session }: { session: any }) {
               <>
                 <Link href="/cart" className="relative text-brand-dark hover:text-brand-primary transition-colors cursor-pointer">
                   <ShoppingCart className="w-7 h-7 stroke-[1.5]" />
-                  <span className="absolute -top-1.5 -right-2 bg-brand-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1.5 -right-2 bg-brand-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
                 <Link href="/admin" className="flex items-center gap-2 bg-white text-[#0f2d5c] hover:bg-slate-50 transition-colors rounded-lg px-4 py-2 cursor-pointer border border-[#e5eef7] shadow-sm">
                   <User className="w-4 h-4 stroke-[2]" />
@@ -78,7 +84,7 @@ export function PublicNavbar({ session }: { session: any }) {
                   className="flex items-center justify-center gap-2 w-1/2 bg-brand-light text-brand-dark font-medium p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer border border-slate-200"
                 >
                   <ShoppingCart className="w-5 h-5" />
-                  <span>Cart (2)</span>
+                  <span>Cart ({cartCount})</span>
                 </Link>
                 <Link
                   href="/admin"

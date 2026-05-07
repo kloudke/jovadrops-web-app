@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { useCartStore } from "@/lib/store/cart"
 import {
   ChevronRight,
   Star,
@@ -56,12 +57,24 @@ export function ProductDetailsClient({ product }: { product: Product }) {
     label: variant.type.charAt(0).toUpperCase() + variant.type.slice(1)
   }))
 
+  const addItem = useCartStore(state => state.addItem)
+
   const handleAction = () => {
     if (!session) {
       router.push("/login")
     } else {
-      // In a real app, this would dispatch an action to a global cart state or API
-      alert(`Successfully added ${quantity}x ${currentVariant?.name} to your cart!`)
+      if (currentVariant) {
+        addItem({
+          id: currentVariant.id,
+          name: currentVariant.name,
+          description: currentVariant.description || '',
+          price: currentVariant.price,
+          quantity: quantity,
+          image: product.image || "/hero-image.png",
+          isPack: currentVariant.type.includes('pack'), // basic heuristic
+        });
+        alert(`Successfully added ${quantity}x ${currentVariant.name} to your cart!`)
+      }
     }
   }
 
