@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.app.name }}-config
+  namespace: {{ .Values.namespace }}
+data:
+  DB_HOST: "{{ .Values.postgres.host }}"
+  DB_PORT: "{{ .Values.postgres.port }}"
+  NODE_ENV: "{{ .Values.nodeEnv }}"
+  NEXT_TELEMETRY_DISABLED: "{{ .Values.nextTelemetryDisabled }}"
