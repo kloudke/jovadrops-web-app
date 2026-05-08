@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.app.name }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ .Values.app.name }}
     app.kubernetes.io/component: frontend
@@ -29,12 +29,17 @@ spec:
           image: {{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
           imagePullPolicy: {{ .Values.app.image.pullPolicy }}
           ports:
-            name: {{ .Values.app.port }}
-            containerPort: {{ .Values.app.port }}
+            - name: http
+              containerPort: {{ .Values.app.port }}
           envFrom:
             - configMapRef:
                 name: {{ .Values.app.name }}-config
           env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.name }}-secret
+                  key: DATABASE_URL
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
