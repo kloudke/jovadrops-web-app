@@ -122,3 +122,48 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
+
+  deploy:
+    name: Deploy Application
+    needs: [docker-build-push]
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --- Option 1: AWS ECS Deployment ---
+      # Uncomment and configure these steps if deploying to AWS ECS Fargate
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
+      #
+      # - name: Deploy to Amazon ECS
+      #   run: |
+      #     aws ecs update-service \
+      #       --cluster jovadrops-cluster \
+      #       --service jovadrops-service \
+      #       --force-new-deployment
+
+      # --- Option 2: Kubernetes Deployment ---
+      # Uncomment and configure these steps if deploying to a Self-Managed Kubernetes cluster
+      # - name: Set Kubernetes Context
+      #   uses: azure/k8s-set-context@v3
+      #   with:
+      #     method: kubeconfig
+      #     kubeconfig: ${{ secrets.KUBECONFIG }}
+      #
+      # - name: Deploy to Kubernetes
+      #   run: |
+      #     # Dynamically update the deployment manifest with the newly pushed image SHA
+      #     sed -i "s|image: ghcr.io/your-org/jovadrops-web-app:latest|image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${GITHUB_SHA::7}|g" infrastructure/k8s/deployment.yaml
+      #     
+      #     # Apply all manifests in the k8s folder
+      #     kubectl apply -f infrastructure/k8s/
+      #     
+      #     # Wait for the rollout to complete
+      #     kubectl rollout status deployment/jovadrops-web
