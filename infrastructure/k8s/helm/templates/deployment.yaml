@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Values.app.name }}
+    app.kubernetes.io/component: frontend
+spec:
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.app.name }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        app.kubernetes.io/name: {{ .Values.app.name }}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001 # Matches the Next.js Dockerfile nextjs user
+        fsGroup: 1001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: {{ .Values.app.name }}-web
+          image: {{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          ports:
+            name: {{ .Values.app.port }}
+            containerPort: {{ .Values.app.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.app.name }}-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.name }}-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.name }}-secret
+                  key: POSTGRES_USER
+          resources:
+            requests:
+              memory: {{ .Values.app.resources.requests.memory }}
+              cpu: {{ .Values.app.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.app.resources.limits.memory }}
+              cpu: {{ .Values.app.resources.limits.cpu }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.app.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.app.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false # Next.js standalone writes to .next
+            capabilities:
+              drop:
+                - ALL
