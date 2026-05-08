@@ -25,9 +25,24 @@ This document outlines the Continuous Integration and Continuous Deployment (CI/
     *   **Artifacts (GHCR):** If the scan passes, it pushes the immutable Docker image to the GitHub Container Registry (GHCR). 
     *   **Tags:** The image is tagged with the branch name and Git SHA. The `latest` tag is automatically applied when merging to `main`.
 
-## Deployment Strategy (Future Implementation)
+## Deployment Strategy
 
-Currently, the project focuses on robust CI. Once a hosting provider (e.g., Vercel, AWS ECS, or a VPS) is finalized, a Continuous Deployment (`cd.yml`) workflow will be added.
+The pipeline now includes a `deploy` job that is triggered only after the Docker image is successfully built, scanned, and pushed to GHCR. It acts as the Continuous Deployment (CD) phase.
+
+This job is configured with two distinct deployment templates (currently commented out) so that the team can activate their preferred hosting strategy:
+
+### Option 1: AWS ECS (Fargate)
+When deploying to AWS ECS, the pipeline will:
+1. Authenticate with AWS using standard GitHub Secrets.
+2. Call the `aws ecs update-service` CLI command with `--force-new-deployment`.
+3. AWS ECS will automatically pull the `latest` Docker tag we just pushed to GHCR, spin up new Fargate tasks, register them with the Load Balancer, and drain the old tasks, resulting in a Zero-Downtime deployment.
+
+### Option 2: Kubernetes
+When deploying to a self-managed Kubernetes cluster, the pipeline will:
+1. Authenticate with the cluster using a Kubeconfig stored in GitHub Secrets.
+2. Dynamically use `sed` to update the `infrastructure/k8s/deployment.yaml` file, replacing the placeholder `:latest` tag with the exact Git SHA tag we just pushed (e.g., `:sha-a1b2c3d`).
+3. Apply the manifests using `kubectl apply -f`.
+4. Wait for the Kubernetes Deployment rollout to finish, ensuring the new pods are healthy before marking the CI/CD pipeline as completely successful.
 
 ### Rollout Plan
 *   **Staging:** Pushes to the `develop` branch will automatically deploy to a Staging environment for QA and stakeholder review.
