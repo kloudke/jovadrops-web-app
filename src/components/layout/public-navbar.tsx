@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Menu, X, ShoppingCart, UserCircle, User, ChevronDown } from 'lucide-react'
 import { Logo } from '@/components/ui/logo'
@@ -10,6 +10,11 @@ import { useCartStore } from '@/lib/store/cart'
 export function PublicNavbar({ session }: { session: any }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const cartCount = useCartStore((state) => state.cartCount())
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 w-full bg-brand-light border-none">
@@ -35,7 +40,7 @@ export function PublicNavbar({ session }: { session: any }) {
               <>
                 <Link href="/cart" className="relative text-brand-dark hover:text-brand-primary transition-colors cursor-pointer">
                   <ShoppingCart className="w-7 h-7 stroke-[1.5]" />
-                  {cartCount > 0 && (
+                  {isMounted && cartCount > 0 && (
                     <span className="absolute -top-1.5 -right-2 bg-brand-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                       {cartCount}
                     </span>
@@ -84,7 +89,7 @@ export function PublicNavbar({ session }: { session: any }) {
                   className="flex items-center justify-center gap-2 w-1/2 bg-brand-light text-brand-dark font-medium p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer border border-slate-200"
                 >
                   <ShoppingCart className="w-5 h-5" />
-                  <span>Cart ({cartCount})</span>
+                  <span>Cart ({isMounted ? cartCount : 0})</span>
                 </Link>
                 <Link
                   href="/admin"
