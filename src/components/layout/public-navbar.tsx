@@ -46,7 +46,7 @@ export function PublicNavbar({ session }: { session: any }) {
                     </span>
                   )}
                 </Link>
-                <Link href="/admin" className="flex items-center gap-2 bg-white text-[#0f2d5c] hover:bg-slate-50 transition-colors rounded-lg px-4 py-2 cursor-pointer border border-[#e5eef7] shadow-sm">
+                <Link href="/account" className="flex items-center gap-2 bg-white text-[#0f2d5c] hover:bg-slate-50 transition-colors rounded-lg px-4 py-2 cursor-pointer border border-[#e5eef7] shadow-sm">
                   <User className="w-4 h-4 stroke-[2]" />
                   <span className="text-sm font-semibold">{session?.user?.name || 'John Doe'}</span>
                   <ChevronDown className="w-4 h-4 stroke-[2]" />
@@ -92,7 +92,7 @@ export function PublicNavbar({ session }: { session: any }) {
                   <span>Cart ({isMounted ? cartCount : 0})</span>
                 </Link>
                 <Link
-                  href="/admin"
+                  href="/account"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="flex items-center justify-center gap-2 w-1/2 bg-brand-light text-brand-dark font-medium p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer border border-slate-200"
                 >
