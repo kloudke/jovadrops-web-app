@@ -93,18 +93,12 @@ export default async function ProfilePage() {
             
             <div className="space-y-2">
               <Label htmlFor="phone" className="text-sm font-semibold text-gray-700">Phone Number</Label>
-              <div className="flex gap-2">
-                <div className="flex items-center justify-center border border-gray-200 rounded-lg bg-gray-50 px-3 shrink-0">
-                  <span className="text-lg">🇺🇸</span>
-                  <ChevronDown className="w-3 h-3 ml-1 text-gray-500" />
-                </div>
-                <Input 
-                  id="phone" 
-                  defaultValue={phoneNumber} 
-                  placeholder="+1 234 567 8900"
-                  className="h-12 border-gray-200 focus-visible:ring-[#1434CB]/20 rounded-lg flex-1" 
-                />
-              </div>
+              <Input 
+                id="phone" 
+                defaultValue={phoneNumber} 
+                placeholder="+254 712 345 678"
+                className="h-12 border-gray-200 focus-visible:ring-[#1434CB]/20 rounded-lg placeholder:text-gray-400" 
+              />
             </div>
 
             <Button className="w-full bg-[#1434CB] hover:bg-[#0f2d5c] text-white font-semibold h-12 rounded-lg mt-2">
