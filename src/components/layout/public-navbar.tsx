@@ -16,6 +16,10 @@ export function PublicNavbar({ session }: { session: any }) {
     setIsMounted(true)
   }, [])
 
+  const userInitials = session?.user?.name
+    ? session.user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2)
+    : 'JD'
+
   return (
     <header className="sticky top-0 z-50 w-full bg-brand-light border-none">
       <div className="container mx-auto px-4 lg:px-8 flex h-20 items-center justify-between">
@@ -48,7 +52,7 @@ export function PublicNavbar({ session }: { session: any }) {
                 </Link>
                 <Link href="/account" className="flex items-center gap-2 bg-white text-[#0f2d5c] hover:bg-slate-50 transition-colors rounded-lg px-4 py-2 cursor-pointer border border-[#e5eef7] shadow-sm">
                   <User className="w-4 h-4 stroke-[2]" />
-                  <span className="text-sm font-semibold">{session?.user?.name || 'John Doe'}</span>
+                  <span className="text-sm font-semibold tracking-wide">{userInitials}</span>
                   <ChevronDown className="w-4 h-4 stroke-[2]" />
                 </Link>
               </>
