@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/ui/card"
@@ -327,16 +328,13 @@ export default async function AdminDashboardPage() {
           <Card className="p-6 border-none shadow-sm rounded-xl bg-white">
             <div className="flex justify-between items-center mb-4">
               <h2 className="font-bold text-[#0f2d5c] text-base">Payment Method</h2>
-              <Link href="/account/payment-methods" className="text-xs font-semibold text-[#1434CB] hover:underline">
-                Manage
-              </Link>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="bg-gray-50 px-3 py-1.5 rounded border border-gray-100 flex items-center justify-center">
-                  <VisaIcon />
+                  <Image src="/m-pesa.png" alt="M-Pesa" width={40} height={20} className="object-contain" />
                 </div>
-                <span className="text-sm font-semibold text-[#0f2d5c]">•••• •••• •••• 4242</span>
+                <span className="text-sm font-semibold text-[#0f2d5c]">+1 234 567 8900</span>
               </div>
               <span className="text-[10px] font-bold px-2 py-0.5 bg-green-100 text-green-700 rounded">
                 Default
@@ -348,15 +346,4 @@ export default async function AdminDashboardPage() {
       </div>
     </div>
   )
-}
-
-function VisaIcon() {
-  return (
-    <svg viewBox="0 0 38 12" className="h-[12px] w-[30px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14.5413 0.280273H10.1332L6.15582 11.7203H10.5639L11.4429 9.32027H16.851M12.4419 6.57027L14.1513 1.95027L15.6513 6.57027H12.4419Z" fill="#1434CB"/>
-      <path d="M21.5739 0.280273L18.4552 11.7203H22.8633L25.982 0.280273H21.5739Z" fill="#1434CB"/>
-      <path d="M37.382 0.280273H33.4047L29.026 11.7203H33.434L34.313 9.32027H39.7212M35.312 6.57027L37.0214 1.95027L38.5214 6.57027H35.312Z" fill="#1434CB"/>
-      <path d="M6.35035 0.280273H1.72035L0 11.7203H4.40808L6.35035 0.280273Z" fill="#1434CB"/>
-    </svg>
-  );
 }

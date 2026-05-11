@@ -47,10 +47,6 @@ export default async function AdminLayout({
               <MapPin className="w-5 h-5" />
               Addresses
             </Link>
-            <Link href="/account/payment-methods" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition-colors">
-              <CreditCard className="w-5 h-5" />
-              Payment Methods
-            </Link>
             <Link href="/account/settings" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition-colors">
               <Settings className="w-5 h-5" />
               Settings
