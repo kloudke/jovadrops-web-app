@@ -61,6 +61,7 @@ export async function registerUser(prevState: any, formData: FormData) {
 export async function loginUser(prevState: any, formData: FormData) {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
+  const callbackUrl = (formData.get("callbackUrl") as string) || "/account"
 
   if (!email || !password) {
     return { error: "Missing required fields." }
@@ -70,7 +71,7 @@ export async function loginUser(prevState: any, formData: FormData) {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/products",
+      redirectTo: callbackUrl,
     })
   } catch (error: any) {
     if (error.type === "CredentialsSignin") {

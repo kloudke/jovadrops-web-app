@@ -60,40 +60,32 @@ export function ProductDetailsClient({ product }: { product: Product }) {
   const addItem = useCartStore(state => state.addItem)
 
   const handleAddToCart = () => {
-    if (!session) {
-      router.push("/login")
-    } else {
-      if (currentVariant) {
-        addItem({
-          id: currentVariant.id,
-          name: currentVariant.name,
-          description: currentVariant.description || '',
-          price: currentVariant.price,
-          quantity: quantity,
-          image: product.image || "/hero-image.png",
-          isPack: currentVariant.type.includes('pack'), // basic heuristic
-        });
-        alert(`Successfully added ${quantity}x ${currentVariant.name} to your cart!`)
-      }
+    if (currentVariant) {
+      addItem({
+        id: currentVariant.id,
+        name: currentVariant.name,
+        description: currentVariant.description || '',
+        price: currentVariant.price,
+        quantity: quantity,
+        image: product.image || "/hero-image.png",
+        isPack: currentVariant.type.includes('pack'), // basic heuristic
+      });
+      alert(`Successfully added ${quantity}x ${currentVariant.name} to your cart!`)
     }
   }
 
   const handleOrderNow = () => {
-    if (!session) {
-      router.push("/login")
-    } else {
-      if (currentVariant) {
-        addItem({
-          id: currentVariant.id,
-          name: currentVariant.name,
-          description: currentVariant.description || '',
-          price: currentVariant.price,
-          quantity: quantity,
-          image: product.image || "/hero-image.png",
-          isPack: currentVariant.type.includes('pack'), // basic heuristic
-        });
-        router.push("/cart")
-      }
+    if (currentVariant) {
+      addItem({
+        id: currentVariant.id,
+        name: currentVariant.name,
+        description: currentVariant.description || '',
+        price: currentVariant.price,
+        quantity: quantity,
+        image: product.image || "/hero-image.png",
+        isPack: currentVariant.type.includes('pack'), // basic heuristic
+      });
+      router.push("/cart")
     }
   }
 

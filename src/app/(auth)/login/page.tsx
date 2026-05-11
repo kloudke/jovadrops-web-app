@@ -7,11 +7,22 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Logo } from '@/components/ui/logo'
-import { useActionState } from 'react'
+import { useActionState, Suspense } from 'react'
 import { loginUser, oauthSignIn } from '@/app/actions/auth'
+import { useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen w-full items-center justify-center bg-[#F4F9FF]">Loading...</div>}>
+      <LoginContent />
+    </Suspense>
+  )
+}
+
+function LoginContent() {
   const [state, formAction, isPending] = useActionState(loginUser, undefined)
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/account'
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-[#F4F9FF] p-4 sm:p-6">
@@ -47,6 +58,8 @@ export default function LoginPage() {
             </div>
 
             <form className="space-y-3" action={formAction}>
+              <input type="hidden" name="callbackUrl" value={callbackUrl} />
+              
               {state?.error && (
                 <div className="p-3 text-[12px] bg-red-50 text-red-600 rounded-xl border border-red-100 text-center">
                   {state.error}
