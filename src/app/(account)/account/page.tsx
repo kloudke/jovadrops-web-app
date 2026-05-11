@@ -37,8 +37,6 @@ export default async function AdminDashboardPage() {
 
   const userId = user.id
   const firstName = user.name?.split(' ')[0] || 'User'
-  // Using type assertion since phone is not in schema yet
-  const phoneNumber = (user as any).phone || "Not provided"
 
   // Fetch real data from the database
   const [totalOrders, activeOrders, lastOrder, recentOrders, aggregations] = await Promise.all([
@@ -231,9 +229,6 @@ export default async function AdminDashboardPage() {
           <div className="space-y-4 pt-4">
             <div className="flex justify-between items-center">
               <h2 className="font-bold text-[#0f2d5c] text-lg">Your Addresses</h2>
-              <Link href="/account/addresses" className="text-sm font-semibold text-[#1434CB] hover:underline">
-                Manage Addresses
-              </Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -259,9 +254,9 @@ export default async function AdminDashboardPage() {
                 <UserIcon className="w-8 h-8 stroke-[1.5]" />
               </div>
               <div className="min-w-0">
-                <h3 className="font-bold text-[#0f2d5c] text-base truncate">{user.name || 'User'}</h3>
-                <p className="text-sm text-gray-500 truncate mb-1">{user.email}</p>
-                <p className="text-sm text-gray-500">{phoneNumber}</p>
+                <h3 className="font-bold text-[#0f2d5c] text-base truncate">{user.name || <span className="italic text-gray-400 font-normal">N/A</span>}</h3>
+                <p className="text-sm text-gray-500 truncate mb-1">{user.email || <span className="italic text-gray-400">N/A</span>}</p>
+                <p className="text-sm text-gray-500">{(user as any).phone || <span className="italic text-gray-400">N/A</span>}</p>
               </div>
             </div>
 
@@ -297,7 +292,7 @@ export default async function AdminDashboardPage() {
                 <div className="bg-gray-50 px-3 py-1.5 rounded border border-gray-100 flex items-center justify-center">
                   <Image src="/m-pesa.png" alt="M-Pesa" width={40} height={20} className="object-contain" />
                 </div>
-                <span className="text-sm font-semibold text-[#0f2d5c]">{phoneNumber}</span>
+                <span className="text-sm font-semibold text-[#0f2d5c]">{(user as any).phone || <span className="italic text-gray-400 font-normal">N/A</span>}</span>
               </div>
               <span className="text-[10px] font-bold px-2 py-0.5 bg-green-100 text-green-700 rounded">
                 Default
