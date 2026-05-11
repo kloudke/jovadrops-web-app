@@ -7,7 +7,6 @@ import {
   Package,
   User,
   MapPin,
-  Settings,
   Headphones,
   LogOut
 } from "lucide-react"
@@ -21,7 +20,6 @@ export function AccountSidebar() {
     { href: "/account/orders", label: "Orders", icon: Package },
     { href: "/account/profile", label: "Profile", icon: User },
     { href: "/account/addresses", label: "Addresses", icon: MapPin },
-    { href: "/account/settings", label: "Settings", icon: Settings },
   ]
 
   const bottomLinks = [

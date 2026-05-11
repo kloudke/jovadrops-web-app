@@ -24,7 +24,8 @@ import {
   Users, 
   MoreVertical,
   Plus,
-  Info
+  Info,
+  Trash2
 } from "lucide-react"
 
 export default async function ProfilePage() {
@@ -234,6 +235,22 @@ export default async function ProfilePage() {
             </div>
           </Card>
         </div>
+
+        {/* Delete Account (Spans all columns) */}
+        <Card className="lg:col-span-3 p-6 md:p-8 border border-red-100 shadow-sm rounded-xl bg-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="bg-red-50 p-3 rounded-full text-red-600 shrink-0">
+              <Trash2 className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-bold text-[#0f2d5c] text-base mb-1">Delete Account</h3>
+              <p className="text-sm text-gray-500">Once you delete your account, there is no going back. Please be certain.</p>
+            </div>
+          </div>
+          <Button variant="outline" className="shrink-0 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 font-semibold h-10 px-6 rounded-lg w-full md:w-auto">
+            Delete Account
+          </Button>
+        </Card>
 
       </div>
 
