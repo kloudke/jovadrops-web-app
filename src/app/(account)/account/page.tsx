@@ -103,7 +103,7 @@ export default async function AdminDashboardPage() {
             <div>
               <p className="text-sm font-medium text-gray-500 mb-1">Last Order</p>
               <h3 className="text-xl font-extrabold text-[#0f2d5c] mt-1 mb-2">
-                {lastOrder ? new Date(lastOrder.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : "No orders"}
+                {lastOrder ? new Date(lastOrder.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : <span className="italic text-gray-400 font-normal text-lg">N/A</span>}
               </h3>
             </div>
             <div className="bg-[#f97316] text-white p-3 rounded-full">
