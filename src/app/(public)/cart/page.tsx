@@ -19,10 +19,22 @@ type CartItem = {
   isPack?: boolean;
 };
 
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/lib/store/cart';
 
 export default function CartPage() {
+  const { data: session } = useSession();
+  const router = useRouter();
   const { items, updateQuantity, removeItem, subtotal: getSubtotal } = useCartStore();
+
+  const handleCheckout = () => {
+    if (!session) {
+      router.push(`/login?callbackUrl=${encodeURIComponent('/checkout')}`);
+    } else {
+      router.push('/checkout');
+    }
+  };
 
   // Derived state calculations
   const subtotal = getSubtotal();
@@ -222,6 +234,7 @@ export default function CartPage() {
 
               <Button
                 disabled={items.length === 0}
+                onClick={handleCheckout}
                 className="w-full bg-[#1e40af] hover:bg-[#1e3a8a] text-white font-semibold h-14 text-base mb-8 rounded-lg shadow-sm disabled:opacity-50"
               >
                 <Lock className="mr-2 h-4 w-4" /> Proceed to Checkout
