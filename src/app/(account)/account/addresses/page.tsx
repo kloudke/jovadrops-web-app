@@ -1,8 +1,6 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
-import { Button, buttonVariants } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { prisma } from "@/lib/prisma"
 import { cn } from "@/lib/utils"
@@ -120,7 +118,7 @@ export default async function AddressesPage() {
                 <MapPin className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-bold text-[#0f2d5c] mb-2">No addresses saved</h3>
-              <p className="text-gray-500 mb-6">You haven't saved any delivery addresses yet.</p>
+              <p className="text-gray-500 mb-6">You haven&apos;t saved any delivery addresses yet.</p>
               <Link href="/account/addresses/new" className={cn(buttonVariants({ variant: "default" }), "bg-[#1434CB] hover:bg-[#0f2d5c] text-white font-semibold rounded-lg px-6 h-10 flex items-center justify-center")}>
                 <Plus className="w-4 h-4 mr-2" />
                 Add New Address

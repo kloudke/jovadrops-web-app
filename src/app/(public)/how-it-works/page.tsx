@@ -1,11 +1,5 @@
 import Image from "next/image"
 import {
-  Droplets,
-  Filter,
-  Cylinder,
-  FlaskConical,
-  Zap,
-  Sparkles,
   ShieldCheck,
   Cpu,
   ThumbsUp,

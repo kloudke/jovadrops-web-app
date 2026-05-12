@@ -73,7 +73,7 @@ export default async function AdminDashboardPage() {
             Welcome back, {firstName}! 👋
           </h1>
           <p className="text-muted-foreground text-sm">
-            Here's what's happening with your account today.
+            Here&apos;s what&apos;s happening with your account today.
           </p>
         </div>
         <Link href="/products" className={cn(buttonVariants({ variant: "default" }), "bg-[#1434CB] hover:bg-[#0f2d5c] text-white font-semibold rounded-lg px-6")}>
@@ -186,7 +186,7 @@ export default async function AdminDashboardPage() {
                 <div className="overflow-x-auto">
                   {recentOrders.length === 0 ? (
                     <div className="p-8 text-center text-gray-500">
-                      You haven't placed any orders yet.
+                      You haven&apos;t placed any orders yet.
                     </div>
                   ) : (
                     <table className="w-full text-sm text-left">
@@ -247,7 +247,7 @@ export default async function AdminDashboardPage() {
               {addresses.map((addr) => {
                 let Icon = Home
                 if (addr.type === "Office") Icon = Briefcase
-                else if (addr.type === "Parents' Home" || addr.type === "Family") Icon = Users
+                else if (addr.type === "Parents&apos; Home" || addr.type === "Family") Icon = Users
                 else if (addr.type === "Other" || addr.type === "Gym") Icon = MapPin
 
                 return (
@@ -299,7 +299,7 @@ export default async function AdminDashboardPage() {
               <div className="min-w-0">
                 <h3 className="font-bold text-[#0f2d5c] text-base truncate">{user.name || <span className="italic text-gray-400 font-normal">N/A</span>}</h3>
                 <p className="text-sm text-gray-500 truncate mb-1">{user.email || <span className="italic text-gray-400">N/A</span>}</p>
-                <p className="text-sm text-gray-500">{(user as any).phone || <span className="italic text-gray-400">N/A</span>}</p>
+                <p className="text-sm text-gray-500">{(user.phone as string) || <span className="italic text-gray-400">N/A</span>}</p>
               </div>
             </div>
 
@@ -344,7 +344,7 @@ export default async function AdminDashboardPage() {
                 <div className="bg-gray-50 px-3 py-1.5 rounded border border-gray-100 flex items-center justify-center">
                   <Image src="/m-pesa.png" alt="M-Pesa" width={40} height={20} className="object-contain" />
                 </div>
-                <span className="text-sm font-semibold text-[#0f2d5c]">{(user as any).phone || <span className="italic text-gray-400 font-normal">N/A</span>}</span>
+                <span className="text-sm font-semibold text-[#0f2d5c]">{(user.phone as string) || <span className="italic text-gray-400 font-normal">N/A</span>}</span>
               </div>
               <span className="text-[10px] font-bold px-2 py-0.5 bg-green-100 text-green-700 rounded">
                 Default

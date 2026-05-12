@@ -3,7 +3,6 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { useCartStore } from "@/lib/store/cart"
@@ -41,7 +40,6 @@ type Variant = {
 
 export function ProductDetailsClient({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1)
-  const { data: session } = useSession()
   const router = useRouter()
 
   // Find available types from the database

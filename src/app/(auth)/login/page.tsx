@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Logo } from '@/components/ui/logo'
 import { useActionState, Suspense } from 'react'
-import { loginUser, oauthSignIn } from '@/app/actions/auth'
+import { loginUser } from '@/app/actions/auth'
 import { useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {

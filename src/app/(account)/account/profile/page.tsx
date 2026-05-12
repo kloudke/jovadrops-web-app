@@ -6,10 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
 import { prisma } from "@/lib/prisma"
-import { cn } from "@/lib/utils"
 import { 
   ChevronRight, 
-  ChevronDown,
   User, 
   Lock, 
   Eye, 
@@ -17,13 +15,7 @@ import {
   Upload, 
   Calendar, 
   ShieldCheck, 
-  MonitorSmartphone, 
-  MapPin, 
-  Home, 
-  Briefcase, 
-  Users, 
-  MoreVertical,
-  Plus,
+  MonitorSmartphone,
   Info,
   Trash2
 } from "lucide-react"
@@ -43,7 +35,7 @@ export default async function ProfilePage() {
     redirect("/login")
   }
 
-  const phoneNumber = (user as any).phone || ""
+  const phoneNumber = (user.phone as string) || ""
 
   return (
     <div className="pb-12">

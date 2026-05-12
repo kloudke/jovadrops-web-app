@@ -4,15 +4,15 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Menu, X, ShoppingCart, UserCircle, User, ChevronDown } from 'lucide-react'
 import { Logo } from '@/components/ui/logo'
-import { Button } from '@/components/ui/button'
 import { useCartStore } from '@/lib/store/cart'
 
-export function PublicNavbar({ session }: { session: any }) {
+export function PublicNavbar({ session }: { session: unknown }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const cartCount = useCartStore((state) => state.cartCount())
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true)
   }, [])
 

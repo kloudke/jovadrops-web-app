@@ -58,7 +58,7 @@ export default function NewAddressPage() {
               <select name="type" id="type" className="w-full h-12 border border-gray-200 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#1434CB]/20 appearance-none bg-white">
                 <option value="Home">Home</option>
                 <option value="Office">Office</option>
-                <option value="Parents' Home">Parents' Home</option>
+                <option value="Parents' Home">Parents&apos; Home</option>
                 <option value="Gym">Gym</option>
                 <option value="Other">Other</option>
               </select>

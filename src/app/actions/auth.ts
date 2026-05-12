@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma"
 import bcrypt from "bcrypt"
 import { signIn } from "@/auth"
 
-export async function registerUser(prevState: any, formData: FormData) {
+export async function registerUser(prevState: unknown, formData: FormData) {
   try {
     const name = formData.get("name") as string
     const email = formData.get("email") as string
@@ -58,7 +58,7 @@ export async function registerUser(prevState: any, formData: FormData) {
   })
 }
 
-export async function loginUser(prevState: any, formData: FormData) {
+export async function loginUser(prevState: unknown, formData: FormData) {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
   const callbackUrl = (formData.get("callbackUrl") as string) || "/account"
@@ -73,8 +73,8 @@ export async function loginUser(prevState: any, formData: FormData) {
       password,
       redirectTo: callbackUrl,
     })
-  } catch (error: any) {
-    if (error.type === "CredentialsSignin") {
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'type' in error && (error as { type: string }).type === "CredentialsSignin") {
       return { error: "Invalid email or password." }
     }
     // `signIn` throws a redirect on success, which we must not catch and swallow.

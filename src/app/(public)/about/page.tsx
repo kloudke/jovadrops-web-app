@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Droplet, Users, Leaf, Target, Eye, Star } from "lucide-react"
+import { Droplet, Users, Leaf, Target, Eye } from "lucide-react"
 
 export const metadata = {
   title: "About Us - JovaDrops",

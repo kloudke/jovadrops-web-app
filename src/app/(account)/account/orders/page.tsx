@@ -38,7 +38,7 @@ export default async function OrdersPage(props: { searchParams: Promise<{ [key: 
   const currentTab = typeof searchParams.tab === 'string' ? searchParams.tab : 'all'
 
   // Build the where clause based on the tab
-  let whereClause: any = { userId: user.id }
+  const whereClause: { userId: string; status?: string | { in: string[] } } = { userId: user.id }
   if (currentTab === 'delivered') {
     whereClause.status = 'DELIVERED'
   } else if (currentTab === 'processing') {
@@ -134,7 +134,7 @@ export default async function OrdersPage(props: { searchParams: Promise<{ [key: 
               <Search className="w-8 h-8" />
             </div>
             <h3 className="text-lg font-bold text-[#0f2d5c] mb-2">No orders found</h3>
-            <p className="text-gray-500">We couldn't find any orders matching your criteria.</p>
+            <p className="text-gray-500">We couldn&apos;t find any orders matching your criteria.</p>
           </Card>
         ) : (
           orders.map((order) => {

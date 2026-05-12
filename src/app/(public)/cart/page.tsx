@@ -7,22 +7,6 @@ import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { ChevronRight, Trash2, Minus, Plus, Info, Lock, ArrowLeft, ShieldCheck, Truck, Award, ShoppingCart } from 'lucide-react';
 
-// Define the CartItem type
-type CartItem = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  originalPrice?: number; // Used for calculating savings
-  image: string;
-  isPack?: boolean;
-};
-
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useCartStore } from '@/lib/store/cart';
-
 export default function CartPage() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -159,7 +143,7 @@ export default function CartPage() {
                     <ShoppingCart className="h-8 w-8 text-blue-300" />
                   </div>
                   <h3 className="text-xl font-bold text-[#0f2d5c] mb-2">Your cart is empty</h3>
-                  <p className="text-muted-foreground mb-6">Looks like you haven't added any products yet.</p>
+                  <p className="text-muted-foreground mb-6">Looks like you haven&apos;t added any products yet.</p>
                 </div>
               )}
             </Card>
