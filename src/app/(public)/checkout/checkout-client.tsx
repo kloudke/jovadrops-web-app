@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useCartStore } from "@/lib/store/cart"
 import { processCheckout } from "@/app/actions/checkout"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -23,7 +23,7 @@ import {
   ChevronRight
 } from "lucide-react"
 
-export function CheckoutClient({ addresses, defaultPhone }: { addresses: any[], defaultPhone: string }) {
+export function CheckoutClient({ addresses, defaultPhone }: { addresses: { id: string; type: string; street: string; city: string; state: string | null; zip: string | null; isDefault: boolean }[], defaultPhone: string }) {
   const router = useRouter()
   const { items, clearCart, subtotal: getSubtotal } = useCartStore()
   
@@ -105,7 +105,7 @@ export function CheckoutClient({ addresses, defaultPhone }: { addresses: any[], 
 
           {addresses.length === 0 ? (
             <div className="text-center p-6 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50">
-              <p className="text-gray-500 mb-4">You haven't saved any addresses yet.</p>
+              <p className="text-gray-500 mb-4">You haven&apos;t saved any addresses yet.</p>
               <Link href="/account/addresses/new" className={cn(buttonVariants({ variant: "default" }), "bg-[#1434CB] hover:bg-[#0f2d5c] text-white")}>
                 Add an Address
               </Link>
