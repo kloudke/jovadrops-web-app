@@ -2,23 +2,19 @@ import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
 import { prisma } from "@/lib/prisma"
 import { 
   ChevronRight, 
   User, 
   Lock, 
-  Eye, 
   Settings, 
   Upload, 
   Calendar, 
   ShieldCheck, 
   MonitorSmartphone,
-  Info,
-  Trash2
 } from "lucide-react"
+import { PersonalInformationForm, ChangePasswordForm, DeleteAccountCard } from "./profile-components"
 
 export default async function ProfilePage() {
   const session = await auth()
@@ -34,8 +30,6 @@ export default async function ProfilePage() {
   if (!user) {
     redirect("/login")
   }
-
-  const phoneNumber = (user.phone as string) || ""
 
   return (
     <div className="pb-12">
@@ -63,41 +57,7 @@ export default async function ProfilePage() {
             <User className="w-5 h-5 text-[#1434CB]" />
             <h2 className="font-bold text-[#0f2d5c] text-lg">Personal Information</h2>
           </div>
-          
-          <form className="space-y-5">
-            <div className="space-y-2">
-              <Label htmlFor="fullName" className="text-sm font-semibold text-gray-700">Full Name</Label>
-              <Input 
-                id="fullName" 
-                defaultValue={user.name || ""} 
-                className="h-12 border-gray-200 focus-visible:ring-[#1434CB]/20 rounded-lg" 
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-semibold text-gray-700">Email Address</Label>
-              <Input 
-                id="email" 
-                type="email" 
-                defaultValue={user.email || ""} 
-                className="h-12 border-gray-200 focus-visible:ring-[#1434CB]/20 rounded-lg" 
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-semibold text-gray-700">Phone Number</Label>
-              <Input 
-                id="phone" 
-                defaultValue={phoneNumber} 
-                placeholder="+254 712 345 678"
-                className="h-12 border-gray-200 focus-visible:ring-[#1434CB]/20 rounded-lg placeholder:text-gray-400" 
-              />
-            </div>
-
-            <Button className="w-full bg-[#1434CB] hover:bg-[#0f2d5c] text-white font-semibold h-12 rounded-lg mt-2">
-              Save Changes
-            </Button>
-          </form>
+          <PersonalInformationForm user={{ name: user.name, email: user.email, phone: user.phone }} />
         </Card>
 
         {/* Column 2: Change Password */}
@@ -106,62 +66,7 @@ export default async function ProfilePage() {
             <Lock className="w-5 h-5 text-[#1434CB]" />
             <h2 className="font-bold text-[#0f2d5c] text-lg">Change Password</h2>
           </div>
-          
-          <form className="space-y-5">
-            <div className="space-y-2">
-              <Label htmlFor="currentPassword" className="text-sm font-semibold text-gray-700">Current Password</Label>
-              <div className="relative">
-                <Input 
-                  id="currentPassword" 
-                  type="password" 
-                  placeholder="Enter current password" 
-                  className="h-12 border-gray-200 focus-visible:ring-[#1434CB]/20 rounded-lg pr-10" 
-                />
-                <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                  <Eye className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="newPassword" className="text-sm font-semibold text-gray-700">New Password</Label>
-              <div className="relative">
-                <Input 
-                  id="newPassword" 
-                  type="password" 
-                  placeholder="Enter new password" 
-                  className="h-12 border-gray-200 focus-visible:ring-[#1434CB]/20 rounded-lg pr-10" 
-                />
-                <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                  <Eye className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-sm font-semibold text-gray-700">Confirm New Password</Label>
-              <div className="relative">
-                <Input 
-                  id="confirmPassword" 
-                  type="password" 
-                  placeholder="Confirm new password" 
-                  className="h-12 border-gray-200 focus-visible:ring-[#1434CB]/20 rounded-lg pr-10" 
-                />
-                <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                  <Eye className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-[#f4f7fb] border border-[#e5eef7] rounded-lg p-4 flex gap-3 text-sm text-[#0f2d5c]">
-              <Info className="w-4 h-4 shrink-0 text-[#1434CB] mt-0.5" />
-              <p>Password must be at least 8 characters long and include a number and a special character.</p>
-            </div>
-
-            <Button className="w-full bg-[#1434CB] hover:bg-[#0f2d5c] text-white font-semibold h-12 rounded-lg">
-              Update Password
-            </Button>
-          </form>
+          <ChangePasswordForm />
         </Card>
 
         {/* Column 3: Profile Picture & Activity */}
@@ -229,20 +134,7 @@ export default async function ProfilePage() {
         </div>
 
         {/* Delete Account (Spans all columns) */}
-        <Card className="lg:col-span-3 p-6 md:p-8 border border-red-100 shadow-sm rounded-xl bg-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="bg-red-50 p-3 rounded-full text-red-600 shrink-0">
-              <Trash2 className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="font-bold text-[#0f2d5c] text-base mb-1">Delete Account</h3>
-              <p className="text-sm text-gray-500">Once you delete your account, there is no going back. Please be certain.</p>
-            </div>
-          </div>
-          <Button variant="outline" className="shrink-0 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 font-semibold h-10 px-6 rounded-lg w-full md:w-auto">
-            Delete Account
-          </Button>
-        </Card>
+        <DeleteAccountCard />
 
       </div>
 
