@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -41,7 +41,7 @@ jobs:
         run: npm audit --audit-level=high
 
   test:
-    name: Run Tests
+    name: Unit & Integration Testing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
