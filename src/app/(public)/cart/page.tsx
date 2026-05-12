@@ -7,6 +7,10 @@ import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { ChevronRight, Trash2, Minus, Plus, Info, Lock, ArrowLeft, ShieldCheck, Truck, Award, ShoppingCart } from 'lucide-react';
 
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useCartStore } from '@/lib/store/cart';
+
 export default function CartPage() {
   const { data: session } = useSession();
   const router = useRouter();

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { prisma } from "@/lib/prisma"
+import { Prisma } from "@prisma/client"
 import { cn } from "@/lib/utils"
 import { 
   ChevronRight, 
@@ -38,7 +39,7 @@ export default async function OrdersPage(props: { searchParams: Promise<{ [key: 
   const currentTab = typeof searchParams.tab === 'string' ? searchParams.tab : 'all'
 
   // Build the where clause based on the tab
-  const whereClause: { userId: string; status?: string | { in: string[] } } = { userId: user.id }
+  const whereClause: Prisma.OrderWhereInput = { userId: user.id }
   if (currentTab === 'delivered') {
     whereClause.status = 'DELIVERED'
   } else if (currentTab === 'processing') {

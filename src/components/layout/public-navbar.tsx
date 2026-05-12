@@ -16,8 +16,9 @@ export function PublicNavbar({ session }: { session: unknown }) {
     setIsMounted(true)
   }, [])
 
-  const userInitials = session?.user?.name
-    ? session.user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2)
+  const typedSession = session as { user?: { name?: string } } | null;
+  const userInitials = typedSession?.user?.name
+    ? typedSession.user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2)
     : 'JD'
 
   return (
