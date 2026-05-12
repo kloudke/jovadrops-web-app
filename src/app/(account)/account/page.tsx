@@ -17,7 +17,10 @@ import {
   User as UserIcon, 
   Edit, 
   MapPin, 
-  Plus
+  Plus,
+  Home,
+  Briefcase,
+  Users
 } from "lucide-react"
 
 export default async function AdminDashboardPage() {
@@ -39,7 +42,7 @@ export default async function AdminDashboardPage() {
   const firstName = user.name?.split(' ')[0] || 'User'
 
   // Fetch real data from the database
-  const [totalOrders, activeOrders, lastOrder, recentOrders, aggregations] = await Promise.all([
+  const [totalOrders, activeOrders, lastOrder, recentOrders, aggregations, addresses] = await Promise.all([
     prisma.order.count({ where: { userId } }),
     prisma.order.count({ where: { userId, status: { in: ['PENDING', 'PROCESSING', 'OUT_FOR_DELIVERY'] } } }),
     prisma.order.findFirst({ where: { userId }, orderBy: { createdAt: 'desc' } }),
@@ -47,10 +50,19 @@ export default async function AdminDashboardPage() {
     prisma.order.aggregate({
       where: { userId, status: { not: 'CANCELLED' } },
       _sum: { totalPrice: true }
+    }),
+    prisma.address.findMany({
+      where: { userId },
+      orderBy: [
+        { isDefault: 'desc' },
+        { createdAt: 'desc' }
+      ],
+      take: 3 // Only show up to 3 addresses on the dashboard
     })
   ])
 
   const totalSpent = aggregations._sum.totalPrice || 0
+  const defaultAddress = addresses.find(a => a.isDefault) || addresses[0]
 
   return (
     <div className="space-y-8 pb-12">
@@ -232,12 +244,43 @@ export default async function AdminDashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card className="p-5 border-2 border-dashed border-gray-200 shadow-none rounded-xl bg-transparent flex flex-col items-center justify-center text-center hover:bg-white hover:border-blue-200 transition-colors cursor-pointer group">
-                <div className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#1434CB] mb-3 group-hover:bg-blue-50 group-hover:border-blue-200 transition-colors">
-                  <Plus className="w-5 h-5" />
-                </div>
-                <span className="text-xs font-bold text-[#1434CB]">Add New Address</span>
-              </Card>
+              {addresses.map((addr) => {
+                let Icon = Home
+                if (addr.type === "Office") Icon = Briefcase
+                else if (addr.type === "Parents' Home" || addr.type === "Family") Icon = Users
+                else if (addr.type === "Other" || addr.type === "Gym") Icon = MapPin
+
+                return (
+                  <Card key={addr.id} className={cn("p-5 border shadow-sm rounded-xl relative group", addr.isDefault ? "border-blue-100 bg-[#f8fbff]" : "border-gray-100 bg-white")}>
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex items-center gap-2 text-[#0f2d5c] font-bold text-sm">
+                        <Icon className="w-4 h-4" />
+                        {addr.type}
+                      </div>
+                      {addr.isDefault && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 bg-blue-100 text-blue-700 rounded">
+                          Default
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-600 space-y-1 mb-4">
+                      <p>{addr.street}</p>
+                      <p>{addr.city}, {addr.state} {addr.zip}</p>
+                      <p>{addr.phone || "N/A"}</p>
+                    </div>
+                    <p className="text-xs font-semibold text-[#0f2d5c]">{user.name || 'User'}</p>
+                  </Card>
+                )
+              })}
+
+              <Link href="/account/addresses/new" className="group">
+                <Card className="p-5 border-2 border-dashed border-gray-200 shadow-none rounded-xl bg-transparent flex flex-col items-center justify-center text-center hover:bg-white hover:border-blue-200 transition-colors cursor-pointer h-full min-h-[140px]">
+                  <div className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#1434CB] mb-3 group-hover:bg-blue-50 group-hover:border-blue-200 transition-colors">
+                    <Plus className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-bold text-[#1434CB]">Add New Address</span>
+                </Card>
+              </Link>
             </div>
           </div>
 
@@ -278,7 +321,16 @@ export default async function AdminDashboardPage() {
                 <MapPin className="w-4 h-4" />
               </div>
               <div className="text-sm text-gray-600 space-y-1">
-                <p className="italic text-gray-400">No default address set.</p>
+                {defaultAddress ? (
+                  <>
+                    <p className="font-semibold text-[#0f2d5c] mb-1">{defaultAddress.type}</p>
+                    <p>{defaultAddress.street}</p>
+                    <p>{defaultAddress.city}, {defaultAddress.state} {defaultAddress.zip}</p>
+                    <p>{defaultAddress.phone || "N/A"}</p>
+                  </>
+                ) : (
+                  <p className="italic text-gray-400">No default address set.</p>
+                )}
               </div>
             </div>
           </Card>

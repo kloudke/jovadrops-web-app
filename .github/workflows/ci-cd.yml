@@ -1,10 +1,10 @@
 name: CI Pipeline
 
 on:
-  # push:
-  #   branches: [main, develop]
-  # pull_request:
-  #   branches: [main]
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 env:
@@ -59,111 +59,111 @@ jobs:
       - name: Run automated tests
         run: npm test
 
-  docker-build-push:
-    name: Build & Push Docker Image
-    needs: [quality, test]
-    runs-on: ubuntu-latest
-    # Only push the image to the registry if it's a push to main/develop, not for PRs
-    # PRs will build the image to verify it works, but won't push.
-    permissions:
-      contents: read
-      packages: write
+  # docker-build-push:
+  #   name: Build & Push Docker Image
+  #   needs: [quality, test]
+  #   runs-on: ubuntu-latest
+  #   # Only push the image to the registry if it's a push to main/develop, not for PRs
+  #   # PRs will build the image to verify it works, but won't push.
+  #   permissions:
+  #     contents: read
+  #     packages: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Log in to the Container registry
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Log in to the Container registry
+  #       if: github.event_name != 'pull_request'
+  #       uses: docker/login-action@v3
+  #       with:
+  #         registry: ${{ env.REGISTRY }}
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
-            type=ref,event=branch
-            type=ref,event=pr
-            type=sha,format=short
+  #     - name: Extract metadata (tags, labels) for Docker
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+  #         tags: |
+  #           type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+  #           type=ref,event=branch
+  #           type=ref,event=pr
+  #           type=sha,format=short
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v3
 
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          load: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:scan-target
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+  #     - name: Build and export to Docker
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: .
+  #         load: true
+  #         tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:scan-target
+  #         cache-from: type=gha
+  #         cache-to: type=gha,mode=max
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:scan-target'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'CRITICAL,HIGH'
+  #     - name: Run Trivy vulnerability scanner
+  #       uses: aquasecurity/trivy-action@master
+  #       with:
+  #         image-ref: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:scan-target'
+  #         format: 'table'
+  #         exit-code: '1'
+  #         ignore-unfixed: true
+  #         vuln-type: 'CRITICAL,HIGH'
 
-      - name: Push Docker image
-        if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
+  #     - name: Push Docker image
+  #       if: github.event_name != 'pull_request'
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         cache-from: type=gha
 
-  deploy:
-    name: Deploy Application
-    needs: [docker-build-push]
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+  # deploy:
+  #   name: Deploy Application
+  #   needs: [docker-build-push]
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name != 'pull_request'
     
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      # --- Option 1: AWS ECS Deployment ---
-      # Uncomment and configure these steps if deploying to AWS ECS Fargate
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-east-1
-      #
-      # - name: Deploy to Amazon ECS
-      #   run: |
-      #     aws ecs update-service \
-      #       --cluster jovadrops-cluster \
-      #       --service jovadrops-service \
-      #       --force-new-deployment
+  #     # --- Option 1: AWS ECS Deployment ---
+  #     # Uncomment and configure these steps if deploying to AWS ECS Fargate
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
+      
+  #     - name: Deploy to Amazon ECS
+  #       run: |
+  #         aws ecs update-service \
+  #           --cluster jovadrops-cluster \
+  #           --service jovadrops-service \
+  #           --force-new-deployment
 
-      # --- Option 2: Kubernetes Deployment ---
-      # Uncomment and configure these steps if deploying to a Self-Managed Kubernetes cluster
-      # - name: Set Kubernetes Context
-      #   uses: azure/k8s-set-context@v3
-      #   with:
-      #     method: kubeconfig
-      #     kubeconfig: ${{ secrets.KUBECONFIG }}
-      #
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     # Dynamically update the deployment manifest with the newly pushed image SHA
-      #     sed -i "s|image: ghcr.io/your-org/jovadrops-web-app:latest|image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${GITHUB_SHA::7}|g" infrastructure/k8s/deployment.yaml
-      #     
-      #     # Apply all manifests in the k8s folder
-      #     kubectl apply -f infrastructure/k8s/
-      #     
-      #     # Wait for the rollout to complete
-      #     kubectl rollout status deployment/jovadrops-web
+  #     # --- Option 2: Kubernetes Deployment ---
+  #     # Uncomment and configure these steps if deploying to a Self-Managed Kubernetes cluster
+  #     - name: Set Kubernetes Context
+  #       uses: azure/k8s-set-context@v3
+  #       with:
+  #         method: kubeconfig
+  #         kubeconfig: ${{ secrets.KUBECONFIG }}
+      
+  #     - name: Deploy to Kubernetes
+  #       run: |
+  #         # Dynamically update the deployment manifest with the newly pushed image SHA
+  #         sed -i "s|image: ghcr.io/your-org/jovadrops-web-app:latest|image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${GITHUB_SHA::7}|g" infrastructure/k8s/deployment.yaml
+          
+  #         # Apply all manifests in the k8s folder
+  #         kubectl apply -f infrastructure/k8s/
+          
+  #         # Wait for the rollout to complete
+  #         kubectl rollout status deployment/jovadrops-web

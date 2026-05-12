@@ -49,6 +49,7 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  phone         String?
   role          Role      @default(CUSTOMER)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -56,6 +57,7 @@ model User {
   accounts   Account[]
   sessions   Session[]
   orders     Order[]
+  addresses  Address[]
   deliveries Delivery[] // Deliveries assigned to this staff/driver
 }
 
@@ -156,4 +158,21 @@ model Delivery {
 
   order         Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
   assignedStaff User? @relation(fields: [assignedStaffId], references: [id], onDelete: SetNull)
+}
+
+model Address {
+  id           String   @id @default(cuid())
+  userId       String
+  type         String   @default("Home") // e.g., "Home", "Office", "Other"
+  street       String
+  city         String
+  state        String?
+  zip          String?
+  phone        String?
+  instructions String?
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

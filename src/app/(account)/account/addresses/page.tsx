@@ -2,7 +2,7 @@ import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { prisma } from "@/lib/prisma"
 import { cn } from "@/lib/utils"
@@ -13,13 +13,12 @@ import {
   Briefcase, 
   Users, 
   MapPin,
-  Edit,
-  Trash2,
   User,
   Phone,
   FileText,
   ShieldCheck
 } from "lucide-react"
+import { AddressActions } from "./address-actions"
 
 export default async function AddressesPage() {
   const session = await auth()
@@ -36,77 +35,56 @@ export default async function AddressesPage() {
     redirect("/login")
   }
 
-  // Mock addresses since they are not in the Prisma schema yet
-  const addresses = [
-    {
-      id: "1",
-      title: "Home",
-      icon: Home,
-      iconColor: "text-blue-600",
-      iconBg: "bg-blue-50",
-      street: "123 Waterview Street",
-      city: "Nairobi",
-      state: "Nairobi County",
-      zip: "00100",
-      phone: "+254 712 345 678",
-      name: user.name || "John Doe",
-      instructions: "Leave at the door",
-      tag: "Home",
-      tagColor: "bg-blue-50 text-blue-700",
-      isDefault: true
-    },
-    {
-      id: "2",
-      title: "Office",
-      icon: Briefcase,
-      iconColor: "text-purple-600",
-      iconBg: "bg-purple-50",
-      street: "456 Business Avenue",
-      city: "Nairobi",
-      state: "Nairobi County",
-      zip: "00200",
-      phone: "+254 722 987 654",
-      name: user.name || "John Doe",
-      instructions: "Call upon arrival",
-      tag: "Work",
-      tagColor: "bg-purple-50 text-purple-700",
-      isDefault: false
-    },
-    {
-      id: "3",
-      title: "Parents' Home",
-      icon: Users,
-      iconColor: "text-green-600",
-      iconBg: "bg-green-50",
-      street: "789 Green Lane",
-      city: "Kiambu",
-      state: "Kiambu County",
-      zip: "00900",
-      phone: "+254 733 111 222",
-      name: user.name || "John Doe",
-      instructions: "Leave with security",
-      tag: "Family",
-      tagColor: "bg-green-50 text-green-700",
-      isDefault: false
-    },
-    {
-      id: "4",
-      title: "Gym",
-      icon: MapPin,
-      iconColor: "text-orange-600",
-      iconBg: "bg-orange-50",
-      street: "321 Fitness Blvd",
-      city: "Nairobi",
-      state: "Nairobi County",
-      zip: "00100",
-      phone: "+254 744 333 444",
-      name: user.name || "John Doe",
-      instructions: "Call before delivery",
-      tag: "Other",
-      tagColor: "bg-orange-50 text-orange-700",
-      isDefault: false
+  const dbAddresses = await prisma.address.findMany({
+    where: { userId: user.id },
+    orderBy: [
+      { isDefault: 'desc' },
+      { createdAt: 'desc' }
+    ]
+  })
+
+  // Map db addresses to the UI format
+  const addresses = dbAddresses.map(addr => {
+    let icon = Home
+    let iconColor = "text-blue-600"
+    let iconBg = "bg-blue-50"
+    let tagColor = "bg-blue-50 text-blue-700"
+
+    if (addr.type === "Office") {
+      icon = Briefcase
+      iconColor = "text-purple-600"
+      iconBg = "bg-purple-50"
+      tagColor = "bg-purple-50 text-purple-700"
+    } else if (addr.type === "Parents' Home" || addr.type === "Family") {
+      icon = Users
+      iconColor = "text-green-600"
+      iconBg = "bg-green-50"
+      tagColor = "bg-green-50 text-green-700"
+    } else if (addr.type === "Other" || addr.type === "Gym") {
+      icon = MapPin
+      iconColor = "text-orange-600"
+      iconBg = "bg-orange-50"
+      tagColor = "bg-orange-50 text-orange-700"
     }
-  ]
+
+    return {
+      id: addr.id,
+      title: addr.type,
+      icon,
+      iconColor,
+      iconBg,
+      street: addr.street,
+      city: addr.city,
+      state: addr.state || "",
+      zip: addr.zip || "",
+      phone: addr.phone || "N/A",
+      name: user.name || "User",
+      instructions: addr.instructions || "No instructions",
+      tag: addr.type,
+      tagColor,
+      isDefault: addr.isDefault
+    }
+  })
 
   return (
     <div className="pb-12">
@@ -125,10 +103,10 @@ export default async function AddressesPage() {
           <h1 className="text-3xl font-extrabold text-[#0f2d5c] mb-2">My Addresses</h1>
           <p className="text-muted-foreground">Manage your saved delivery addresses.</p>
         </div>
-        <Button className="bg-[#1434CB] hover:bg-[#0f2d5c] text-white font-semibold rounded-lg px-6 h-12">
+        <Link href="/account/addresses/new" className={cn(buttonVariants({ variant: "default" }), "bg-[#1434CB] hover:bg-[#0f2d5c] text-white font-semibold rounded-lg px-6 h-12 flex items-center justify-center")}>
           <Plus className="w-4 h-4 mr-2" />
           Add New Address
-        </Button>
+        </Link>
       </div>
 
       {/* Main Grid */}
@@ -136,9 +114,22 @@ export default async function AddressesPage() {
         
         {/* Left Column (Address List) */}
         <div className="xl:col-span-2 space-y-4">
-          {addresses.map((addr) => {
-            const Icon = addr.icon
-            return (
+          {addresses.length === 0 ? (
+            <Card className="p-12 text-center border-none shadow-sm rounded-xl bg-white flex flex-col items-center justify-center">
+              <div className="bg-blue-50 p-4 rounded-full mb-4 text-[#1434CB]">
+                <MapPin className="w-8 h-8" />
+              </div>
+              <h3 className="text-xl font-bold text-[#0f2d5c] mb-2">No addresses saved</h3>
+              <p className="text-gray-500 mb-6">You haven't saved any delivery addresses yet.</p>
+              <Link href="/account/addresses/new" className={cn(buttonVariants({ variant: "default" }), "bg-[#1434CB] hover:bg-[#0f2d5c] text-white font-semibold rounded-lg px-6 h-10 flex items-center justify-center")}>
+                <Plus className="w-4 h-4 mr-2" />
+                Add New Address
+              </Link>
+            </Card>
+          ) : (
+            addresses.map((addr) => {
+              const Icon = addr.icon
+              return (
               <Card key={addr.id} className="p-6 border-none shadow-sm rounded-xl bg-white transition-all hover:shadow-md">
                 <div className="flex flex-col md:flex-row gap-6 md:items-center">
                   
@@ -186,21 +177,13 @@ export default async function AddressesPage() {
                   </div>
 
                   {/* Right: Actions */}
-                  <div className="flex flex-row md:flex-col gap-3 pt-4 md:pt-0 border-t md:border-t-0 border-gray-100 md:w-28 shrink-0 justify-end md:justify-center md:items-end">
-                    <Button variant="ghost" className="h-8 px-3 text-[#1434CB] hover:text-[#1434CB] hover:bg-blue-50 font-semibold justify-start">
-                      <Edit className="w-4 h-4 mr-2" />
-                      Edit
-                    </Button>
-                    <Button variant="ghost" className="h-8 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 font-semibold justify-start">
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      Delete
-                    </Button>
-                  </div>
+                  <AddressActions addressId={addr.id} isDefault={addr.isDefault} />
 
                 </div>
               </Card>
-            )
-          })}
+              )
+            })
+          )}
         </div>
 
         {/* Right Column (Sidebars) */}
