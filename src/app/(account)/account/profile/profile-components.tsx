@@ -1,12 +1,73 @@
 "use client"
 
-import { useActionState, useState } from "react"
+import { useActionState, useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
-import { Eye, Info, Trash2 } from "lucide-react"
-import { updateProfile, updatePassword, deleteAccount } from "@/app/actions/profile"
+import { Eye, Info, Trash2, User, Upload } from "lucide-react"
+import { updateProfile, updatePassword, deleteAccount, uploadProfilePicture } from "@/app/actions/profile"
+import Image from "next/image"
+
+export function ProfilePictureUpload({ currentImage }: { currentImage?: string | null }) {
+  const [isUploading, setIsUploading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    setIsUploading(true)
+    setError(null)
+
+    const formData = new FormData()
+    formData.append("file", file)
+
+    const result = await uploadProfilePicture(formData)
+
+    if (result?.error) {
+      setError(result.error)
+    }
+
+    setIsUploading(false)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center text-center space-y-4">
+      <div className="w-24 h-24 rounded-full bg-[#f4f7fb] border-2 border-[#e5eef7] flex items-center justify-center text-[#1434CB] overflow-hidden">
+        {currentImage ? (
+          <Image src={currentImage} alt="Profile Picture" width={96} height={96} className="object-cover w-full h-full" />
+        ) : (
+          <User className="w-10 h-10 stroke-[1.5]" />
+        )}
+      </div>
+      <div className="space-y-3 w-full">
+        {error && <p className="text-xs text-red-600 font-medium">{error}</p>}
+        <p className="text-xs text-gray-500">JPG, PNG or GIF. Max size 2MB.</p>
+        <input 
+          type="file" 
+          accept="image/jpeg, image/png, image/gif, image/webp" 
+          className="hidden" 
+          ref={fileInputRef}
+          onChange={handleFileChange}
+        />
+        <Button 
+          variant="outline" 
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isUploading}
+          className="w-full h-10 border-[#1434CB] text-[#1434CB] hover:bg-[#eef4fb] font-semibold rounded-lg disabled:opacity-50"
+        >
+          <Upload className="w-4 h-4 mr-2" />
+          {isUploading ? "Uploading..." : "Upload New Photo"}
+        </Button>
+      </div>
+    </div>
+  )
+}
 
 export function PersonalInformationForm({ user }: { user: { name?: string | null, email?: string | null, phone?: string | null } }) {
   const [state, formAction, isPending] = useActionState(updateProfile, undefined)

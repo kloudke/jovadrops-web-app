@@ -6,6 +6,75 @@ import bcrypt from "bcrypt"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
+import { writeFile } from "fs/promises"
+import * as fs from "fs"
+import path from "path"
+import { randomUUID } from "crypto"
+
+export async function uploadProfilePicture(formData: FormData) {
+  const session = await auth()
+  
+  if (!session?.user?.email) {
+    return { error: "Unauthorized" }
+  }
+
+  const file = formData.get("file") as File
+  if (!file || file.size === 0) {
+    return { error: "No file selected." }
+  }
+
+  // Basic validation (2MB limit)
+  if (file.size > 2 * 1024 * 1024) {
+    return { error: "File size exceeds 2MB limit." }
+  }
+
+  const validTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"]
+  if (!validTypes.includes(file.type)) {
+    return { error: "Invalid file type. Only JPG, PNG, GIF, and WEBP are allowed." }
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email }
+    })
+
+    if (!user) return { error: "User not found." }
+
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+
+    // Create a unique filename
+    const extension = file.name.split('.').pop()
+    const fileName = `profile-${user.id}-${randomUUID()}.${extension}`
+    
+    // Save to public/uploads directory (ensure directory exists in production, but for this demo public/ is fine)
+    const uploadDir = path.join(process.cwd(), "public", "uploads")
+    
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(uploadDir)){
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    const filePath = path.join(uploadDir, fileName)
+    await writeFile(filePath, buffer)
+
+    // Public URL path
+    const imageUrl = `/uploads/${fileName}`
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { image: imageUrl }
+    })
+
+    revalidatePath("/account")
+    revalidatePath("/account/profile")
+    
+    return { success: true, message: "Profile picture updated successfully!", imageUrl }
+  } catch (error) {
+    console.error("Profile picture upload error:", error)
+    return { error: "Failed to upload profile picture." }
+  }
+}
 export async function updateProfile(prevState: unknown, formData: FormData) {
   const session = await auth()
   

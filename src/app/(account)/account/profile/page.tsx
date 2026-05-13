@@ -1,7 +1,6 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { prisma } from "@/lib/prisma"
 import { 
@@ -9,12 +8,11 @@ import {
   User, 
   Lock, 
   Settings, 
-  Upload, 
   Calendar, 
   ShieldCheck, 
   MonitorSmartphone,
 } from "lucide-react"
-import { PersonalInformationForm, ChangePasswordForm, DeleteAccountCard } from "./profile-components"
+import { PersonalInformationForm, ChangePasswordForm, DeleteAccountCard, ProfilePictureUpload } from "./profile-components"
 
 export default async function ProfilePage() {
   const session = await auth()
@@ -76,19 +74,7 @@ export default async function ProfilePage() {
               <Settings className="w-5 h-5 text-[#1434CB]" />
               <h2 className="font-bold text-[#0f2d5c] text-lg">Profile Picture</h2>
             </div>
-            
-            <div className="flex flex-col items-center justify-center text-center space-y-4">
-              <div className="w-24 h-24 rounded-full bg-[#f4f7fb] border-2 border-[#e5eef7] flex items-center justify-center text-[#1434CB]">
-                <User className="w-10 h-10 stroke-[1.5]" />
-              </div>
-              <div className="space-y-3 w-full">
-                <p className="text-xs text-gray-500">JPG, PNG or GIF. Max size 2MB.</p>
-                <Button variant="outline" className="w-full h-10 border-[#1434CB] text-[#1434CB] hover:bg-[#eef4fb] font-semibold rounded-lg">
-                  <Upload className="w-4 h-4 mr-2" />
-                  Upload New Photo
-                </Button>
-              </div>
-            </div>
+            <ProfilePictureUpload currentImage={user.image} />
           </Card>
 
           <Card className="p-6 md:p-8 border-none shadow-sm rounded-xl bg-white">
