@@ -8,6 +8,7 @@ export async function registerUser(prevState: unknown, formData: FormData) {
   try {
     const name = formData.get("name") as string
     const email = formData.get("email") as string
+    const phone = formData.get("phone") as string
     const password = formData.get("password") as string
     const confirmPassword = formData.get("confirm-password") as string
 
@@ -33,6 +34,7 @@ export async function registerUser(prevState: unknown, formData: FormData) {
       data: {
         name,
         email,
+        phone,
         password: hashedPassword,
         // By default, role is CUSTOMER as defined in schema
       },
