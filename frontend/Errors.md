@@ -109,7 +109,7 @@ cat node_modules/next-auth/package,json | grep '"version"'
 
 ## Error 6: Cannot find module '.prisma/client/default'
 **What you see:**
-Error:Cannot find module './prisma/client/defaut'
+Error:Cannot find module './prisma/client/default'
 
 **Why this happens:** 
 Prisma's generated files are missing.They get wiped when you delete node_modules.
@@ -122,7 +122,7 @@ npm run dev
 ```
 
 **Prevetion:**
-Always regeberate prisma after deleting node_modules .
+Always regenerate prisma after deleting node_modules .
 ```bash 
 rm -rf node_modules 
 npm install 
@@ -136,7 +136,7 @@ TypeError:auth is not a function
 
 **Why this happens:**
 Your code calls auth() from next-auth.But you installed v4 which doesn't have this function.
-auth() is v5 beta feature.All of this can avoided by just installing v5 beta from the beginning.
+auth() is v5 beta feature.All of this can avoided by just installing v5 beta at the beginning of the project.
 
 
 
