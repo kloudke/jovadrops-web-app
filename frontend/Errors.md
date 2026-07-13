@@ -1,7 +1,7 @@
 # Common Errors and fixes 
-A running list of you might hit setting up this project and how to fix them.
+A running list of errors you might hit setting up this project and how to fix them.
 
-## Error 1:'npm install' fails with 'ENOENT'
+## Error 1: 'npm install' fails with 'ENOENT'
 **What you see:**
 npm error code ENOENT 
 npm errror path .../package.json 
@@ -25,7 +25,7 @@ ls
 
 ```
 
-## Errror 2:Couldn't find any 'pages' or 'app' directory 
+## Errror 2: Couldn't find any 'pages' or 'app' directory 
 **Why this happens:**
 package.json is outside the frontend/ folder.Next.js loks for app/ where package.json lives.
 
@@ -40,7 +40,7 @@ npm run dev
 
 ```
 
-## Error 3:next.config.ts is not supported. 
+## Error 3: next.config.ts is not supported. 
 **What you see:**
 Error:Configuring Next.js via 'next.config.ts' is not supported
 
@@ -64,7 +64,7 @@ module.exports = nextConfig;
 -  Next.js 13+ - next.ts 
 - Never have both files at the same time 
 
-## Error 4:Couldn't find a pages directory 
+## Error 4: Couldn't find a pages directory 
 **What you see:**
 Error:Couldn't find a 'pages' directory.Please create one. 
 
@@ -86,7 +86,7 @@ cat package.json | grep '"next"'
 
 ```
 
-## Error 5:Module not found next-auth/react 
+## Error 5: Module not found next-auth/react 
 **What you see:**
 Error:Module not found:Can't resolve 'next-auth/react'
 
@@ -107,7 +107,7 @@ cat node_modules/next-auth/package,json | grep '"version"'
 
 ```
 
-## Error 6:Cannot find module '.prisma/client/default'
+## Error 6: Cannot find module '.prisma/client/default'
 **What you see:**
 Error:Cannot find module './prisma/client/defaut'
 
