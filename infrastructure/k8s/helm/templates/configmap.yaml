@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.app.name }}-config
+  name: jovadrops-config
   namespace: {{ .Release.Namespace }}
 data:
   NODE_ENV: "{{ .Values.nodeEnv }}"

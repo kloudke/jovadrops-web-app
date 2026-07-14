@@ -26,12 +26,12 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.app.name }}-secret
+                  name: jovadrops-secret
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.app.name }}-secret
+                  name: jovadrops-secret
                   key: POSTGRES_PASSWORD
             - name: PG_DATA
               value: /var/lib/postgresql/data/pgdata

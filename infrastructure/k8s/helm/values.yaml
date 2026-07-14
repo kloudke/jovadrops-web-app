@@ -1,8 +1,8 @@
 # ================================================
-# Application settings
+# Frontend (Next.js) settings
 # ================================================
-app:
-  name: "jovadrops-web"
+frontend:
+  name: "jovadrops-frontend"
   port: 3000
   replicas: 3
   image:
@@ -16,6 +16,31 @@ app:
     limits:
       cpu: "500m"
       memory: "1Gi"
+  authSecret: "super-secret-auth-key-change-me"
+  authUrl: "https://jovadrops.kloudke.dpdns.org"
+  authGoogleId: ""
+  authGoogleSecret: ""
+  authAppleId: ""
+  authAppleSecret: ""
+
+# ================================================
+# Backend (Express) settings
+# ================================================
+backend:
+  name: "jovadrops-backend"
+  port: 5000
+  replicas: 2
+  image:
+    repository: "ghcr.io/kloudke/jovadrops-web-app/backend"
+    tag: "latest"
+    pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
 
 nodeEnv: "production"
 nextTelemetryDisabled: "1"
@@ -24,19 +49,31 @@ nextTelemetryDisabled: "1"
 # Service settings
 # ================================================
 service:
-  type: "ClusterIP"
-  port: 80
-  targetPort: 3000
+  frontend:
+    type: "ClusterIP"
+    port: 80
+    targetPort: 3000
+  backend:
+    type: "ClusterIP"
+    port: 5000
+    targetPort: 5000
 
 # ================================================
 # Horizontal Pod Autoscaling (HPA) settings
 # ================================================
 autoscaling:
-  enabled: true
-  minReplicas: 1
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  frontend:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+  backend:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
 
 # ================================================
 # Ingress settings

@@ -196,7 +196,7 @@ Resources:
     Properties:
       Cluster: !Ref EcsCluster
       ServiceName: !Sub ${AWS::StackName}-postgres-service
-      TaskDefinition: !Ref TaskDefinition
+      TaskDefinition: !Ref PostgresTaskDefinition
       DesiredCount: 1
       LaunchType: FARGATE
       NetworkConfiguration:

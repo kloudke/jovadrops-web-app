@@ -1,0 +1,181 @@
+// Prisma schema docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+// NextAuth.js Models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  ADMIN
+  STAFF
+  CUSTOMER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  phone         String?
+  role          Role      @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts   Account[]
+  sessions   Session[]
+  orders     Order[]
+  addresses  Address[]
+  deliveries Delivery[] // Deliveries assigned to this staff/driver
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Business Models
+model Product {
+  id          String   @id @default(cuid())
+  slug        String   @unique // e.g., "20l-bottle"
+  name        String
+  description String?
+  image       String?
+  features    String[]
+  isAvailable Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  variants    ProductVariant[]
+}
+
+model ProductVariant {
+  id          String   @id @default(cuid())
+  productId   String
+  type        String   // e.g., "bottle", "water", "package"
+  name        String
+  price       Float
+  description String?
+  features    String[] // Variant specific features
+  
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItems  OrderItem[]
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String
+  status          OrderStatus @default(PENDING)
+  totalPrice      Float
+  paymentMethod   String?     @default("MPESA")
+  paymentStatus   String?     @default("PENDING")
+  deliveryAddress String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items      OrderItem[]
+  delivery   Delivery?   // An order has one delivery record
+}
+
+model OrderItem {
+  id        String @id @default(cuid())
+  orderId   String
+  variantId String
+  quantity  Int
+  price     Float // Snapshot of the price at order time
+
+  order   Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant ProductVariant @relation(fields: [variantId], references: [id], onDelete: Restrict)
+}
+
+model Inventory {
+  id          String   @id @default(cuid())
+  itemName    String   @unique
+  quantity    Int      @default(0)
+  lowStockThr Int      @default(10) // Alert when quantity goes below this
+  updatedAt   DateTime @updatedAt
+}
+
+enum DeliveryStatus {
+  UNASSIGNED
+  ASSIGNED
+  IN_TRANSIT
+  DELIVERED
+  FAILED
+}
+
+model Delivery {
+  id              String         @id @default(cuid())
+  orderId         String         @unique
+  assignedStaffId String?
+  status          DeliveryStatus @default(UNASSIGNED)
+  deliveryAddress String
+  deliveryNotes   String?
+  deliveredAt     DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  order         Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  assignedStaff User? @relation(fields: [assignedStaffId], references: [id], onDelete: SetNull)
+}
+
+model Address {
+  id           String   @id @default(cuid())
+  userId       String
+  type         String   @default("Home") // e.g., "Home", "Office", "Other"
+  street       String
+  city         String
+  state        String?
+  zip          String?
+  phone        String?
+  instructions String?
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

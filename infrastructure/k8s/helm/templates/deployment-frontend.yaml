@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.frontend.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Values.frontend.name }}
+    app.kubernetes.io/component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.frontend.name }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        app.kubernetes.io/name: {{ .Values.frontend.name }}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001 # Matches the Next.js Dockerfile nextjs user
+        fsGroup: 1001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: {{ .Values.frontend.name }}
+          image: {{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.frontend.port }}
+          envFrom:
+            - configMapRef:
+                name: jovadrops-config
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: DATABASE_URL
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: POSTGRES_USER
+            - name: AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: AUTH_SECRET
+            - name: AUTH_URL
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: AUTH_URL
+            {{- if .Values.frontend.authGoogleId }}
+            - name: AUTH_GOOGLE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: AUTH_GOOGLE_ID
+            - name: AUTH_GOOGLE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: AUTH_GOOGLE_SECRET
+            {{- end }}
+            {{- if .Values.frontend.authAppleId }}
+            - name: AUTH_APPLE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: AUTH_APPLE_ID
+            - name: AUTH_APPLE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: AUTH_APPLE_SECRET
+            {{- end }}
+          resources:
+            requests:
+              memory: {{ .Values.frontend.resources.requests.memory }}
+              cpu: {{ .Values.frontend.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.frontend.resources.limits.memory }}
+              cpu: {{ .Values.frontend.resources.limits.cpu }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.frontend.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.frontend.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
