@@ -6,7 +6,7 @@ frontend:
   port: 3000
   replicas: 3
   image:
-    repository: "ghcr.io/kloudke/jovadrops-web-app"
+    repository: "docker.io/kloudke/jovadrops-frontend"
     tag: "latest"
     pullPolicy: "IfNotPresent"
   resources:
@@ -31,7 +31,7 @@ backend:
   port: 5000
   replicas: 2
   image:
-    repository: "ghcr.io/kloudke/jovadrops-web-app/backend"
+    repository: "docker.io/kloudke/jovadrops-backend"
     tag: "latest"
     pullPolicy: "IfNotPresent"
   resources:
