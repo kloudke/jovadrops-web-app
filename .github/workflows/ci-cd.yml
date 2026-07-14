@@ -216,42 +216,42 @@ jobs:
           labels: ${{ steps.meta-backend.outputs.labels }}
           cache-from: type=gha
 
-  deploy:
-    name: Deploy Application
-    needs: [docker-build-push]
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+  # deploy:
+  #   name: Deploy Application
+  #   needs: [docker-build-push]
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name != 'pull_request'
     
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      # --- Option 1: AWS ECS Deployment ---
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+  #     # --- Option 1: AWS ECS Deployment ---
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
       
-      - name: Deploy to Amazon ECS
-        run: |
-          aws ecs update-service \
-            --cluster jovadrops-cluster \
-            --service jovadrops-service \
-            --force-new-deployment
+  #     - name: Deploy to Amazon ECS
+  #       run: |
+  #         aws ecs update-service \
+  #           --cluster jovadrops-cluster \
+  #           --service jovadrops-service \
+  #           --force-new-deployment
 
-      # --- Option 2: Kubernetes Deployment with Helm ---
-      - name: Set Kubernetes Context
-        uses: azure/k8s-set-context@v3
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}
+  #     # --- Option 2: Kubernetes Deployment with Helm ---
+  #     - name: Set Kubernetes Context
+  #       uses: azure/k8s-set-context@v3
+  #       with:
+  #         method: kubeconfig
+  #         kubeconfig: ${{ secrets.KUBECONFIG }}
       
-      - name: Deploy to Kubernetes with Helm
-        run: |
-          helm upgrade --install jovadrops infrastructure/k8s/helm \
-            --namespace jovadrops \
-            --create-namespace \
-            --set frontend.image.tag=sha-${GITHUB_SHA::7} \
-            --set backend.image.tag=sha-${GITHUB_SHA::7}
+  #     - name: Deploy to Kubernetes with Helm
+  #       run: |
+  #         helm upgrade --install jovadrops infrastructure/k8s/helm \
+  #           --namespace jovadrops \
+  #           --create-namespace \
+  #           --set frontend.image.tag=sha-${GITHUB_SHA::7} \
+  #           --set backend.image.tag=sha-${GITHUB_SHA::7}
