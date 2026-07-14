@@ -1,4 +1,11 @@
 {{- if .Values.ingress.enabled }}
+{{- $entrypoints := "" }}
+{{- if .Values.ingress.annotations }}
+  {{- $entrypoints = index .Values.ingress.annotations "traefik.ingress.kubernetes.io/router.entrypoints" | default "" }}
+{{- end }}
+{{- if .Values.ingress.entrypoint }}
+  {{- $entrypoints = .Values.ingress.entrypoint }}
+{{- end }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -6,14 +13,18 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     {{- range $key, $value := .Values.ingress.annotations }}
+      {{- if not (and (eq $key "cert-manager.io/cluster-issuer") (eq $entrypoints "web")) }}
     {{ $key }}: {{ $value | quote }}
+      {{- end }}
     {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
+  {{- if and .Values.ingress.tlsSecretName (not (eq $entrypoints "web")) }}
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
       secretName: {{ .Values.ingress.tlsSecretName }}
+  {{- end }}
   rules:
     - host: {{ .Values.ingress.host }}
       http:
@@ -24,5 +35,5 @@ spec:
               service:
                 name: {{ .Values.app.name }}-svc
                 port:
-                  number: 80
+                  number: {{ .Values.service.port }}
 {{- end }}

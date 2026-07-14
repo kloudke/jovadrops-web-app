@@ -12,10 +12,10 @@ app:
   resources:
     requests:
       cpu: "100m"
-      memory: "256Mi"
+      memory: "512Mi"
     limits:
       cpu: "500m"
-      memory: "512Mi"
+      memory: "1Gi"
 
 nodeEnv: "production"
 nextTelemetryDisabled: "1"
@@ -43,12 +43,13 @@ autoscaling:
 # ================================================
 ingress:
   enabled: true
-  className: "nginx"
-  host: "jovadrops.example.com"
+  className: "traefik"
+  host: "jovadrops.kloudke.dpdns.org"
   tlsSecretName: "jovadrops-tls"
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: "traefik"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    traefik.ingress.kubernetes.io/router.entrypoints: "web-secure"
 
 # ================================================
 # PostgreSQL Database settings
