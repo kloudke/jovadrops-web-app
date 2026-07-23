@@ -3,22 +3,30 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [main, dev, staging]
-    paths-ignore:
-      - 'infrastructure/**'
-      - 'docs/**'
-      - 'README.md'
-      - 'LICENSE'
-      - '.gitignore'
-      - 'LEARNINGS.gemini.md'
+    paths:
+      - 'src/**'
+      - 'frontend/**'
+      - 'backend/**'
+      - 'prisma/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'next.config.ts'
+      - 'next.config.js'
+      - 'eslint.config.mjs'
   pull_request:
     branches: [main]
-    paths-ignore:
-      - 'infrastructure/**'
-      - 'docs/**'
-      - 'README.md'
-      - 'LICENSE'
-      - '.gitignore'
-      - 'LEARNINGS.gemini.md'
+    paths:
+      - 'src/**'
+      - 'frontend/**'
+      - 'backend/**'
+      - 'prisma/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'next.config.ts'
+      - 'next.config.js'
+      - 'eslint.config.mjs'
   workflow_dispatch:
 
 env:
