@@ -1,4 +1,4 @@
-name: Comment on PR
+name: PR Comments
 
 on:
   pull_request:
