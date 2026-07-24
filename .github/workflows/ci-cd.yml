@@ -39,6 +39,7 @@ jobs:
   frontend-quality:
     name: Frontend Quality & Security
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging'))
     defaults:
       run:
         working-directory: frontend
@@ -70,6 +71,7 @@ jobs:
   frontend-test:
     name: Frontend Testing
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging'))
     defaults:
       run:
         working-directory: frontend
@@ -93,6 +95,7 @@ jobs:
   backend-quality:
     name: Backend Quality & Security
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging'))
     defaults:
       run:
         working-directory: backend
@@ -122,6 +125,10 @@ jobs:
     name: Build & Push Docker Images
     needs: [frontend-quality, frontend-test, backend-quality]
     runs-on: ubuntu-latest
+    if: |
+      always() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled')
     permissions:
       contents: read
       packages: write
