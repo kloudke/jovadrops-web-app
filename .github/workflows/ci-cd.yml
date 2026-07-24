@@ -231,11 +231,21 @@ jobs:
     runs-on:
       group: k8s
       labels: self-hosted
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging')
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set environment variables
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "ENV=prod" >> $GITHUB_ENV
+            echo "NAMESPACE=jovadrops-prod" >> $GITHUB_ENV
+          elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+            echo "ENV=staging" >> $GITHUB_ENV
+            echo "NAMESPACE=jovadrops-staging" >> $GITHUB_ENV
+          fi
 
       # --- Option 1: Kubernetes Deployment with Helm ---
       - name: Set Kubernetes Context
@@ -245,14 +255,20 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
       
       - name: Deploy to Kubernetes with Helm
+        env:
+          AUTH_SECRET: ${{ env.ENV == 'prod' && secrets.PROD_AUTH_SECRET || secrets.STAGING_AUTH_SECRET }}
+          POSTGRES_PASSWORD: ${{ env.ENV == 'prod' && secrets.PROD_POSTGRES_PASSWORD || secrets.STAGING_POSTGRES_PASSWORD }}
         run: |
-          helm upgrade --install jovadrops infrastructure/k8s/helm \
-            --namespace jovadrops \
+          helm upgrade --install jovadrops-${{ env.ENV }} infrastructure/k8s/helm \
+            -f infrastructure/k8s/helm/values-${{ env.ENV }}.yaml \
+            --namespace ${{ env.NAMESPACE }} \
             --create-namespace \
             --set frontend.image.repository=${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE }} \
             --set frontend.image.tag=sha-${GITHUB_SHA::7} \
             --set backend.image.repository=${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE }} \
-            --set backend.image.tag=sha-${GITHUB_SHA::7}
+            --set backend.image.tag=sha-${GITHUB_SHA::7} \
+            --set frontend.authSecret=${{ env.AUTH_SECRET }} \
+            --set postgres.password=${{ env.POSTGRES_PASSWORD }}
 
       # # --- Option 2: AWS ECS Deployment ---
       # - name: Configure AWS credentials

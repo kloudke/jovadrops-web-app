@@ -24,6 +24,17 @@ spec:
         fsGroup: 1001
         seccompProfile:
           type: RuntimeDefault
+      initContainers:
+        - name: db-migration
+          image: {{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          command: ["sh", "-c", "npx prisma db push --schema=prisma/schema.prisma && node prisma/seed.js"]
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: jovadrops-secret
+                  key: DATABASE_URL
       containers:
         - name: {{ .Values.backend.name }}
           image: {{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}

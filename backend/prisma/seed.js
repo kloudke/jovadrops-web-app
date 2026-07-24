@@ -4,9 +4,12 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function main() {
-  // Clear existing products
-  await prisma.productVariant.deleteMany()
-  await prisma.product.deleteMany()
+  // Check if products already exist to make seed idempotent
+  const count = await prisma.product.count()
+  if (count > 0) {
+    console.log('Database already contains products. Skipping seeding.')
+    return
+  }
 
   const product = await prisma.product.create({
     data: {

@@ -1,0 +1,46 @@
+# ================================================
+# Staging Environment Overrides
+# ================================================
+
+nodeEnv: "staging"
+
+frontend:
+  replicas: 1
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "256Mi"
+    limits:
+      cpu: "250m"
+      memory: "512Mi"
+  authUrl: "https://staging.jovadrops.kloudke.dpdns.org"
+
+backend:
+  replicas: 1
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
+      cpu: "250m"
+      memory: "256Mi"
+
+autoscaling:
+  frontend:
+    enabled: false
+  backend:
+    enabled: false
+
+ingress:
+  host: "staging.jovadrops.kloudke.dpdns.org"
+  tlsSecretName: "jovadrops-staging-tls"
+
+postgres:
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+      storage: "5Gi"
+    limits:
+      cpu: "250m"
+      memory: "512Mi"
