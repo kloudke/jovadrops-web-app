@@ -33,6 +33,8 @@ spec:
                 secretKeyRef:
                   name: jovadrops-secret
                   key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: "{{ .Values.postgres.database }}"
             - name: PG_DATA
               value: /var/lib/postgresql/data/pgdata
           volumeMounts:

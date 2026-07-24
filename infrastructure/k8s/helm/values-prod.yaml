@@ -1,0 +1,30 @@
+# ================================================
+# Production Environment Overrides
+# ================================================
+
+nodeEnv: "production"
+
+frontend:
+  replicas: 3
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512Mi"
+    limits:
+      cpu: "500m"
+      memory: "1Gi"
+  authUrl: "https://jovadrops.kloudke.dpdns.org"
+
+backend:
+  replicas: 2
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+ingress:
+  host: "jovadrops.kloudke.dpdns.org"
+  tlsSecretName: "jovadrops-prod-tls"
